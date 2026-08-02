@@ -49,7 +49,7 @@ func (c *Client) Do(method constant.HTTPMethod, endpoint string, body, result an
 		if err := sonic.Unmarshal(resp.Body(), &baseResp); err != nil {
 			return err
 		}
-		return fmt.Errorf(fmt.Sprint(baseResp.Code))
+		return fmt.Errorf("unexpected response: %+v", baseResp)
 	}
 
 	return nil
