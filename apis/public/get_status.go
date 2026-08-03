@@ -36,6 +36,7 @@ type NodeStatusRecordItem struct {
 }
 
 func (req *GetStatusRequest) BuildQueryMap() (map[string]string, error) {
+	// TODO: migrate to unified method
 	rst := make(map[string]string, 1)
 	optionString, err := sonic.Marshal(req.Options)
 	if err != nil {
