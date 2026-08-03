@@ -6,6 +6,8 @@ import (
 	"github.com/XingfenD/rainyun_api_go_sdk/constant"
 )
 
+// https://api.rainyun.com/#/paths/news/get
+
 type GetNewsResponse struct {
 	Code int               `json:"code"`
 	Data []RainyunNewsItem `json:"data"`

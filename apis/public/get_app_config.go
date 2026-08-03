@@ -2,6 +2,8 @@ package public
 
 import "github.com/XingfenD/rainyun_api_go_sdk/constant"
 
+// https://api.rainyun.com/#/paths/app_config/get
+
 type GetAppConfigResponse struct {
 	Code int             `json:"code"`
 	Data []AppConfigItem `json:"data"`

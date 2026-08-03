@@ -1,6 +1,15 @@
 package public
 
-import "github.com/XingfenD/rainyun_api_go_sdk/constant"
+import (
+	"github.com/XingfenD/rainyun_api_go_sdk/apis/common"
+	"github.com/XingfenD/rainyun_api_go_sdk/constant"
+)
+
+// https://api.rainyun.com/#/paths/status/get
+
+type GetStatusRequest struct {
+	Options common.StandQueryParameters `json:"options"`
+}
 
 type GetStatusResponse struct {
 	Code int        `json:"code"`
@@ -25,6 +34,7 @@ type NodeStatusRecordItem struct {
 	Data        string  `json:"Data"`
 }
 
+// TODO
 func (s *PublicService) GetStatus() (*GetStatusResponse, error) {
 	path := "/status"
 
