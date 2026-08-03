@@ -24,7 +24,7 @@ func (s *PublicService) GetNews() (*GetNewsResponse, error) {
 	path := "/news"
 
 	var resp GetNewsResponse
-	err := s.client.Do(constant.HTTPMethod_GET, path, nil, &resp)
+	err := s.client.Do(constant.HTTPMethod_GET, path, nil, nil, &resp)
 
 	return &resp, err
 }

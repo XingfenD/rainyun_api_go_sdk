@@ -29,6 +29,6 @@ type AppConfigValue struct {
 func (s *PublicService) GetAppConfig() (*GetAppConfigResponse, error) {
 	path := "/app_config"
 	var resp GetAppConfigResponse
-	err := s.client.Do(constant.HTTPMethod_GET, path, nil, &resp)
+	err := s.client.Do(constant.HTTPMethod_GET, path, nil, nil, &resp)
 	return &resp, err
 }

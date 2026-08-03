@@ -3,6 +3,7 @@ package public
 import (
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/common"
 	"github.com/XingfenD/rainyun_api_go_sdk/constant"
+	"github.com/bytedance/sonic"
 )
 
 // https://api.rainyun.com/#/paths/status/get
@@ -34,11 +35,27 @@ type NodeStatusRecordItem struct {
 	Data        string  `json:"Data"`
 }
 
-// TODO
-func (s *PublicService) GetStatus() (*GetStatusResponse, error) {
+func (req *GetStatusRequest) BuildQueryMap() (map[string]string, error) {
+	rst := make(map[string]string, 1)
+	optionString, err := sonic.Marshal(req.Options)
+	if err != nil {
+		return nil, err
+	}
+
+	rst["options"] = string(optionString)
+
+	return rst, nil
+}
+
+func (s *PublicService) GetStatus(req *GetStatusRequest) (*GetStatusResponse, error) {
 	path := "/status"
 
 	var resp GetStatusResponse
-	err := s.client.Do(constant.HTTPMethod_GET, path, nil, &resp)
+
+	querys, err := req.BuildQueryMap()
+	if err != nil {
+		return nil, err
+	}
+	err = s.client.Do(constant.HTTPMethod_GET, path, querys, nil, &resp)
 	return &resp, err
 }

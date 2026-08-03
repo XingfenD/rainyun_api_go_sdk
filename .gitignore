@@ -33,3 +33,11 @@ go.work.sum
 .opencode/
 
 docs/superpowers/
+
+# AGENTS
+
+reasonix.toml
+opencode.json
+.claude/
+.opencode/
+.hermers/

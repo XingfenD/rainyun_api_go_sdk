@@ -8,26 +8,30 @@ import (
 	"github.com/go-resty/resty/v2"
 )
 
-type Client struct {
+type RyClient struct {
 	APIKey string
 	client *resty.Client
 }
 
-func New(apiKey string) *Client {
+func NewRyClient(apiKey string) *RyClient {
 	c := resty.New()
 	c.SetBaseURL(constant.BaseURL)
 	c.SetHeader("x-api-key", apiKey)
 	c.SetHeader("User-Agent", "github.com/XingfenD/rainyun_api_go_sdk/"+constant.RainyunSdkVersion)
 	c.SetHeader("Accept", "application/json")
 
-	return &Client{
+	return &RyClient{
 		APIKey: apiKey,
 		client: c,
 	}
 }
 
-func (c *Client) Do(method constant.HTTPMethod, endpoint string, body, result any) error {
+func (c *RyClient) Do(method constant.HTTPMethod, endpoint string, querys map[string]string, body, result any) error {
 	req := c.client.R()
+	if querys != nil {
+		req.SetQueryParams(querys)
+	}
+
 	if body != nil {
 		req.SetBody(body)
 	}
