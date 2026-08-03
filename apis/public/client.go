@@ -2,10 +2,10 @@ package public
 
 import "github.com/XingfenD/rainyun_api_go_sdk/apis"
 
-type Service struct {
+type PublicService struct {
 	client *apis.Client
 }
 
-func NewService(c *apis.Client) *Service {
-	return &Service{client: c}
+func NewPublicService(c *apis.Client) *PublicService {
+	return &PublicService{client: c}
 }

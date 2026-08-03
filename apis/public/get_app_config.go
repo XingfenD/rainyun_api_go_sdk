@@ -24,7 +24,7 @@ type AppConfigValue struct {
 	OriginalIndex int    `json:"originalIndex"`
 }
 
-func (s *Service) GetAppConfig() (*GetAppConfigResponse, error) {
+func (s *PublicService) GetAppConfig() (*GetAppConfigResponse, error) {
 	path := "/app_config"
 	var resp GetAppConfigResponse
 	err := s.client.Do(constant.HTTPMethod_GET, path, nil, &resp)
