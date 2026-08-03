@@ -2,11 +2,9 @@ package public
 
 import "github.com/XingfenD/rainyun_api_go_sdk/constant"
 
-type AppConfigItemResponse struct {
-	Code     int             `json:"code"`
-	Data     []AppConfigItem `json:"data"`
-	Messages []string        `json:"messages,omitempty"`
-	Msg      string          `json:"msg,omitempty"`
+type GetAppConfigResponse struct {
+	Code int             `json:"code"`
+	Data []AppConfigItem `json:"data"`
 }
 
 type AppConfigItem struct {
@@ -26,9 +24,9 @@ type AppConfigValue struct {
 	OriginalIndex int    `json:"originalIndex"`
 }
 
-func (s *Service) GetAppConfig() (*AppConfigItemResponse, error) {
+func (s *Service) GetAppConfig() (*GetAppConfigResponse, error) {
 	path := "/app_config"
-	var resp AppConfigItemResponse
+	var resp GetAppConfigResponse
 	err := s.client.Do(constant.HTTPMethod_GET, path, nil, &resp)
 	return &resp, err
 }
