@@ -6,6 +6,18 @@ All notable changes to this template should be documented in this file.
 The format loosely follows Keep a Changelog and can be adapted to the team's habits.
 本文档参考了 Keep a Changelog 的思路，也可以根据团队习惯调整。
 
+## [0.2.0] - 2026-08-05
+
+### Added / 新增
+
+- 迁移剩余全部模块：domain(24)、product(8)、rbm(10)、rca(21)、rgs(38)、ros(19)、ssl(5)、user(10)、workorder(11)，并补全 public 剩余 5 个接口。
+- 全部响应结构体嵌套拆分命名复用；rgs 复用 rcs 的请求/响应类型。
+- `sdk.New` 注册全部 11 个服务。
+
+### Fixed / 修复
+
+- 修正源 SDK 中的路径错误（`{id}` 占位符、缺少 `/`、`/product/rcs/` 误写为 rgs 路径等）与参数传递错误（`resp` vs `&resp`、漏传 body）。
+
 ## [0.1.0] - 2026-08-05
 
 ### Added / 新增
