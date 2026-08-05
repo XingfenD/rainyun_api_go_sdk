@@ -6,12 +6,12 @@ import (
 )
 
 type queryParamsSample struct {
-	IsRGpu  *bool                   `json:"is_rgpu"`
-	Limit   int                     `json:"limit"`
-	Name    string                  `json:"name"`
-	Options StandQueryParameters    `json:"options"`
-	Tags    []string                `json:"tags"`
-	Skip    string                  `json:"-"`
+	IsRGpu  *bool                `json:"is_rgpu"`
+	Limit   int                  `json:"limit"`
+	Name    string               `json:"name"`
+	Options StandQueryParameters `json:"options"`
+	Tags    []string             `json:"tags"`
+	Skip    string               `json:"-"`
 	NoTag   string
 }
 

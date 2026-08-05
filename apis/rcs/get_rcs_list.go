@@ -47,9 +47,9 @@ type UsageData struct {
 	UsedMem     int           `json:"UsedMem"`
 	Disks       DiskUsageData `json:"Disks"`
 	DiskRead    int           `json:"DiskRead"`
-	DiskWrite   int           `json:"DiskWrite"`
+	DiskWrite   float64       `json:"DiskWrite"`
 	NetOut      float64       `json:"NetOut"`
-	NetIn       int           `json:"NetIn"`
+	NetIn       float64       `json:"NetIn"`
 	SmartHealth any           `json:"SmartHealth"`
 	SmartTemp   int           `json:"SmartTemp"`
 	UpdateTime  int           `json:"UpdateTime"`

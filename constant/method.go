@@ -7,4 +7,5 @@ const (
 	HTTPMethod_POST   HTTPMethod = "POST"
 	HTTPMethod_DELETE HTTPMethod = "DELETE"
 	HTTPMethod_PUT    HTTPMethod = "PUT"
+	HTTPMethod_PATCH  HTTPMethod = "PATCH"
 )
