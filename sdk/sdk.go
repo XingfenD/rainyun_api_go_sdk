@@ -3,6 +3,7 @@ package sdk
 import (
 	"github.com/XingfenD/rainyun_api_go_sdk/apis"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/domain"
+	"github.com/XingfenD/rainyun_api_go_sdk/apis/expense"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/product"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/public"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/rbm"
@@ -27,6 +28,7 @@ type RainyunSDK struct {
 	ssl.SslService
 	user.UserService
 	workorder.WorkorderService
+	expense.ExpenseService
 }
 
 func New(apiKey string) *RainyunSDK {
@@ -43,5 +45,6 @@ func New(apiKey string) *RainyunSDK {
 		SslService:       *ssl.NewSslService(c),
 		UserService:      *user.NewUserService(c),
 		WorkorderService: *workorder.NewWorkorderService(c),
+		ExpenseService:   *expense.NewExpenseService(c),
 	}
 }
