@@ -194,3 +194,20 @@ func (s *RosService) SetRosBucketPublicAccess(bucketID int) (*common.BasicOperat
 	err := s.client.Do(constant.HTTPMethod_POST, path, nil, nil, &resp)
 	return &resp, err
 }
+
+// 按实例获取对象存储桶列表响应
+type GetRosBucketListByInstanceResponse struct {
+	Code int           `json:"code"`
+	Data RosBucketList `json:"data"`
+}
+
+// 按实例获取对象存储桶列表
+//
+// instanceID: 实例ID
+func (s *RosService) GetRosBucketListByInstance(instanceID int) (*GetRosBucketListByInstanceResponse, error) {
+	path := fmt.Sprintf("/product/ros/bucket/%d", instanceID)
+
+	var resp GetRosBucketListByInstanceResponse
+	err := s.client.Do(constant.HTTPMethod_GET, path, nil, nil, &resp)
+	return &resp, err
+}
