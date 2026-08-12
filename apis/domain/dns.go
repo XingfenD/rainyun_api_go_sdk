@@ -70,3 +70,29 @@ func (s *DomainService) SyncDomainDNSSEC(id int) (*common.BasicOperationResponse
 
 	return &resp, err
 }
+
+// 获取域名DNS解析记录列表
+//
+// domainID: 域名ID
+func (s *DomainService) GetDomainDNSRecordList(domainID int) (*GetDomainDNSRecordListResponse, error) {
+	path := fmt.Sprintf("/product/domain/%d/dns", domainID)
+
+	var resp GetDomainDNSRecordListResponse
+	err := s.client.Do(constant.HTTPMethod_GET, path, nil, nil, &resp)
+	return &resp, err
+}
+
+// DNS 记录列表响应
+type GetDomainDNSRecordListResponse struct {
+	Code int               `json:"code"`
+	Data []DomainDNSRecord `json:"data"`
+}
+
+// 域名DNS解析记录
+type DomainDNSRecord struct {
+	ID         int    `json:"id"`
+	RecordType string `json:"record_type"`
+	Host       string `json:"host"`
+	Value      string `json:"value"`
+	TTL        int    `json:"ttl"`
+}
