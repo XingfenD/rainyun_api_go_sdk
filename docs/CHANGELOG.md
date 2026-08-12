@@ -12,7 +12,7 @@ The format loosely follows Keep a Changelog and can be adapted to the team's hab
 
 - 迁移 rainyun-cli 到仓库内 `cmd/ry/`：新增 `main.go`、`root.go`、`commands/{server,domain,storage,billing,configcmd}`、`internal/{config,model,output}`。
 - CLI 直接调用 `sdk.New(apiKey)`，删除 CLI 自带 provider/HTTP 层。
-- 配置简化为单一 `apikey` + `output`（table/json/yaml），落盘到 `~/.config/ry/config.yaml`。
+- 配置简化为单一 `apikey` + `output`（table/json/yaml），落盘到 `~/.config/ry/config.toml`。
 - 补齐 SDK 4 个缺口端点：`domain list`、`dns list`、`bucket-by-instance`、`expense orders`。
 - 新增 `cmd/ry/internal/config` 与 `cmd/ry/internal/output` 测试（6/6 + 7/7）。
 
