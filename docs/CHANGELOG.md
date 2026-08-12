@@ -6,6 +6,25 @@ All notable changes to this template should be documented in this file.
 The format loosely follows Keep a Changelog and can be adapted to the team's habits.
 本文档参考了 Keep a Changelog 的思路，也可以根据团队习惯调整。
 
+## [Unreleased] - 2026-08-13
+
+### Added / 新增
+
+- 迁移 rainyun-cli 到仓库内 `cmd/ry/`：新增 `main.go`、`root.go`、`commands/{server,domain,storage,billing,configcmd}`、`internal/{config,model,output}`。
+- CLI 直接调用 `sdk.New(apiKey)`，删除 CLI 自带 provider/HTTP 层。
+- 配置简化为单一 `apikey` + `output`（table/json/yaml），落盘到 `~/.config/ry/config.yaml`。
+- 补齐 SDK 4 个缺口端点：`domain list`、`dns list`、`bucket-by-instance`、`expense orders`。
+- 新增 `cmd/ry/internal/config` 与 `cmd/ry/internal/output` 测试（6/6 + 7/7）。
+
+### Fixed / 修复
+
+- 修复 `output --raw` 输出 bug：新增 raw case，原样透传 SDK Response。
+
+### Changed / 变更
+
+- 命令 ID 参数统一为 `int`，显示层 model ID 保持 `string`。
+- `server reinstall` flag 从 `--os` 改为 `--os-id int`。
+
 ## [0.2.0] - 2026-08-05
 
 ### Added / 新增
