@@ -82,6 +82,9 @@ func TestRawPrintFormat(t *testing.T) {
 	if err := json.Unmarshal(buf.Bytes(), &parsed); err != nil {
 		t.Fatalf("raw Print produced invalid JSON: %v\nbuf=%s", err, buf.String())
 	}
+	if len(parsed) != 1 || parsed[0].ID != "1" {
+		t.Errorf("raw Print content mismatch: %+v", parsed)
+	}
 }
 
 func TestSingleItem(t *testing.T) {
