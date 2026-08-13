@@ -52,6 +52,11 @@ type RenewPrice struct {
 	Coupon   int     `json:"coupon_value" table:"COUPON VALUE"`
 }
 
+type MonitorSample struct {
+	Time    string `json:"time"    table:"TIME"`
+	Metrics string `json:"metrics" table:"METRICS"`
+}
+
 type ServerDetail struct {
 	ID              string     `json:"id"               table:"ID"`
 	Name            string     `json:"name"             table:"NAME"`
