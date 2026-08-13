@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/cliutil"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/output"
 	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
 
@@ -20,7 +21,7 @@ func addTrafficCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **
 		Short: "Charge additional traffic",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}
@@ -40,7 +41,7 @@ func addTrafficCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **
 		Short: "Set server traffic limit",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}

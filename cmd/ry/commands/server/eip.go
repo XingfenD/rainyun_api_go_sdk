@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/rcs"
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/cliutil"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/output"
 	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
 
@@ -21,7 +22,7 @@ func addEIPCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **outp
 		Short: "Set elastic IP description",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}
@@ -38,7 +39,7 @@ func addEIPCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **outp
 		Short: "Create and bind an elastic IP",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}
@@ -65,7 +66,7 @@ func addEIPCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **outp
 		Short: "Change elastic IP",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}
@@ -90,7 +91,7 @@ func addEIPCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **outp
 		Short: "Discard an elastic IP",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}

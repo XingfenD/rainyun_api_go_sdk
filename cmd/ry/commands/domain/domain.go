@@ -6,6 +6,7 @@ import (
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/common"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/domain"
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/cliutil"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/model"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/output"
 	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
@@ -49,9 +50,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Use:   "list <domain-id>",
 		Short: "List DNS records",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid domain id: %s", args[0])
+				return err
 			}
 			resp, err := (*rySDK).GetDomainDNSRecordList(id)
 			if err != nil {
@@ -76,9 +77,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Add a DNS record",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid domain id: %s", args[0])
+				return err
 			}
 			recType, _ := cmd.Flags().GetString("type")
 			host, _ := cmd.Flags().GetString("host")
@@ -105,13 +106,13 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Delete a DNS record",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			domainID, err := strconv.Atoi(args[0])
+			domainID, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid domain id: %s", args[0])
+				return err
 			}
-			recordID, err := strconv.Atoi(args[1])
+			recordID, err := cliutil.ParseID(args[1])
 			if err != nil {
-				return fmt.Errorf("invalid record id: %s", args[1])
+				return err
 			}
 			if _, err := (*rySDK).DeleteDomainDNSRecord(domainID, recordID); err != nil {
 				return err

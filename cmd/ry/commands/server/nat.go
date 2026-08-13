@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/rcs"
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/cliutil"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/output"
 	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
 
@@ -21,7 +22,7 @@ func addNatCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **outp
 		Short: "Add a NAT port mapping",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}
@@ -53,7 +54,7 @@ func addNatCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **outp
 		Short: "Delete a NAT port mapping",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}

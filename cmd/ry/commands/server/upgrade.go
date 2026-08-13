@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/cliutil"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/output"
 	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
 
@@ -15,7 +16,7 @@ func addUpgradeCommand(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **o
 		Short: "Upgrade server plan",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}

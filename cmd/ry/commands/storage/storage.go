@@ -6,6 +6,7 @@ import (
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/common"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/ros"
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/cliutil"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/model"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/output"
 	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
@@ -50,9 +51,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Use:   "list <instance-id>",
 		Short: "List buckets",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			instanceID, err := strconv.Atoi(args[0])
+			instanceID, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid instance id: %s", args[0])
+				return err
 			}
 			resp, err := (*rySDK).GetRosBucketListByInstance(instanceID)
 			if err != nil {
@@ -74,9 +75,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Create a bucket",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			instanceID, err := strconv.Atoi(args[0])
+			instanceID, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid instance id: %s", args[0])
+				return err
 			}
 			name := args[1]
 			if _, err := (*rySDK).CreateRosBucket(ros.CreateRosBucketRequest{

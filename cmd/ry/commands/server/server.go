@@ -8,6 +8,7 @@ import (
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/common"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/rcs"
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/cliutil"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/model"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/output"
 	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
@@ -44,9 +45,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Get server details",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid server id: %s", args[0])
+				return err
 			}
 			resp, err := (*rySDK).GetRcsDetail(id)
 			if err != nil {
@@ -61,9 +62,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Start a server",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid server id: %s", args[0])
+				return err
 			}
 			if _, err := (*rySDK).StartRcs(id); err != nil {
 				return err
@@ -78,9 +79,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Stop a server",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid server id: %s", args[0])
+				return err
 			}
 			if _, err := (*rySDK).StopRcs(id); err != nil {
 				return err
@@ -95,9 +96,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Reboot a server",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid server id: %s", args[0])
+				return err
 			}
 			if _, err := (*rySDK).RebootRcs(id); err != nil {
 				return err
@@ -112,9 +113,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Reinstall server OS",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid server id: %s", args[0])
+				return err
 			}
 			osID, _ := cmd.Flags().GetInt("os-id")
 			if osID == 0 {
@@ -133,9 +134,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Reset server password",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid server id: %s", args[0])
+				return err
 			}
 			if _, err := (*rySDK).ResetRcsPassword(id, ""); err != nil {
 				return err
@@ -150,9 +151,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Get VNC connection URL",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid server id: %s", args[0])
+				return err
 			}
 			v, err := (*rySDK).GetRcsVnc(id, "novnc")
 			if err != nil {

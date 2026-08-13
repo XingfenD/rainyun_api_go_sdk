@@ -27,3 +27,4 @@ SDK（`apis/`、`sdk/`）与模块级变更记录在 [`CHANGELOG.md`](./CHANGELO
 - `ry --verbose` 现在显示输出格式及其来源（config/`--output`）。
 - 命令 ID 参数统一为 `int`，显示层 model ID 保持 `string`。
 - `server reinstall` flag 从 `--os` 改为 `--os-id int`。
+- 抽取通用参数解析到 `cmd/ry/internal/cliutil`（`ParseID`/`ParseDuration`/`ParseTime`/`ResolveTimeRange`），server/storage/domain 命令统一复用，消除内联 `strconv.Atoi` 与时间解析重复。

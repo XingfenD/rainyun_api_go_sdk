@@ -6,6 +6,7 @@ import (
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/common"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/rcs"
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/cliutil"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/model"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/output"
 	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
@@ -24,7 +25,7 @@ func addFirewallCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out *
 		Short: "List firewall rules",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}
@@ -43,7 +44,7 @@ func addFirewallCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out *
 		Short: "Add or update a firewall rule",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}
@@ -86,11 +87,11 @@ func addFirewallCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out *
 		Short: "Delete a firewall rule",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}
-			ruleID, err := parseID(args[1])
+			ruleID, err := cliutil.ParseID(args[1])
 			if err != nil {
 				return err
 			}
@@ -107,11 +108,11 @@ func addFirewallCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out *
 		Short: "Move a firewall rule priority",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}
-			ruleID, err := parseID(args[1])
+			ruleID, err := cliutil.ParseID(args[1])
 			if err != nil {
 				return err
 			}

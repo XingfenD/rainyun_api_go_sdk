@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/rcs"
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/cliutil"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/output"
 	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
 
@@ -21,7 +22,7 @@ func addBackupCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **o
 		Short: "Create a server backup",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}
@@ -38,11 +39,11 @@ func addBackupCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **o
 		Short: "Delete a server backup",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}
-			bid, err := parseID(args[1])
+			bid, err := cliutil.ParseID(args[1])
 			if err != nil {
 				return err
 			}
@@ -59,11 +60,11 @@ func addBackupCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **o
 		Short: "Cancel a server backup",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}
-			bid, err := parseID(args[1])
+			bid, err := cliutil.ParseID(args[1])
 			if err != nil {
 				return err
 			}
@@ -80,11 +81,11 @@ func addBackupCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **o
 		Short: "Restore a server backup",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}
-			bid, err := parseID(args[1])
+			bid, err := cliutil.ParseID(args[1])
 			if err != nil {
 				return err
 			}
@@ -101,7 +102,7 @@ func addBackupCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **o
 		Short: "Configure server auto backup",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}

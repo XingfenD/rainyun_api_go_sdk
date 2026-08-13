@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/rcs"
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/cliutil"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/output"
 	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
 
@@ -21,7 +22,7 @@ func addEDiskCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **ou
 		Short: "Create an elastic cloud disk",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}
@@ -60,7 +61,7 @@ func addEDiskCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **ou
 		Short: "Expand an elastic cloud disk",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := parseID(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
 				return err
 			}
