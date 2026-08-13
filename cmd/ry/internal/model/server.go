@@ -57,6 +57,16 @@ type MonitorSample struct {
 	Metrics string `json:"metrics" table:"METRICS"`
 }
 
+type FirewallRule struct {
+	ID       string `json:"id"        table:"ID"`
+	Protocol string `json:"protocol"  table:"PROTOCOL"`
+	Source   string `json:"source"    table:"SOURCE"`
+	DestPort string `json:"dest_port" table:"DEST PORT"`
+	Action   string `json:"action"    table:"ACTION"`
+	Enabled  bool   `json:"enabled"   table:"ENABLED"`
+	Desc     string `json:"desc"      table:"DESC"`
+}
+
 type ServerDetail struct {
 	ID              string     `json:"id"               table:"ID"`
 	Name            string     `json:"name"             table:"NAME"`

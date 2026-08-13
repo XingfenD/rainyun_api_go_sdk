@@ -190,6 +190,7 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 	addEIPCommands(serverCmd, rySDK, out)
 	addNatCommands(serverCmd, rySDK, out)
 	addTrafficCommands(serverCmd, rySDK, out)
+	addFirewallCommands(serverCmd, rySDK, out)
 
 	return serverCmd
 }
