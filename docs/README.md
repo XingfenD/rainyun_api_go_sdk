@@ -113,10 +113,19 @@ make install  # 安装 CLI 到 GOPATH/bin
 
 ## 文档
 
-- [`docs/CHANGELOG.md`](docs/CHANGELOG.md)：SDK 更新日志
-- [`docs/CHANGELOG_cli.md`](docs/CHANGELOG_cli.md)：CLI 更新日志
-- [`docs/PROGRESS.md`](docs/PROGRESS.md)：SDK/CLI 接入进度（`python3 docs/scripts/generate.py` 生成）
+- [`docs/CHANGELOG.md`](CHANGELOG.md)：SDK 更新日志
+- [`docs/CHANGELOG_cli.md`](CHANGELOG_cli.md)：CLI 更新日志
+- [`docs/PROGRESS.md`](PROGRESS.md)：SDK/CLI 接入进度（`python3 docs/scripts/generate.py` 生成）
 
 ## License
 
-[Mozilla Public License 2.0](LICENSE)
+[Mozilla Public License 2.0](../LICENSE)
+
+第三方依赖及代码归属声明见 [`docs/NOTICE`](NOTICE)。
+
+## 相关项目
+
+感谢 `ssdomei232/rainyun-go-sdk` 为本项目提供请求/响应体参考。
+
+- ssdomei232/rainyun-go-sdk
+- skyhhjmk/rainyun-php-sdk
