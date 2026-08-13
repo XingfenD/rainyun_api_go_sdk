@@ -255,7 +255,7 @@ func toServerDetail(d rcs.RcsDetail) model.ServerDetail {
 	sd.EDiskList = make([]model.ServerEDisk, 0, len(d.EDiskList))
 	for _, e := range d.EDiskList {
 		sd.EDiskList = append(sd.EDiskList, model.ServerEDisk{
-			Slot: e.Slot, Type: e.DiskType, Size: e.Size, Backup: e.Backup,
+			ID: e.ID, Slot: e.Slot, Type: e.DiskType, Size: e.Size, Backup: e.Backup,
 		})
 	}
 	sd.EIPList = make([]model.ServerEIP, 0, len(d.EIPList))
@@ -267,6 +267,7 @@ func toServerDetail(d rcs.RcsDetail) model.ServerDetail {
 	sd.BackupList = make([]model.ServerBackup, 0, len(d.RBSList))
 	for _, b := range d.RBSList {
 		sd.BackupList = append(sd.BackupList, model.ServerBackup{
+			ID:         b.ID,
 			Label:      b.Label,
 			FileName:   b.FileName,
 			SizeBytes:  b.PackSize,
@@ -301,7 +302,7 @@ func unixPtr(sec int) *time.Time {
 func summarizeEDisks(items []model.ServerEDisk) string {
 	parts := make([]string, 0, len(items))
 	for _, e := range items {
-		parts = append(parts, fmt.Sprintf("slot%d %s %dGB", e.Slot, e.Type, e.Size))
+		parts = append(parts, fmt.Sprintf("#%d slot%d %s %dGB", e.ID, e.Slot, e.Type, e.Size))
 	}
 	return strings.Join(parts, ", ")
 }
@@ -317,7 +318,7 @@ func summarizeEIPs(items []model.ServerEIP) string {
 func summarizeBackups(items []model.ServerBackup) string {
 	parts := make([]string, 0, len(items))
 	for _, b := range items {
-		parts = append(parts, fmt.Sprintf("%s(%s)", b.Label, b.Status))
+		parts = append(parts, fmt.Sprintf("%s(#%d, %s)", b.Label, b.ID, b.Status))
 	}
 	return strings.Join(parts, ", ")
 }

@@ -16,6 +16,7 @@ type Server struct {
 }
 
 type ServerEDisk struct {
+	ID     int    `json:"id"`
 	Slot   int    `json:"slot"`
 	Type   string `json:"type"`
 	Size   int    `json:"size_gb"`
@@ -30,6 +31,7 @@ type ServerEIP struct {
 }
 
 type ServerBackup struct {
+	ID         int       `json:"id"`
 	Label      string    `json:"label"`
 	FileName   string    `json:"file_name"`
 	SizeBytes  int64     `json:"size_bytes"`
