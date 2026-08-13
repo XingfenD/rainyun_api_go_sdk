@@ -10,6 +10,7 @@ import (
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/public"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/rca"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/rcdn"
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/rvh"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/server"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/storage"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/config"
@@ -153,4 +154,5 @@ func init() {
 	rootCmd.AddCommand(public.Cmd(&rySDK, &out))
 	rootCmd.AddCommand(rcdn.Cmd(&rySDK, &out))
 	rootCmd.AddCommand(rca.Cmd(&rySDK, &out))
+	rootCmd.AddCommand(rvh.Cmd(&rySDK, &out))
 }
