@@ -2,4 +2,4 @@ package constant
 
 const APIDocVersion = "2.4"
 
-const RainyunSdkVersion = "0.0.0"
+const RainyunSdkVersion = "0.2.1"
