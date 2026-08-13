@@ -183,6 +183,8 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 	addLifecycleCommands(serverCmd, rySDK, out)
 	addCreateCommand(serverCmd, rySDK, out)
 	addRenewCommands(serverCmd, rySDK, out)
+	addUpgradeCommand(serverCmd, rySDK, out)
+	addEDiskCommands(serverCmd, rySDK, out)
 
 	return serverCmd
 }
