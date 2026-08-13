@@ -1,0 +1,1688 @@
+{
+  "host": "api.v2.rainyun.com",
+  "info": {
+    "contact": {},
+    "description": "实现通过api管理云产品,对接代理等功能.",
+    "title": "雨云API文档",
+    "version": "2.4"
+  },
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "ApiKey": {
+      "description": "雨云 API 密钥：登录后于「用户中心 → API密钥」创建，请求时携带 X-Api-Key 请求头即可替代登录态访问接口。",
+      "in": "header",
+      "name": "X-Api-Key",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [
+    {
+      "name": "rcdn"
+    }
+  ],
+  "paths": {
+    "/product/rcdn/{id}/monitor": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "域名ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "begin",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "domains",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "each",
+            "type": "boolean"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "type": "integer"
+          },
+          {
+            "enum": [
+              "bandwidth",
+              "traffic",
+              "request",
+              "httpcode",
+              "originBandwidth",
+              "originRequest",
+              "pv"
+            ],
+            "in": "query",
+            "name": "type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "enum": [
+              "minute",
+              "minute5",
+              "hour",
+              "day"
+            ],
+            "in": "query",
+            "name": "unit",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "rcdn监控",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/discount-percent": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取RCDN实例折扣比率",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/domain": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcdn.ListRCDNDomainService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取域名列表",
+        "tags": [
+          "rcdn"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcdn.AddDomainService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/rcdnM.RCDNDomain"
+            }
+          }
+        },
+        "summary": "创建加速域名",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/domain/{id}": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "域名ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "删除加速域名",
+        "tags": [
+          "rcdn"
+        ]
+      },
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "域名ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/rcdnM.RCDNDomain"
+            }
+          }
+        },
+        "summary": "获取加速域名详情",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/domain/{id}/toggle_waf": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "域名ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "手动开关防御",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/domain/{id}/usage": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "域名ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "begin",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "domains",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "each",
+            "type": "boolean"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "type": "integer"
+          },
+          {
+            "enum": [
+              "bandwidth",
+              "traffic",
+              "request",
+              "httpcode",
+              "originBandwidth",
+              "originRequest",
+              "pv"
+            ],
+            "in": "query",
+            "name": "type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "enum": [
+              "minute",
+              "minute5",
+              "hour",
+              "day"
+            ],
+            "in": "query",
+            "name": "unit",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "rcdn域名用量",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/instance": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcdn.ListRCDNService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取RCDN实例列表",
+        "tags": [
+          "rcdn"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcdn.CreateService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/rcdnM.RCDN"
+            }
+          }
+        },
+        "summary": "创建RCDN实例",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/instance/{id}": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "实例ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/rcdnM.RCDN"
+            }
+          }
+        },
+        "summary": "获取RCDN实例详情",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/instance/{id}/domain/{domain_id}/cache_refresh": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "实例ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcdn.CacheRefreshService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RCDN缓存清理",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/instance/{id}/renew": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "实例ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RCDN实例续费",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/instance/{id}/renew/option": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "实例ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "自动续费选项",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/instance/{id}/scale": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "实例ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcdn.ScaleService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RCDN实例缩放",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/instance/{id}/setting": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "实例ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcdn.SetDomainService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RCDN实例设置",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/instance/{id}/ssl_bind": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "实例ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcdn.SSLBindDomainsService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RCDNSSL绑定域名",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/instance/{id}/tag": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/product.SetTagService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "设置RCDN实例标签",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/instance/{id}/toggle-extra-accounting": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "实例ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "开关RCDN实例的弹性计费选项",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/instance/{id}/usage": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "实例ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "begin",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "domains",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "each",
+            "type": "boolean"
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "type": "integer"
+          },
+          {
+            "enum": [
+              "bandwidth",
+              "traffic",
+              "request",
+              "httpcode",
+              "originBandwidth",
+              "originRequest",
+              "pv"
+            ],
+            "in": "query",
+            "name": "type",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "enum": [
+              "minute",
+              "minute5",
+              "hour",
+              "day"
+            ],
+            "in": "query",
+            "name": "unit",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "rcdn基础用量",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/plans": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取RCDN套餐列表",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    },
+    "/product/rcdn/price": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取RCDN折扣比率",
+        "tags": [
+          "rcdn"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "datatypes.JSONType-rcdnM_DomainConfig": {
+      "type": "object"
+    },
+    "datatypes.JSONType-rcdnM_DomainUsageData": {
+      "type": "object"
+    },
+    "product.SetTagService": {
+      "properties": {
+        "tag_name": {
+          "maxLength": 32,
+          "minLength": 2,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "productM.Node": {
+      "properties": {
+        "AuthKey": {
+          "type": "string"
+        },
+        "Config": {
+          "description": "节点对外显示配置(在admin状态下和config一致)",
+          "type": "string"
+        },
+        "Stock": {
+          "description": "库存资源状态",
+          "items": {
+            "type": "integer"
+          },
+          "type": "array"
+        },
+        "certifyRequired": {
+          "description": "是否需要实名认证",
+          "type": "boolean"
+        },
+        "chineseName": {
+          "type": "string"
+        },
+        "gitRepositoryName": {
+          "description": "API的Git仓库名",
+          "type": "string"
+        },
+        "ipZone": {
+          "description": "IP划分域",
+          "type": "string"
+        },
+        "isDisableBackup": {
+          "description": "是否禁止backup功能",
+          "type": "boolean"
+        },
+        "isHidden": {
+          "description": "是否隐藏",
+          "type": "boolean"
+        },
+        "machine": {
+          "description": "机型",
+          "type": "string"
+        },
+        "nodeName": {
+          "description": "节点名:已弃用",
+          "type": "string"
+        },
+        "physicalNode": {
+          "description": "物理node，作为标识",
+          "type": "string"
+        },
+        "product": {
+          "description": "属于的产品类型",
+          "type": "string"
+        },
+        "region": {
+          "description": "物理区域",
+          "type": "string"
+        },
+        "showMonitorData": {
+          "type": "string"
+        },
+        "statusData": {
+          "description": "节点对外显示Status(数据同Status,管理员用)",
+          "type": "string"
+        },
+        "subtype": {
+          "description": "产品节点子类型",
+          "type": "string"
+        },
+        "updateTime": {
+          "description": "最后node程序汇报的心跳时间",
+          "type": "string"
+        },
+        "uuid": {
+          "description": "表字段",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rcdn.AddDomainService": {
+      "properties": {
+        "copy_from_domain": {
+          "description": "从其他域名复制配置",
+          "type": "string"
+        },
+        "domain": {
+          "description": "要新建的域名",
+          "type": "string"
+        },
+        "instance_id": {
+          "description": "实例ID",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "domain",
+        "instance_id"
+      ],
+      "type": "object"
+    },
+    "rcdn.CacheRefreshService": {
+      "properties": {
+        "type": {
+          "description": "刷新类型(目录/完整路径)",
+          "enum": [
+            "dir",
+            "url"
+          ],
+          "type": "string"
+        },
+        "urls": {
+          "description": "刷新路径/url 如https://www.rainyun.com/asset",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "rcdn.CreateService": {
+      "properties": {
+        "config": {
+          "$ref": "#/definitions/rcdnM.BaseConfig"
+        },
+        "domains": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "duration": {
+          "enum": [
+            1,
+            3,
+            6,
+            12
+          ],
+          "type": "integer"
+        },
+        "plan_id": {
+          "description": "套餐ID",
+          "type": "integer"
+        },
+        "with_coupon_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "config",
+        "domains",
+        "duration"
+      ],
+      "type": "object"
+    },
+    "rcdn.ListRCDNDomainService": {
+      "properties": {
+        "options": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "options"
+      ],
+      "type": "object"
+    },
+    "rcdn.ListRCDNService": {
+      "properties": {
+        "options": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "options"
+      ],
+      "type": "object"
+    },
+    "rcdn.SSLBindDomainsService": {
+      "properties": {
+        "cert_id": {
+          "description": "要设置配置的域名",
+          "type": "integer"
+        },
+        "domains": {
+          "description": "要设置配置的域名",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "cert_id",
+        "domains"
+      ],
+      "type": "object"
+    },
+    "rcdn.ScaleService": {
+      "properties": {
+        "dest_plan": {
+          "type": "integer"
+        },
+        "with_coupon_id": {
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "rcdn.SetDomainService": {
+      "properties": {
+        "as_default": {
+          "description": "作为域名配置的默认值保存到实例",
+          "type": "boolean"
+        },
+        "config": {
+          "$ref": "#/definitions/rcdnM.DomainConfig"
+        },
+        "domains": {
+          "description": "要设置配置的域名",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "type": {
+          "enum": [
+            "https",
+            "speed_limit",
+            "user_agent",
+            "cache_rule_list",
+            "add_back_source_head",
+            "add_response_head",
+            "ip_black_list",
+            "referer",
+            "origin_host",
+            "origin",
+            "del_back_source_head",
+            "del_ip_black",
+            "del_ua",
+            "del_referer",
+            "remove_response_head",
+            "reset_response_head",
+            "del_response_head",
+            "waf"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "config",
+        "domains",
+        "type"
+      ],
+      "type": "object"
+    },
+    "rcdnM.AclConfig": {
+      "properties": {
+        "ip_black_list": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "ip_black_mode": {
+          "enum": [
+            "black",
+            "white"
+          ],
+          "type": "string"
+        },
+        "referer_allow_empty": {
+          "type": "boolean"
+        },
+        "referer_list": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "referer_mode": {
+          "enum": [
+            "black",
+            "white"
+          ],
+          "type": "string"
+        },
+        "ua_allow_empty": {
+          "type": "boolean"
+        },
+        "ua_list": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "ua_mode": {
+          "enum": [
+            "black",
+            "white"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rcdnM.BaseConfig": {
+      "properties": {
+        "default_master": {
+          "description": "主源 (元素为ip/域名,负载均衡)",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "default_slave": {
+          "description": "备源",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "origin_mode": {
+          "description": "回源协议:default(随请求),http,https",
+          "type": "string"
+        },
+        "origin_port": {
+          "description": "回源端口",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "default_master",
+        "origin_mode"
+      ],
+      "type": "object"
+    },
+    "rcdnM.CacheConfig": {
+      "properties": {
+        "case_ignore": {
+          "enum": [
+            "yes",
+            "no"
+          ],
+          "type": "string"
+        },
+        "expire": {
+          "description": "缓存时间",
+          "type": "integer"
+        },
+        "expire_unit": {
+          "description": "时间单位",
+          "enum": [
+            "Y",
+            "M",
+            "D",
+            "h",
+            "i",
+            "s"
+          ],
+          "type": "string"
+        },
+        "follow_expired": {
+          "enum": [
+            "yes",
+            "no"
+          ],
+          "type": "string"
+        },
+        "ignore_no_cache_headers": {
+          "description": "忽略源站不缓存头",
+          "enum": [
+            "yes",
+            "no"
+          ],
+          "type": "string"
+        },
+        "match_method": {
+          "description": "缓存匹配格式",
+          "enum": [
+            "all",
+            "ext",
+            "dir",
+            "route",
+            "regex"
+          ],
+          "type": "string"
+        },
+        "params": {
+          "description": "参数",
+          "type": "string"
+        },
+        "pattern": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "integer"
+        },
+        "query_params_op": {
+          "description": "?后参数处理方式:/cache_back_source_remove",
+          "enum": [
+            "do_nothing",
+            "cache_back_source_remove",
+            "cache_remove",
+            "customer"
+          ],
+          "type": "string"
+        },
+        "query_params_op_way": {
+          "description": "问号后参数处理方式",
+          "enum": [
+            "remove",
+            "keep"
+          ],
+          "type": "string"
+        },
+        "query_params_op_when": {
+          "description": "问号后参数处理时机",
+          "enum": [
+            "cache_back_source",
+            "cache"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "case_ignore",
+        "expire",
+        "expire_unit",
+        "follow_expired",
+        "ignore_no_cache_headers",
+        "match_method",
+        "pattern",
+        "query_params_op"
+      ],
+      "type": "object"
+    },
+    "rcdnM.DomainConfig": {
+      "properties": {
+        "acl_config": {
+          "$ref": "#/definitions/rcdnM.AclConfig"
+        },
+        "baseConfig": {
+          "$ref": "#/definitions/rcdnM.BaseConfig"
+        },
+        "cache_configs": {
+          "description": "白山特有(暂时)",
+          "items": {
+            "$ref": "#/definitions/rcdnM.CacheConfig"
+          },
+          "type": "array"
+        },
+        "origin_headers": {
+          "description": "回源头 add_back_source_head:[{head_name:?,head_value:?,write_when_exists:yes/no}]",
+          "items": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "origin_host": {
+          "description": "回源host",
+          "type": "string"
+        },
+        "resp_config": {
+          "items": {
+            "$ref": "#/definitions/rcdnM.RespConfigList"
+          },
+          "type": "array"
+        },
+        "resp_remove_list": {
+          "description": "要删除的响应头",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "speed_limits": {
+          "description": "白山特有",
+          "items": {
+            "$ref": "#/definitions/rcdnM.SpeedLimit"
+          },
+          "type": "array"
+        },
+        "ssl_config": {
+          "$ref": "#/definitions/rcdnM.SSLConfig"
+        },
+        "wafConfig": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/rcdnM.WafConfig"
+            }
+          ],
+          "description": "雨云cc防火墙配置"
+        }
+      },
+      "type": "object"
+    },
+    "rcdnM.RCDN": {
+      "properties": {
+        "UsageData": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/datatypes.JSONType-rcdnM_DomainUsageData"
+            }
+          ],
+          "description": "使用状况(缓存)"
+        },
+        "autoRenew": {
+          "type": "boolean"
+        },
+        "createDate": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "domainConfig": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/datatypes.JSONType-rcdnM_DomainConfig"
+            }
+          ],
+          "description": "域名默认CDN配置"
+        },
+        "expDate": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "expireNotice": {
+          "type": "integer"
+        },
+        "extra_pay_time": {
+          "description": "套餐外用量上次付费时间(当==NextResetDate时,说明未开始计费)",
+          "type": "integer"
+        },
+        "extra_traffic": {
+          "description": "未计费的额外日流量（计费依据）",
+          "type": "integer"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "is_enable_extra_accounting": {
+          "description": "是否开启弹性计费机制",
+          "type": "boolean"
+        },
+        "last_reset_date": {
+          "description": "上次重置流量和请求次数的时间",
+          "type": "integer"
+        },
+        "next_reset_date": {
+          "description": "下次重置流量和请求次数的时间",
+          "type": "integer"
+        },
+        "node": {
+          "$ref": "#/definitions/productM.Node"
+        },
+        "nodeUUID": {
+          "type": "string"
+        },
+        "plan": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/rcdnM.RCDNPlan"
+            }
+          ],
+          "description": "套餐数据"
+        },
+        "planID": {
+          "type": "integer"
+        },
+        "rewardPointsToBeCollect": {
+          "description": "产品当前可领取的积分",
+          "type": "integer"
+        },
+        "status": {
+          "type": "string"
+        },
+        "stopReason": {
+          "type": "string"
+        },
+        "sync_time": {
+          "description": "上次同步流量时间",
+          "type": "integer"
+        },
+        "tag": {
+          "type": "string"
+        },
+        "try": {
+          "description": "试用产品",
+          "type": "boolean"
+        },
+        "uid": {
+          "type": "integer"
+        },
+        "unsubscribeAble": {
+          "description": "是否可退订",
+          "type": "boolean"
+        },
+        "usage_traffic": {
+          "description": "本月周期总流量（计费依据）",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "rcdnM.RCDNDomain": {
+      "properties": {
+        "UsageData": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/datatypes.JSONType-rcdnM_DomainUsageData"
+            }
+          ],
+          "description": "使用状况(缓存)"
+        },
+        "cname": {
+          "type": "string"
+        },
+        "config": {
+          "$ref": "#/definitions/datatypes.JSONType-rcdnM_DomainConfig"
+        },
+        "create_date": {
+          "type": "integer"
+        },
+        "defence_reason": {
+          "description": "防御触发原因",
+          "type": "string"
+        },
+        "defence_time": {
+          "description": "防御触发时间(0代表未触发)",
+          "type": "integer"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "product": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/rcdnM.RCDN"
+            }
+          ],
+          "description": "所属实例数据"
+        },
+        "product_id": {
+          "description": "为0时代表存在但未分配",
+          "type": "integer"
+        },
+        "ready_delete": {
+          "description": "表示即将从解除分配,会在下一次流量重置时直接解除,这个状态下无法进行任何管理和列出,仅用于继续统计流量",
+          "type": "boolean"
+        },
+        "region": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "integer"
+        },
+        "update_time": {
+          "description": "配置更新时间",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "rcdnM.RCDNPlan": {
+      "properties": {
+        "charge_type": {
+          "description": "计费模式",
+          "type": "string"
+        },
+        "chinese": {
+          "type": "string"
+        },
+        "domain_limit": {
+          "description": "域名配额",
+          "type": "integer"
+        },
+        "extra_traffic_price": {
+          "description": "套餐外流量价格",
+          "type": "number"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "is_free": {
+          "description": "是否为免费套餐(如果是,不允许直接购买和价格续费)",
+          "type": "boolean"
+        },
+        "is_selling": {
+          "type": "boolean"
+        },
+        "line": {
+          "description": "线路(可空)",
+          "type": "string"
+        },
+        "machine": {
+          "description": "机型",
+          "type": "string"
+        },
+        "plan_name": {
+          "description": "套餐型号标识",
+          "type": "string"
+        },
+        "point_renew_price": {
+          "description": "积分续费之价格(没有的时候默认以价格计算)(结构{续费天数:续费价格,...})",
+          "items": {
+            "type": "integer"
+          },
+          "type": "array"
+        },
+        "price": {
+          "description": "默认价",
+          "type": "number"
+        },
+        "rain_discount": {
+          "description": "使用雨云产品的流量包折扣",
+          "type": "number"
+        },
+        "region": {
+          "description": "区域",
+          "type": "string"
+        },
+        "subtype": {
+          "description": "就是原来的Virt",
+          "type": "string"
+        },
+        "traffic_in_gb": {
+          "description": "套餐流量GiB",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "rcdnM.RespConfigList": {
+      "properties": {
+        "cover": {
+          "description": "覆盖源站返回",
+          "enum": [
+            "on",
+            "off"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "only_hit": {
+          "description": "仅缓存命中返回",
+          "enum": [
+            "on",
+            "off"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "cover",
+        "name",
+        "only_hit",
+        "value"
+      ],
+      "type": "object"
+    },
+    "rcdnM.SSLConfig": {
+      "properties": {
+        "cert_id": {
+          "description": "匹配的白山证书id",
+          "type": "integer"
+        },
+        "force_ssl": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "rcdnM.SpeedLimit": {
+      "properties": {
+        "begin_time": {
+          "description": "开始时间",
+          "type": "string"
+        },
+        "end_time": {
+          "description": "结束时间",
+          "type": "string"
+        },
+        "match_type": {
+          "description": "匹配类型",
+          "enum": [
+            "all",
+            "ext",
+            "dir",
+            "route",
+            "regex"
+          ],
+          "type": "string"
+        },
+        "pattern": {
+          "type": "string"
+        },
+        "speed": {
+          "description": "kbps",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "begin_time",
+        "end_time",
+        "match_type",
+        "pattern",
+        "speed"
+      ],
+      "type": "object"
+    },
+    "rcdnM.WafConfig": {
+      "properties": {
+        "aboard_defence": {
+          "description": "雨盾防御\n全局(默认随触发条件)",
+          "type": "boolean"
+        },
+        "active_bandwidth": {
+          "description": "触发条件",
+          "maximum": 100000000,
+          "minimum": 100,
+          "type": "integer"
+        },
+        "active_burst_bandwidth": {
+          "description": "突发带宽>? KB/s",
+          "maximum": 100000000,
+          "minimum": 100,
+          "type": "integer"
+        },
+        "active_error_rate": {
+          "description": "回源错误率>?",
+          "maximum": 100,
+          "type": "integer"
+        },
+        "active_minute": {
+          "description": "连续n分钟",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "active_request": {
+          "description": "请求数>?",
+          "maximum": 30000,
+          "minimum": 10,
+          "type": "integer"
+        },
+        "active_time": {
+          "description": "防御状态持续时间s",
+          "maximum": 86400,
+          "minimum": 600,
+          "type": "integer"
+        },
+        "always_check": {
+          "description": "始终进行验证(无需超过阈值)",
+          "type": "boolean"
+        },
+        "block_time": {
+          "description": "黑洞时间(未通过验证时的封禁秒数)",
+          "maximum": 86400,
+          "minimum": 60,
+          "type": "integer"
+        },
+        "defence_cache_dir": {
+          "description": "常用缓存路径(换行分隔)(触发流量阈值时自动清理)",
+          "type": "string"
+        },
+        "defence_mode": {
+          "description": "基础设置",
+          "enum": [
+            "rain",
+            "ext"
+          ],
+          "type": "string"
+        },
+        "ext_change_to": {
+          "description": "解析切换到域名/ip",
+          "type": "string"
+        },
+        "global_burst_mps": {
+          "description": "全局下载允许下载突发(大文件的大小MB)",
+          "type": "integer"
+        },
+        "global_burst_qps": {
+          "description": "全局访问速率允许突发",
+          "type": "integer"
+        },
+        "global_mps": {
+          "description": "全局下载速率(MB/s)限制",
+          "type": "integer"
+        },
+        "global_qps": {
+          "description": "全局访问速率限制，超过会触发waf/被拒绝",
+          "type": "integer"
+        },
+        "js_check": {
+          "description": "是否启用JS验证，只有超过阈值才会生效",
+          "type": "boolean"
+        },
+        "per_ip_burst_mps": {
+          "description": "单个IP访问允许下载突发(大文件的大小MB)",
+          "type": "integer"
+        },
+        "per_ip_burst_qps": {
+          "description": "单个IP访问允许突发",
+          "type": "integer"
+        },
+        "per_ip_mps": {
+          "description": "单个IP下载速率(MB/s)限制",
+          "type": "integer"
+        },
+        "per_ip_qps": {
+          "description": "单源",
+          "type": "integer"
+        },
+        "stop_cdn": {
+          "description": "外部防御(域名直接解析走)",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

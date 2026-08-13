@@ -12,11 +12,14 @@ SDK 代码在 `apis/`，CLI 代码在 `cmd/ry/commands/`。
 | domain | 38 | 24 | 4 |
 | public | 6 | 4 | 4 |
 | rbm | 23 | 9 | 0 |
+| rca | 56 | 0 | 0 |
+| rcdn | 22 | 0 | 0 |
 | rcs | 52 | 35 | 34 |
 | rgs | 75 | 36 | 0 |
 | ros | 36 | 19 | 3 |
+| rvh | 25 | 0 | 0 |
 | ssl | 18 | 5 | 0 |
-| **合计** | **248** | **132** | **45** |
+| **合计** | **351** | **132** | **45** |
 
 ## domain
 
@@ -101,6 +104,94 @@ CLI 命令：`add <domain-id>`, `delete <domain-id> <record-id>`, `dns`, `domain
 | POST | `/product/rbm/{id}/traffic/charge` | 充流量 | `rbm.ChargeTraffic` | — |
 | POST | `/product/rbm/{id}/traffic/limit` | 限流 | — | — |
 | POST | `/product/rbm/{id}/traffic/switch` | 切换流量套餐 | — | — |
+
+## rca
+
+| 方法 | 路径 | 说明 | SDK | CLI |
+|---|---|---|---|---|
+| GET | `/product/rca/app/` | 云应用列出App | — | — |
+| POST | `/product/rca/app/` | 安装云应用App | — | — |
+| DELETE | `/product/rca/app/{id}/` | 卸载云应用App | — | — |
+| GET | `/product/rca/app/{id}/` | 获取云应用App详情 | — | — |
+| PATCH | `/product/rca/app/{id}/` | 更新云应用App设定 | — | — |
+| POST | `/product/rca/app/{id}/restart` | 云应用重启App | — | — |
+| POST | `/product/rca/app/{id}/start` | 云应用启动App | — | — |
+| POST | `/product/rca/app/{id}/stop` | 云应用停止App | — | — |
+| POST | `/product/rca/app/{id}/upgrade` | 升级云应用App | — | — |
+| PATCH | `/product/rca/app/{id}/{container_id}/` | 更新云应用App容器设定 | — | — |
+| GET | `/product/rca/app/{id}/{container_id}/config_map` | 获取云应用App配置文件 | — | — |
+| GET | `/product/rca/app/{id}/{container_id}/metrics` | 获取App容器的指标信息 | — | — |
+| GET | `/product/rca/app/{id}/{container_id}/php_setting` | 云应用获取PHP相关配置 | — | — |
+| POST | `/product/rca/app/{id}/{container_id}/php_setting` | 云应用更新PHP相关配置 | — | — |
+| GET | `/product/rca/app/{id}/{container_id}/service/` | 云应用列出服务 | — | — |
+| POST | `/product/rca/app/{id}/{container_id}/service/` | 创建云应用服务 | — | — |
+| DELETE | `/product/rca/app/{id}/{container_id}/service/{service_id}` | 删除云应用服务 | — | — |
+| PATCH | `/product/rca/app/{id}/{container_id}/service/{service_id}` | 更新云应用服务 | — | — |
+| POST | `/product/rca/app/{id}/{container_id}/webserver_access` | 云应用web服务器更新访问设定 | — | — |
+| GET | `/product/rca/appstore/` | 云应用列出App商店 | — | — |
+| POST | `/product/rca/appstore/` | 云应用创建App模板 | — | — |
+| GET | `/product/rca/appstore/{id}` | 云应用列出App商店应用详情 | — | — |
+| DELETE | `/product/rca/appstore/{id}/` | 删除云应用App模板 | — | — |
+| PATCH | `/product/rca/appstore/{id}/` | 云应用更新App模板 | — | — |
+| POST | `/product/rca/appstore/{id}/import_docker` | 云应用从docker导入容器模版 | — | — |
+| DELETE | `/product/rca/appstore/{id}/release` | 删除App模板版本 | — | — |
+| GET | `/product/rca/appstore/{id}/release` | 云应用列出App商店应用版本详情 | — | — |
+| PATCH | `/product/rca/appstore/{id}/release` | 云应用更新App模板版本 | — | — |
+| POST | `/product/rca/appstore/{id}/release` | 创建App模板版本 | — | — |
+| POST | `/product/rca/appstore/{id}/release/clone` | 克隆App模板版本 | — | — |
+| POST | `/product/rca/appstore/{id}/release/public` | 开关App模板版本公开访问 | — | — |
+| POST | `/product/rca/appstore/{id}/submit` | 云应用提交App到商店 | — | — |
+| POST | `/product/rca/appstore/{id}/unsubmit` | 云应用取消提交App到商店 | — | — |
+| GET | `/product/rca/project/` | 云应用列出项目 | — | — |
+| POST | `/product/rca/project/` | 创建云应用项目 | — | — |
+| GET | `/product/rca/project/eip` | 云应用项目列出IP地址 | — | — |
+| DELETE | `/product/rca/project/{id}/` | 销毁云应用项目 | — | — |
+| GET | `/product/rca/project/{id}/` | 获取云应用项目详情 | — | — |
+| PATCH | `/product/rca/project/{id}/backup_target` | 云应用项目设置备份目标 | — | — |
+| POST | `/product/rca/project/{id}/disk_expand` | 云应用项目磁盘扩容 | — | — |
+| DELETE | `/product/rca/project/{id}/eip` | 云应用移除IP地址 | — | — |
+| POST | `/product/rca/project/{id}/eip` | 云应用增加IP地址 | — | — |
+| GET | `/product/rca/project/{id}/metrics` | 获取项目的指标信息 | — | — |
+| PATCH | `/product/rca/project/{id}/sftp` | 云应用项目修改SFTP设置 | — | — |
+| GET | `/product/rca/raindrop` | 云应用获取雨点余额 | — | — |
+| POST | `/product/rca/raindrop` | 云应用购买雨点 | — | — |
+| GET | `/product/rca/raindrop/consume_log` | 云应用获取雨点消费历史 | — | — |
+| GET | `/product/rca/raindrop/plans` | 云应用获取雨点套餐列表 | — | — |
+| GET | `/product/rca/raindrop/usage` | 云应用获取雨点余额使用情况 | — | — |
+| GET | `/product/rca/region` | 云应用获取区域信息 | — | — |
+| GET | `/product/rca/website/` | 云应用列出网站 | — | — |
+| POST | `/product/rca/website/` | 创建云应用网站 | — | — |
+| GET | `/product/rca/website/rewrite_config` | 云应用网站获取重写配置模板 | — | — |
+| DELETE | `/product/rca/website/{id}/` | 云应用删除网站 | — | — |
+| GET | `/product/rca/website/{id}/` | 获取云应用网站详情 | — | — |
+| POST | `/product/rca/website/{id}/config/nginx` | 云应用网站更新Nginx相关配置 | — | — |
+
+## rcdn
+
+| 方法 | 路径 | 说明 | SDK | CLI |
+|---|---|---|---|---|
+| GET | `/product/rcdn/discount-percent` | 获取RCDN实例折扣比率 | — | — |
+| GET | `/product/rcdn/domain` | 获取域名列表 | — | — |
+| POST | `/product/rcdn/domain` | 创建加速域名 | — | — |
+| DELETE | `/product/rcdn/domain/{id}` | 删除加速域名 | — | — |
+| GET | `/product/rcdn/domain/{id}` | 获取加速域名详情 | — | — |
+| POST | `/product/rcdn/domain/{id}/toggle_waf` | 手动开关防御 | — | — |
+| GET | `/product/rcdn/domain/{id}/usage` | rcdn域名用量 | — | — |
+| GET | `/product/rcdn/instance` | 获取RCDN实例列表 | — | — |
+| POST | `/product/rcdn/instance` | 创建RCDN实例 | — | — |
+| GET | `/product/rcdn/instance/{id}` | 获取RCDN实例详情 | — | — |
+| POST | `/product/rcdn/instance/{id}/domain/{domain_id}/cache_refresh` | RCDN缓存清理 | — | — |
+| POST | `/product/rcdn/instance/{id}/renew` | RCDN实例续费 | — | — |
+| POST | `/product/rcdn/instance/{id}/renew/option` | 自动续费选项 | — | — |
+| POST | `/product/rcdn/instance/{id}/scale` | RCDN实例缩放 | — | — |
+| POST | `/product/rcdn/instance/{id}/setting` | RCDN实例设置 | — | — |
+| POST | `/product/rcdn/instance/{id}/ssl_bind` | RCDNSSL绑定域名 | — | — |
+| PATCH | `/product/rcdn/instance/{id}/tag` | 设置RCDN实例标签 | — | — |
+| POST | `/product/rcdn/instance/{id}/toggle-extra-accounting` | 开关RCDN实例的弹性计费选项 | — | — |
+| GET | `/product/rcdn/instance/{id}/usage` | rcdn基础用量 | — | — |
+| GET | `/product/rcdn/plans` | 获取RCDN套餐列表 | — | — |
+| GET | `/product/rcdn/price` | 获取RCDN折扣比率 | — | — |
+| GET | `/product/rcdn/{id}/monitor` | rcdn监控 | — | — |
 
 ## rcs
 
@@ -283,6 +374,36 @@ CLI 命令：`bucket`, `create <instance-id> <name>`, `list`, `list <instance-id
 | POST | `/product/ros/instance/{id}/toggle-public-access` | 开关对象存储实例的匿名访问 | `ros.SetRosInstancePublicAccess` | — |
 | GET | `/product/ros/plans` | 获取对象存储套餐列表 | `public.GetRosPlanList` | — |
 | GET | `/product/ros/price` | 获取云服务器折扣比率 | — | — |
+
+## rvh
+
+| 方法 | 路径 | 说明 | SDK | CLI |
+|---|---|---|---|---|
+| GET | `/product/rvh/` | 获取虚拟主机列表 | — | — |
+| POST | `/product/rvh/` | 创建虚拟主机 | — | — |
+| GET | `/product/rvh/plans` | 获取虚拟主机套餐列表 | — | — |
+| GET | `/product/rvh/price` | 获取虚拟主机折扣比率 | — | — |
+| PATCH | `/product/rvh/tag` | 设置虚拟主机标签 | — | — |
+| GET | `/product/rvh/{id}/` | 获取RVH虚拟主机详情 | — | — |
+| POST | `/product/rvh/{id}/backup/` | RVH创建备份 | — | — |
+| PATCH | `/product/rvh/{id}/backup/setting` | RVH设置备份选项 | — | — |
+| DELETE | `/product/rvh/{id}/backup/{bid}/` | RVH删除备份 | — | — |
+| POST | `/product/rvh/{id}/backup/{bid}/restore` | RVH还原备份 | — | — |
+| POST | `/product/rvh/{id}/bt/attach-dedip` | 附加独立IP地址 | — | — |
+| POST | `/product/rvh/{id}/bt/fix` | RVH宝塔主机修复操作 | — | — |
+| POST | `/product/rvh/{id}/bt/reboot` | RVH宝塔主机重启操作 | — | — |
+| DELETE | `/product/rvh/{id}/domain/` | RVH域名解绑 | — | — |
+| POST | `/product/rvh/{id}/domain/` | RVH域名绑定 | — | — |
+| POST | `/product/rvh/{id}/ep/reset-pass` | RVH EP主机重置密码操作 | — | — |
+| POST | `/product/rvh/{id}/firewall/option` | RVH防火墙设置选项 | — | — |
+| POST | `/product/rvh/{id}/firewall/rule` | RVH防火墙设置规则 | — | — |
+| POST | `/product/rvh/{id}/free` | 释放 | — | — |
+| POST | `/product/rvh/{id}/maintenance-mode` | RVH设置维护模式 | — | — |
+| POST | `/product/rvh/{id}/reinstall` | RVH重装操作 | — | — |
+| GET | `/product/rvh/{id}/renew/` | 获取虚拟主机折扣比率 | — | — |
+| POST | `/product/rvh/{id}/renew/` | 续费 | — | — |
+| POST | `/product/rvh/{id}/renew/option` | 自动续费选项 | — | — |
+| POST | `/product/rvh/{id}/upgrade/` | 升级 | — | — |
 
 ## ssl
 

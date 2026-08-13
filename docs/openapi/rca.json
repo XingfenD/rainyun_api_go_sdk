@@ -1,0 +1,2460 @@
+{
+  "host": "api.v2.rainyun.com",
+  "info": {
+    "contact": {},
+    "description": "实现通过api管理云产品,对接代理等功能.",
+    "title": "雨云API文档",
+    "version": "2.4"
+  },
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "ApiKey": {
+      "description": "雨云 API 密钥：登录后于「用户中心 → API密钥」创建，请求时携带 X-Api-Key 请求头即可替代登录态访问接口。",
+      "in": "header",
+      "name": "X-Api-Key",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [
+    {
+      "name": "rca"
+    }
+  ],
+  "paths": {
+    "/product/rca/app/": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "project_id",
+            "in": "query",
+            "name": "project_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用列出App",
+        "tags": [
+          "rca"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.InstallAppService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "安装云应用App",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/app/{id}/": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "销毁参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.UninstallAppService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "卸载云应用App",
+        "tags": [
+          "rca"
+        ]
+      },
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取云应用App详情",
+        "tags": [
+          "rca"
+        ]
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "更新参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.UpdateAppService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "更新云应用App设定",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/app/{id}/{container_id}/": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "更新参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.UpdateContainerService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "更新云应用App容器设定",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/app/{id}/{container_id}/config_map": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取云应用App配置文件",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/app/{id}/{container_id}/metrics": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取App容器的指标信息",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/app/{id}/{container_id}/php_setting": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用获取PHP相关配置",
+        "tags": [
+          "rca"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "更新参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.UpdatePHPService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用更新PHP相关配置",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/app/{id}/{container_id}/service/": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "App ID",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用列出服务",
+        "tags": [
+          "rca"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.CreateOrUpdateServiceService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "创建云应用服务",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/app/{id}/{container_id}/service/{service_id}": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "删除云应用服务",
+        "tags": [
+          "rca"
+        ]
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.CreateOrUpdateServiceService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "更新云应用服务",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/app/{id}/{container_id}/webserver_access": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "更新参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.UpdateWebserverAccessSettingService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用web服务器更新访问设定",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/app/{id}/restart": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用重启App",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/app/{id}/start": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用启动App",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/app/{id}/stop": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用停止App",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/app/{id}/upgrade": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "升级参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.UpgradeAppService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "升级云应用App",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/appstore/": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用列出App商店",
+        "tags": [
+          "rca"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.CreateOrUpdateAppService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用创建App模板",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/appstore/{id}": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用列出App商店应用详情",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/appstore/{id}/": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "删除云应用App模板",
+        "tags": [
+          "rca"
+        ]
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.CreateOrUpdateAppService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用更新App模板",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/appstore/{id}/import_docker": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "导入参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.ImportFromDockerService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用从docker导入容器模版",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/appstore/{id}/release": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "release_id",
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "删除App模板版本",
+        "tags": [
+          "rca"
+        ]
+      },
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "version",
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用列出App商店应用版本详情",
+        "tags": [
+          "rca"
+        ]
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.CreateOrUpdateAppReleaseService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用更新App模板版本",
+        "tags": [
+          "rca"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.CreateOrUpdateAppReleaseService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "创建App模板版本",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/appstore/{id}/release/clone": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "release_id",
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "克隆App模板版本",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/appstore/{id}/release/public": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "release_id",
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "开关App模板版本公开访问",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/appstore/{id}/submit": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "提交参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.SubmitAppService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用提交App到商店",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/appstore/{id}/unsubmit": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "取消提交参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.UnSubmitAppService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用取消提交App到商店",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/project/": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用列出项目",
+        "tags": [
+          "rca"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.CreateProjectService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "创建云应用项目",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/project/{id}/": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "销毁参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.DestroyProjectService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "销毁云应用项目",
+        "tags": [
+          "rca"
+        ]
+      },
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取云应用项目详情",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/project/{id}/backup_target": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.SetBackupTargetService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用项目设置备份目标",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/project/{id}/disk_expand": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "扩容参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.ProjectDiskExpandService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用项目磁盘扩容",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/project/{id}/eip": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "扩容参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.ProjectEIPDeleteService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用移除IP地址",
+        "tags": [
+          "rca"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "扩容参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.ProjectEIPAddService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用增加IP地址",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/project/{id}/metrics": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取项目的指标信息",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/project/{id}/sftp": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.SetSFTPService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用项目修改SFTP设置",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/project/eip": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用项目列出IP地址",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/raindrop": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用获取雨点余额",
+        "tags": [
+          "rca"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.BuyRaindropService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用购买雨点",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/raindrop/consume_log": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "options",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用获取雨点消费历史",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/raindrop/plans": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用获取雨点套餐列表",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/raindrop/usage": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用获取雨点余额使用情况",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/region": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用获取区域信息",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/website/": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用列出网站",
+        "tags": [
+          "rca"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.CreateWebsiteService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "创建云应用网站",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/website/{id}/": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用删除网站",
+        "tags": [
+          "rca"
+        ]
+      },
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取云应用网站详情",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/website/{id}/config/nginx": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "更新参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rca.UpdateNginxService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用网站更新Nginx相关配置",
+        "tags": [
+          "rca"
+        ]
+      }
+    },
+    "/product/rca/website/rewrite_config": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "云应用网站获取重写配置模板",
+        "tags": [
+          "rca"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "datatypes.JSONType-rcaM_AppScript": {
+      "type": "object"
+    },
+    "datatypes.JSONType-rcaM_AppStartupHealthCheck": {
+      "type": "object"
+    },
+    "datatypes.JSONType-rcaM_ResourceRequest": {
+      "type": "object"
+    },
+    "rca.BuyRaindropService": {
+      "properties": {
+        "plan_id": {
+          "type": "integer"
+        },
+        "with_coupon_id": {
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "rca.ContainerSetting": {
+      "properties": {
+        "container_id": {
+          "description": "所属模版容器ID",
+          "type": "integer"
+        },
+        "cpu_limit": {
+          "description": "CPU限制（毫核），1核心=1000，0.1核=100",
+          "maximum": 16000,
+          "minimum": 200,
+          "type": "integer"
+        },
+        "env_list": {
+          "description": "环境变量列表",
+          "items": {
+            "$ref": "#/definitions/rcaM.AppEnv"
+          },
+          "type": "array"
+        },
+        "memory_limit": {
+          "description": "内存限制（MiB）",
+          "maximum": 32768,
+          "minimum": 128,
+          "type": "integer"
+        },
+        "service_https_domain_type": {
+          "description": "HTTPS域名类型，共享or自定义",
+          "enum": [
+            "shared",
+            "custom"
+          ],
+          "type": "string"
+        },
+        "service_https_domains": {
+          "description": "HTTPS域名列表",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "service_ip": {
+          "description": "external服务使用，如果是独立IP，则填写IP，不写IP就是用共享IP，会自动分配",
+          "type": "string"
+        },
+        "service_type": {
+          "description": "是否要对外开放服务",
+          "enum": [
+            "internal",
+            "external",
+            "https"
+          ],
+          "type": "string"
+        },
+        "services": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "description": "要创建的服务列表，对应的是name和external port，只有类型为input的option才能被传入设定，否则会被自动设定",
+          "type": "object"
+        }
+      },
+      "required": [
+        "container_id",
+        "cpu_limit",
+        "memory_limit",
+        "service_type"
+      ],
+      "type": "object"
+    },
+    "rca.CreateOrUpdateAppReleaseService": {
+      "properties": {
+        "container_templates": {
+          "description": "ConfigMaps      []rcaM.AppConfigMap    `json:\"config_maps\" binding:\"omitempty,dive\"`   // APP配置文件\nVolumeMounts    []rcaM.AppVolumeMounts `json:\"volume_mounts\" binding:\"omitempty,dive\"` // 文件目录，如data:/var/lib/mysql\nResourceRequest rcaM.ResourceRequest   `json:\"resource_request\" binding:\"required\"`    // 资源需求\nCommand         []string               `json:\"command\" binding:\"omitempty\"`            // 运行命令\nArgs            []string               `json:\"args\" binding:\"omitempty\"`               // 运行参数\nScripts         rcaM.AppScript         `json:\"scripts\" binding:\"omitempty\"`            // 脚本钩子\nEnv             []rcaM.AppEnv          `json:\"env\" binding:\"omitempty,dive\"`           // 环境变量\nServices        []rcaM.AppService      `json:\"services\" binding:\"omitempty,dive\"`      // 预设服务列表",
+          "items": {
+            "$ref": "#/definitions/rcaM.AppstoreReleaseContainer"
+          },
+          "type": "array"
+        },
+        "options": {
+          "description": "Image           string                 `json:\"image\" binding:\"required\"`               // 容器镜像，如nginx:1.21.0",
+          "items": {
+            "$ref": "#/definitions/rcaM.AppOption"
+          },
+          "type": "array"
+        },
+        "release_id": {
+          "description": "更新用release ID",
+          "type": "integer"
+        },
+        "version": {
+          "description": "版本号，如1.21.0",
+          "type": "string"
+        }
+      },
+      "required": [
+        "container_templates",
+        "version"
+      ],
+      "type": "object"
+    },
+    "rca.CreateOrUpdateAppService": {
+      "properties": {
+        "cross_version_update": {
+          "description": "是否支持跨版本更新",
+          "type": "boolean"
+        },
+        "description": {
+          "description": "应用描述，限制字数到36字",
+          "maxLength": 36,
+          "type": "string"
+        },
+        "disable_update": {
+          "description": "是否禁用版本更新功能，禁用后已安装应用无法检测到更新",
+          "type": "boolean"
+        },
+        "logo": {
+          "description": "logo（base64），最大50KB，可以不传",
+          "type": "string"
+        },
+        "name": {
+          "description": "应用名称（英文标识）",
+          "type": "string"
+        },
+        "project_link": {
+          "description": "应用项目链接",
+          "type": "string"
+        },
+        "readme": {
+          "description": "介绍（markdown）",
+          "type": "string"
+        },
+        "tags": {
+          "description": "标签，多选，目前支持的tag可以参考现有应用",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "title": {
+          "description": "应用标题",
+          "type": "string"
+        },
+        "website": {
+          "description": "应用官方网站链接",
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "name",
+        "readme",
+        "tags",
+        "title"
+      ],
+      "type": "object"
+    },
+    "rca.CreateOrUpdateServiceService": {
+      "properties": {
+        "dry_run": {
+          "description": "是否只检查是否可用，而不实际创建",
+          "type": "boolean"
+        },
+        "https_domain_type": {
+          "description": "HTTPS域名类型，共享or自定义",
+          "enum": [
+            "shared",
+            "custom"
+          ],
+          "type": "string"
+        },
+        "https_domains": {
+          "description": "HTTPS域名列表",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "ip": {
+          "description": "external服务使用，如果是独立IP，则填写IP，不写IP就是用共享IP，会自动分配",
+          "type": "string"
+        },
+        "label": {
+          "description": "服务的描述，可以是中文",
+          "maxLength": 32,
+          "minLength": 1,
+          "type": "string"
+        },
+        "name": {
+          "description": "服务名称",
+          "type": "string"
+        },
+        "ports": {
+          "description": "端口组定义，key是外部端口，value对应内部端口",
+          "items": {
+            "$ref": "#/definitions/rcaM.PortInfo"
+          },
+          "type": "array"
+        },
+        "type": {
+          "description": "服务类型，可以是internal或者external，分别对应clusterIP或者loadBalancer两种类型",
+          "enum": [
+            "internal",
+            "external",
+            "https"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "ports",
+        "type"
+      ],
+      "type": "object"
+    },
+    "rca.CreateProjectService": {
+      "properties": {
+        "charge_type": {
+          "description": "todo: 计费类型，可以是动态计费或者包年包月，对应elastic或package，目前尚未实现package模式",
+          "enum": [
+            "elastic"
+          ],
+          "type": "string"
+        },
+        "cpu_limit": {
+          "description": "（仅限package模式）CPU限制（毫核），1核心=1000，0.1核=100",
+          "maximum": 32000,
+          "minimum": 500,
+          "type": "integer"
+        },
+        "disk_size": {
+          "description": "磁盘大小（GiB）",
+          "maximum": 300,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "ipv4_count": {
+          "description": "要添加的IPv4地址数量",
+          "maximum": 5,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "ipv6_count": {
+          "description": "要添加的IPv6地址数量",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "memory_limit": {
+          "description": "（仅限package模式）内存限制（MiB）",
+          "maximum": 64000,
+          "minimum": 500,
+          "type": "integer"
+        },
+        "name": {
+          "description": "名称",
+          "type": "string"
+        },
+        "region_id": {
+          "description": "部署区域",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "charge_type",
+        "disk_size",
+        "name",
+        "region_id"
+      ],
+      "type": "object"
+    },
+    "rca.CreateWebsiteService": {
+      "properties": {
+        "app_proxy_app_container_id": {
+          "description": "App代理类型专用，App应用容器ID",
+          "type": "integer"
+        },
+        "app_proxy_app_id": {
+          "description": "App代理类型专用，App应用容器ID",
+          "type": "integer"
+        },
+        "app_proxy_service": {
+          "description": "App代理类型专用，App服务名称",
+          "type": "string"
+        },
+        "app_proxy_service_port": {
+          "description": "App代理类型专用，App服务端口",
+          "type": "integer"
+        },
+        "app_proxy_service_to_internal": {
+          "description": "App代理类型专用，将目标服务自动转换成内部服务",
+          "type": "boolean"
+        },
+        "domain_type": {
+          "description": "域名类型，可以是shared或custom，前者是共享域名后者自定义域名",
+          "enum": [
+            "shared",
+            "custom"
+          ],
+          "type": "string"
+        },
+        "domains": {
+          "description": "域名列表",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "名称",
+          "type": "string"
+        },
+        "php_limits": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/rcaM.ResourceLimit"
+            }
+          ],
+          "description": "php类型专用，php资源限制"
+        },
+        "php_store_release_container_id": {
+          "description": "php类型专用，php app在商店的应用版本ID的容器ID，用于设定",
+          "type": "integer"
+        },
+        "php_store_release_id": {
+          "description": "php类型专用，php app在商店的应用版本ID",
+          "type": "integer"
+        },
+        "project_id": {
+          "description": "要部署到的project",
+          "type": "integer"
+        },
+        "reverse_proxy_is_enable_cache": {
+          "description": "反向代理类型专用，是否启用反代缓存",
+          "type": "boolean"
+        },
+        "reverse_proxy_url": {
+          "description": "反向代理类型专用，要反向代理到的URL",
+          "type": "string"
+        },
+        "type": {
+          "description": "网站类型",
+          "enum": [
+            "static",
+            "php",
+            "app_proxy",
+            "reverse_proxy"
+          ],
+          "type": "string"
+        },
+        "webserver_limits": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/rcaM.ResourceLimit"
+            }
+          ],
+          "description": "web服务器资源限制"
+        },
+        "webserver_store_release_container_id": {
+          "description": "web服务器app在商店的应用版本ID的容器ID，用于设定",
+          "type": "integer"
+        },
+        "webserver_store_release_id": {
+          "description": "web服务器app在商店的应用版本ID",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "domain_type",
+        "name",
+        "project_id",
+        "type",
+        "webserver_limits",
+        "webserver_store_release_container_id",
+        "webserver_store_release_id"
+      ],
+      "type": "object"
+    },
+    "rca.DestroyProjectService": {
+      "type": "object"
+    },
+    "rca.ImportFromDockerService": {
+      "properties": {
+        "content": {
+          "description": "内容",
+          "type": "string"
+        },
+        "type": {
+          "description": "类型，docker run命令，或者docker compose命令",
+          "enum": [
+            "docker_run",
+            "docker_compose"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "content",
+        "type"
+      ],
+      "type": "object"
+    },
+    "rca.InstallAppService": {
+      "properties": {
+        "appstore_release_id": {
+          "description": "APP商店的ReleaseID",
+          "type": "integer"
+        },
+        "container_settings": {
+          "items": {
+            "$ref": "#/definitions/rca.ContainerSetting"
+          },
+          "type": "array"
+        },
+        "options": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "选项，对应envKey和value",
+          "type": "object"
+        },
+        "project_id": {
+          "description": "要部署到的project",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "appstore_release_id",
+        "project_id"
+      ],
+      "type": "object"
+    },
+    "rca.ProjectDiskExpandService": {
+      "properties": {
+        "new_disk_size": {
+          "description": "以GB显示的新项目磁盘大小",
+          "maximum": 300,
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "new_disk_size"
+      ],
+      "type": "object"
+    },
+    "rca.ProjectEIPAddService": {
+      "properties": {
+        "ipv4_count": {
+          "description": "要添加的IPv4地址数量",
+          "maximum": 5,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "ipv6_count": {
+          "description": "要添加的IPv6地址数量",
+          "maximum": 10,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "rca.ProjectEIPDeleteService": {
+      "properties": {
+        "ip_id": {
+          "description": "要删除的IP地址ID",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "rca.SetBackupTargetService": {
+      "properties": {
+        "s3_access_key": {
+          "description": "S3的AK",
+          "type": "string"
+        },
+        "s3_backup_directory": {
+          "description": "s3备份存储的目录",
+          "type": "string"
+        },
+        "s3_bucket": {
+          "description": "S3存储桶名",
+          "type": "string"
+        },
+        "s3_endpoint": {
+          "description": "S3的端点（仅支持Virtual Host，不支持Path-Style模式）",
+          "type": "string"
+        },
+        "s3_secret_key": {
+          "description": "S3的SK",
+          "type": "string"
+        },
+        "target_type": {
+          "description": "目标类型，支持项目本地备份或者远程S3存储",
+          "enum": [
+            "local",
+            "s3"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_type"
+      ],
+      "type": "object"
+    },
+    "rca.SetSFTPService": {
+      "properties": {
+        "password": {
+          "maxLength": 16,
+          "type": "string"
+        },
+        "username": {
+          "maxLength": 16,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rca.SubmitAppService": {
+      "type": "object"
+    },
+    "rca.UnSubmitAppService": {
+      "type": "object"
+    },
+    "rca.UninstallAppService": {
+      "properties": {
+        "remove_data": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "rca.UpdateAppService": {
+      "properties": {
+        "config_scope": {
+          "description": "配置项目",
+          "enum": [
+            "options"
+          ],
+          "type": "string"
+        },
+        "options": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "选项，要求把所有必要选项进行提交",
+          "type": "object"
+        }
+      },
+      "required": [
+        "config_scope"
+      ],
+      "type": "object"
+    },
+    "rca.UpdateContainerService": {
+      "properties": {
+        "config_map": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "APP配置文件，key是文件名，value是文件内容",
+          "type": "object"
+        },
+        "config_scope": {
+          "description": "配置项目",
+          "enum": [
+            "options",
+            "env",
+            "resource_limits",
+            "config_map"
+          ],
+          "type": "string"
+        },
+        "env_list": {
+          "description": "环境变量列表",
+          "items": {
+            "$ref": "#/definitions/rcaM.AppEnv"
+          },
+          "type": "array"
+        },
+        "resource_limits": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/rcaM.ResourceLimit"
+            }
+          ],
+          "description": "资源限制，调整cpu和内存量"
+        }
+      },
+      "required": [
+        "config_scope"
+      ],
+      "type": "object"
+    },
+    "rca.UpdateNginxService": {
+      "properties": {
+        "app_proxy_app_container_id": {
+          "description": "App代理类型专用，更新App应用ID",
+          "type": "integer"
+        },
+        "app_proxy_app_id": {
+          "description": "App代理类型专用，更新App应用ID",
+          "type": "integer"
+        },
+        "app_proxy_service": {
+          "description": "App代理类型专用，更新App服务名称",
+          "type": "string"
+        },
+        "app_proxy_service_port": {
+          "description": "App代理类型专用，更新App服务端口",
+          "type": "integer"
+        },
+        "config_scope": {
+          "description": "配置项目",
+          "enum": [
+            "domain_list",
+            "runtime_dir",
+            "index",
+            "rewrite_rule",
+            "ssl",
+            "maintenance",
+            "app_proxy_target",
+            "internal_website_to_external",
+            "internal_website_to_internal",
+            "reverse_proxy"
+          ],
+          "type": "string"
+        },
+        "domain_list": {
+          "description": "域名列表",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "index": {
+          "description": "新的默认文档",
+          "type": "string"
+        },
+        "reverse_proxy_is_enable_cache": {
+          "description": "App代理类型专用，更新App服务端口",
+          "type": "boolean"
+        },
+        "reverse_proxy_url": {
+          "description": "App代理类型专用，更新App服务端口",
+          "type": "string"
+        },
+        "rewrite_rule": {
+          "description": "重写规则",
+          "type": "string"
+        },
+        "runtime_dir": {
+          "description": "新的运行目录",
+          "type": "string"
+        },
+        "ssl_access_mode": {
+          "description": "SSL访问模式，https_only: 只允许HTTPS访问，关闭http访问，http_to_https: 访问http的时候自动跳转到https, http_also: 允许http和https同时访问(在共享IP模式下是半程SSL，即雨云反代会走HTTP协议回源)",
+          "enum": [
+            "https_only",
+            "http_to_https",
+            "http_also"
+          ],
+          "type": "string"
+        },
+        "ssl_algorithm": {
+          "description": "SSL算法",
+          "type": "string"
+        },
+        "ssl_cert_id": {
+          "description": "SSL证书中心的证书ID",
+          "type": "integer"
+        },
+        "ssl_is_enable": {
+          "description": "是否启用SSL",
+          "type": "boolean"
+        },
+        "ssl_protocol": {
+          "description": "SSL支持的协议",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "config_scope"
+      ],
+      "type": "object"
+    },
+    "rca.UpdatePHPService": {
+      "properties": {
+        "disable_functions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "params": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "upload_max_size": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope"
+      ],
+      "type": "object"
+    },
+    "rca.UpdateWebserverAccessSettingService": {
+      "properties": {
+        "ip": {
+          "description": "独立模式下的IP地址，如果为空，则切换回共享IP模式",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rca.UpgradeAppService": {
+      "properties": {
+        "release_id": {
+          "description": "要升级到的版本ID",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "release_id"
+      ],
+      "type": "object"
+    },
+    "rcaM.AppConfigMap": {
+      "properties": {
+        "container_path": {
+          "description": "配置文件存放在容器里面的目录",
+          "maxLength": 64,
+          "minLength": 2,
+          "type": "string"
+        },
+        "content": {
+          "description": "文件内容，最大1MB",
+          "maxLength": 1048576,
+          "type": "string"
+        },
+        "file_name": {
+          "description": "文件名",
+          "maxLength": 32,
+          "minLength": 2,
+          "type": "string"
+        }
+      },
+      "required": [
+        "container_path",
+        "file_name"
+      ],
+      "type": "object"
+    },
+    "rcaM.AppEnv": {
+      "properties": {
+        "key": {
+          "description": "键",
+          "maxLength": 100,
+          "type": "string"
+        },
+        "value": {
+          "description": "值，允许空白",
+          "maxLength": 100,
+          "type": "string"
+        }
+      },
+      "required": [
+        "key"
+      ],
+      "type": "object"
+    },
+    "rcaM.AppOption": {
+      "properties": {
+        "default": {
+          "description": "默认值",
+          "maxLength": 100,
+          "type": "string"
+        },
+        "disabled": {
+          "description": "是否不允许编辑",
+          "type": "boolean"
+        },
+        "env_key": {
+          "description": "绑定到环境变量的Key",
+          "maxLength": 100,
+          "type": "string"
+        },
+        "label": {
+          "description": "标签，告知用户这个选项是干什么用的，例如root用户密码",
+          "maxLength": 32,
+          "minLength": 2,
+          "type": "string"
+        },
+        "random": {
+          "description": "是否进行随机化生成",
+          "type": "boolean"
+        },
+        "required": {
+          "description": "是否必选",
+          "type": "boolean"
+        },
+        "rule": {
+          "description": "规则，可用项目按照前端已实现支持的规则来",
+          "enum": [
+            "paramCommon",
+            "paramComplexity",
+            "paramPort",
+            "paramExtUrl",
+            "paramSimple",
+            "paramHttp"
+          ],
+          "type": "string"
+        },
+        "type": {
+          "description": "类型，如：password number等",
+          "enum": [
+            "text",
+            "select",
+            "number",
+            "password",
+            "boolean"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "description": "填入值",
+          "type": "string"
+        },
+        "values": {
+          "description": "选项，type为select时提供给客户选择",
+          "items": {
+            "$ref": "#/definitions/rcaM.AppOptionSelectValues"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "env_key",
+        "label",
+        "type"
+      ],
+      "type": "object"
+    },
+    "rcaM.AppOptionSelectValues": {
+      "properties": {
+        "label": {
+          "description": "提示显示",
+          "maxLength": 32,
+          "minLength": 2,
+          "type": "string"
+        },
+        "value": {
+          "description": "对应值",
+          "type": "string"
+        }
+      },
+      "required": [
+        "label"
+      ],
+      "type": "object"
+    },
+    "rcaM.AppService": {
+      "properties": {
+        "external_port": {
+          "description": "外部端口，之所以是string，因为支持以变量形式传入",
+          "type": "string"
+        },
+        "internal_port": {
+          "description": "内部端口，对应AppPort，之所以是string，因为支持以变量形式传入",
+          "type": "string"
+        },
+        "label": {
+          "description": "标签，可以是中文",
+          "maxLength": 32,
+          "minLength": 2,
+          "type": "string"
+        },
+        "name": {
+          "description": "服务名称",
+          "maxLength": 32,
+          "minLength": 2,
+          "type": "string"
+        },
+        "protocol": {
+          "description": "协议",
+          "enum": [
+            "tcp",
+            "udp",
+            "tcp_udp"
+          ],
+          "type": "string"
+        },
+        "type": {
+          "description": "类型，可以是internal或external，对应clusterIP或者lb，或者通过HTTPS网站服务",
+          "enum": [
+            "internal",
+            "external",
+            "https"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "external_port",
+        "internal_port",
+        "label",
+        "name",
+        "protocol",
+        "type"
+      ],
+      "type": "object"
+    },
+    "rcaM.AppVolumeMounts": {
+      "properties": {
+        "mount_content_type": {
+          "description": "挂载类型，文件file或目录dir",
+          "enum": [
+            "file",
+            "dir"
+          ],
+          "type": "string"
+        },
+        "mount_path": {
+          "description": "容器内路径",
+          "maxLength": 100,
+          "type": "string"
+        },
+        "name": {
+          "description": "挂载描述",
+          "maxLength": 32,
+          "minLength": 2,
+          "type": "string"
+        },
+        "pre_content": {
+          "description": "file类型专用，以base64存储的预先准备二进制数据，这个是用于一些小型二进制文件例如.db或者如/etc/localtime等的预先准备，模拟在docker中如\"./data/cloudreve.db:/cloudreve/cloudreve.db\"或/etc/timezone:/etc/timezone:ro",
+          "type": "string"
+        },
+        "sub_path": {
+          "description": "Project卷内路径，不能以.或者/开头",
+          "maxLength": 100,
+          "type": "string"
+        }
+      },
+      "required": [
+        "mount_content_type",
+        "mount_path",
+        "name",
+        "sub_path"
+      ],
+      "type": "object"
+    },
+    "rcaM.AppstoreReleaseContainer": {
+      "properties": {
+        "args": {
+          "description": "运行参数",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "command": {
+          "description": "运行命令",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "config_maps": {
+          "description": "容器配置文件",
+          "items": {
+            "$ref": "#/definitions/rcaM.AppConfigMap"
+          },
+          "type": "array"
+        },
+        "env": {
+          "description": "默认环境变量列表，如果有options的envKey指定，将会被覆盖",
+          "items": {
+            "$ref": "#/definitions/rcaM.AppEnv"
+          },
+          "type": "array"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "image": {
+          "description": "镜像，例如mysql:8.2",
+          "type": "string"
+        },
+        "name": {
+          "description": "容器名",
+          "type": "string"
+        },
+        "release_id": {
+          "description": "Appstore里面的版本id",
+          "type": "integer"
+        },
+        "resource_request": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/datatypes.JSONType-rcaM_ResourceRequest"
+            }
+          ],
+          "description": "资源需求"
+        },
+        "scripts": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/datatypes.JSONType-rcaM_AppScript"
+            }
+          ],
+          "description": "脚本"
+        },
+        "services": {
+          "description": "要开放的服务",
+          "items": {
+            "$ref": "#/definitions/rcaM.AppService"
+          },
+          "type": "array"
+        },
+        "startup_health_check": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/datatypes.JSONType-rcaM_AppStartupHealthCheck"
+            }
+          ],
+          "description": "启动时健康检查定义"
+        },
+        "volume_mounts": {
+          "description": "文件目录，如data:/var/lib/mysql",
+          "items": {
+            "$ref": "#/definitions/rcaM.AppVolumeMounts"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "rcaM.PortInfo": {
+      "properties": {
+        "external_port": {
+          "type": "integer"
+        },
+        "internal_port": {
+          "type": "integer"
+        },
+        "protocol": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rcaM.ResourceLimit": {
+      "properties": {
+        "max_cpu": {
+          "description": "如1000，单位是m",
+          "type": "integer"
+        },
+        "max_memory": {
+          "description": "如4096，单位是Mi",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

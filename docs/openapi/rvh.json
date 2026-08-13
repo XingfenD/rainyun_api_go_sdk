@@ -1,0 +1,764 @@
+{
+  "host": "api.v2.rainyun.com",
+  "info": {
+    "contact": {},
+    "description": "实现通过api管理云产品,对接代理等功能.",
+    "title": "雨云API文档",
+    "version": "2.4"
+  },
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "ApiKey": {
+      "description": "雨云 API 密钥：登录后于「用户中心 → API密钥」创建，请求时携带 X-Api-Key 请求头即可替代登录态访问接口。",
+      "in": "header",
+      "name": "X-Api-Key",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [
+    {
+      "name": "rvh"
+    }
+  ],
+  "paths": {
+    "/product/rvh/": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rvh.ListRVHService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取虚拟主机列表",
+        "tags": [
+          "rvh"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rvh.CreateService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "创建虚拟主机",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取RVH虚拟主机详情",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/backup/": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rvh.CreateBackupService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RVH创建备份",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/backup/{bid}/": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RVH删除备份",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/backup/{bid}/restore": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rvh.RestoreBackupService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RVH还原备份",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/backup/setting": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rvh.SetBackupService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RVH设置备份选项",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/bt/attach-dedip": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "附加独立IP地址",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/bt/fix": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RVH宝塔主机修复操作",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/bt/reboot": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RVH宝塔主机重启操作",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/domain/": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RVH域名解绑",
+        "tags": [
+          "rvh"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rvh.BindDomainService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RVH域名绑定",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/ep/reset-pass": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RVH EP主机重置密码操作",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/firewall/option": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rvh.SetFirewallService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RVH防火墙设置选项",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/firewall/rule": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rvh.SetFirewallRuleService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RVH防火墙设置规则",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/free": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "释放",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/maintenance-mode": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rvh.MaintenanceModeService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RVH设置维护模式",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/reinstall": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "RVH重装操作",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/renew/": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取虚拟主机折扣比率",
+        "tags": [
+          "rvh"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rvh.RenewService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "续费",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/renew/option": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rvh.SetAutoRenewService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "自动续费选项",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/{id}/upgrade/": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rvh.UpgradeService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "升级",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/plans": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取虚拟主机套餐列表",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/price": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "获取虚拟主机折扣比率",
+        "tags": [
+          "rvh"
+        ]
+      }
+    },
+    "/product/rvh/tag": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/product.SetTagService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "summary": "设置虚拟主机标签",
+        "tags": [
+          "rvh"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "product.SetTagService": {
+      "properties": {
+        "tag_name": {
+          "maxLength": 32,
+          "minLength": 2,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rvh.BindDomainService": {
+      "properties": {
+        "domain": {
+          "description": "域名",
+          "minLength": 4,
+          "type": "string"
+        },
+        "ssl_cert_id": {
+          "description": "SSL证书ID，如果是http，必须是-1",
+          "type": "integer"
+        },
+        "ssl_force": {
+          "description": "是否开启SSL强制跳转",
+          "enum": [
+            0,
+            1
+          ],
+          "type": "integer"
+        }
+      },
+      "required": [
+        "domain",
+        "ssl_cert_id"
+      ],
+      "type": "object"
+    },
+    "rvh.CreateBackupService": {
+      "properties": {
+        "label": {
+          "maxLength": 32,
+          "minLength": 2,
+          "type": "string"
+        }
+      },
+      "required": [
+        "label"
+      ],
+      "type": "object"
+    },
+    "rvh.CreateService": {
+      "properties": {
+        "duration": {
+          "enum": [
+            1,
+            3,
+            6,
+            12
+          ],
+          "type": "integer"
+        },
+        "node_uuid": {
+          "description": "指定节点(管理员可用)",
+          "type": "string"
+        },
+        "plan_id": {
+          "type": "integer"
+        },
+        "try": {
+          "type": "boolean"
+        },
+        "with_coupon_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "duration",
+        "plan_id"
+      ],
+      "type": "object"
+    },
+    "rvh.ListRVHService": {
+      "properties": {
+        "options": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "options"
+      ],
+      "type": "object"
+    },
+    "rvh.MaintenanceModeService": {
+      "properties": {
+        "value": {
+          "enum": [
+            0,
+            1
+          ],
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "rvh.RenewService": {
+      "properties": {
+        "duration": {
+          "enum": [
+            1,
+            3,
+            6,
+            12
+          ],
+          "type": "integer"
+        },
+        "with_coupon_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "duration"
+      ],
+      "type": "object"
+    },
+    "rvh.RestoreBackupService": {
+      "type": "object"
+    },
+    "rvh.SetAutoRenewService": {
+      "properties": {
+        "auto_renew_option": {
+          "description": "0：关闭 / 1：开启（不续费IP）/ 2: 开启（连IP一起续费）",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "rvh.SetBackupService": {
+      "properties": {
+        "auto_backup_hour": {
+          "maximum": 23,
+          "minimum": -1,
+          "type": "integer"
+        },
+        "auto_backup_minute": {
+          "maximum": 59,
+          "minimum": -1,
+          "type": "integer"
+        },
+        "keep_last": {
+          "enum": [
+            0,
+            1,
+            3,
+            7,
+            15,
+            31
+          ],
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "rvh.SetFirewallRuleService": {
+      "properties": {
+        "option": {
+          "enum": [
+            "cc_rate_rule",
+            "js_auto_check_rule"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "option",
+        "value"
+      ],
+      "type": "object"
+    },
+    "rvh.SetFirewallService": {
+      "properties": {
+        "option": {
+          "enum": [
+            "js_check",
+            "is_waf",
+            "cc_rate",
+            "js_auto_check"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "option"
+      ],
+      "type": "object"
+    },
+    "rvh.UpgradeService": {
+      "properties": {
+        "dest_plan": {
+          "type": "integer"
+        },
+        "with_coupon_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "dest_plan"
+      ],
+      "type": "object"
+    }
+  }
+}
