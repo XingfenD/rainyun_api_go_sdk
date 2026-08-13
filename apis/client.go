@@ -2,6 +2,7 @@ package apis
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/XingfenD/rainyun_api_go_sdk/constant"
 	"github.com/bytedance/sonic"
@@ -38,6 +39,10 @@ func newRyClient(apiKey string) *RyClient {
 		client: c,
 	}
 }
+
+// SetTransport replaces the underlying HTTP transport. Intended for tests
+// and unusual network environments; production code should not need it.
+func (c *RyClient) SetTransport(rt http.RoundTripper) { c.client.SetTransport(rt) }
 
 func (c *RyClient) Do(method constant.HTTPMethod, endpoint string, querys map[string]string, body, result any) error {
 	requestID := nextTraceID()

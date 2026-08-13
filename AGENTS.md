@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This Go module (`github.com/XingfenD/rainyun_api_go_sdk`) provides Rainyun API clients and the `ry` CLI. API services live in `apis/`, grouped by product (`rcs`, `rgs`, `ros`, `domain`, and others); shared request/query helpers are in `apis/common/`. The public SDK facade is in `sdk/`, constants in `constant/`, and CLI code in `cmd/ry/`: commands in `commands/`, implementation-only packages in `internal/`. Keep SDK release notes in `docs/CHANGELOG.md`, CLI release notes in `docs/CHANGELOG_cli.md`, and user-facing documentation in `docs/`.
+This Go module (`github.com/XingfenD/rainyun_api_go_sdk`) provides Rainyun API clients and the `ry` CLI. API services live in `apis/`, one package per product domain: `rcs`, `rgs`, `ros`, `rbm`, `ssl`, `domain`, `public`, `rcdn`, `rca`, `rvh`; shared request/query helpers are in `apis/common/`. The public SDK facade is in `sdk/` (one embedded service per domain; prefer `sdk.NewBuilder(apiKey).WithTrace(...).Build()` over `sdk.New`), constants in `constant/`, and CLI code in `cmd/ry/`: commands in `commands/`, implementation-only packages in `internal/`. CLI command groups do not mirror SDK package names: `server` wraps `apis/rcs`, `storage` wraps `apis/ros` (mapping also encoded in `docs/scripts/generate.py`). Keep SDK release notes in `docs/CHANGELOG.md`, CLI release notes in `docs/CHANGELOG_cli.md`, and user-facing documentation in `docs/`.
 
 ## Build, Test, and Development Commands
 
@@ -15,13 +15,17 @@ This Go module (`github.com/XingfenD/rainyun_api_go_sdk`) provides Rainyun API c
 
 Use Go 1.24.1 or later, as declared in `go.mod`.
 
+## Generated Docs & OpenAPI Sync
+
+`docs/openapi.json` is the source of truth for the API contract; `docs/openapi/*.json` (per-domain fragments) and `docs/PROGRESS.md` (endpoint implementation progress) are generated from it via `python3 docs/scripts/generate.py` — edit the script or `docs/openapi.json`, not the outputs. A nightly GitHub Action syncs `docs/openapi.json` with the upstream spec and a push workflow regenerates the derived files; both open PRs/commits automatically.
+
 ## Coding Style & Naming Conventions
 
 Format all Go changes with `gofmt -s`; use tabs and standard Go import grouping. Follow existing package naming: concise, lowercase directory and package names such as `apis/workorder`. Exported identifiers use `PascalCase`; unexported identifiers use `camelCase`. Keep one API area per `apis/<service>/` package and place its client setup in `client.go`. Prefer explicit request/response model names and JSON tags that match the API contract.
 
 ## Testing Guidelines
 
-Write standard-library `testing` tests in adjacent `*_test.go` files. Name cases `Test<Subject>` (for example, `TestMarshalQueryParams`) and include error paths and boundary/default behavior. Use `t.TempDir()` for file-backed tests; do not depend on user configuration or live API credentials. Run `make test` before submitting, and run `make cover` when changing complex serialization, configuration, or output logic.
+Write standard-library `testing` tests in adjacent `*_test.go` files. Name cases `Test<Subject>` (for example, `TestMarshalQueryParams`) and include error paths and boundary/default behavior. Use `t.TempDir()` for file-backed tests; do not depend on user configuration or live API credentials. To stub the API, inject a fake `http.RoundTripper` via `apis.RyClient.SetTransport` (used throughout existing tests) or set `constant.BaseURL`-independent stubs; never hit the live API. Run `make test` before submitting, and run `make cover` when changing complex serialization, configuration, or output logic.
 
 ## Commit & Pull Request Guidelines
 

@@ -5,6 +5,15 @@ SDK（`apis/`、`sdk/`）与模块级变更记录在 [`CHANGELOG.md`](./CHANGELO
 
 格式沿用 Keep a Changelog。
 
+## [0.1.1] - 2026-08-13
+
+### Added / 新增
+
+- 新增 `ry rcdn`:实例 `list/get/create/renew/scale` 与 `domain` 子组(`add/get/delete/list`)。
+- 新增 `ry rca`:`raindrop`(balance/buy/log/plans)、`regions`、`project`(list/get/create/delete)、`app`(list/get/create/delete/start/stop/restart)、`website`(list/get/create/delete)。
+- 新增 `ry rvh`:`list/get/plans/create/delete/renew` + `backup`(create/delete/restore)+ `domain`(bind/unbind)。
+- 无公开响应结构的端点(rvh 列表/详情、rca app/website 列表/详情等)以原始数据输出,详查用 `-o json`。
+
 ## [0.1.0] - 2026-08-13
 
 ### Added / 新增

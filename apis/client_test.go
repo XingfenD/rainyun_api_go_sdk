@@ -250,3 +250,23 @@ func TestRawBodyCapturesResponse(t *testing.T) {
 		t.Errorf("RawBody() = %q, want %q", got, sampleResponseBody)
 	}
 }
+
+func TestSetTransportInterceptsRequest(t *testing.T) {
+	c := NewRyClient("test-key")
+	c.SetTransport(roundTripFunc(func(req *http.Request) (*http.Response, error) {
+		if req.URL.Path != "/product/rvh/" {
+			t.Errorf("URL.Path = %q, want %q", req.URL.Path, "/product/rvh/")
+		}
+		return jsonResponse(200, `{"code":200,"data":null}`), nil
+	}))
+
+	var result struct {
+		Code int `json:"code"`
+	}
+	if err := c.Do(constant.HTTPMethod_GET, "/product/rvh/", nil, nil, &result); err != nil {
+		t.Fatalf("Do() error = %v", err)
+	}
+	if result.Code != 200 {
+		t.Errorf("Code = %d, want 200", result.Code)
+	}
+}

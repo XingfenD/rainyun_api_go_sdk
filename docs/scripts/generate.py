@@ -18,6 +18,9 @@ CATEGORY_CLI_DIR = {
     "rcs": "server",
     "ros": "storage",
     "domain": "domain",
+    "rcdn": "rcdn",
+    "rca": "rca",
+    "rvh": "rvh",
 }
 
 
