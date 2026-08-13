@@ -10,6 +10,9 @@ The format loosely follows Keep a Changelog and can be adapted to the team's hab
 
 ### Added / 新增
 
+- `config set <key>` 支持交互式输入：省略 value 时交互式提示，`apikey` 使用隐藏输入避免敏感信息暴露在终端/历史中。
+- 新增 `Makefile`（build/test/vet/fmt/cover/tidy/clean/help）。
+
 - 迁移 rainyun-cli 到仓库内 `cmd/ry/`：新增 `main.go`、`root.go`、`commands/{server,domain,storage,billing,configcmd}`、`internal/{config,model,output}`。
 - CLI 直接调用 `sdk.New(apiKey)`，删除 CLI 自带 provider/HTTP 层。
 - 配置简化为单一 `apikey` + `output`（table/json/yaml），落盘到 `~/.config/ry/config.toml`。
@@ -24,6 +27,8 @@ The format loosely follows Keep a Changelog and can be adapted to the team's hab
 
 - 命令 ID 参数统一为 `int`，显示层 model ID 保持 `string`。
 - `server reinstall` flag 从 `--os` 改为 `--os-id int`。
+- `.gitignore` 新增 `bin/`、`coverage.out`、`coverage.html`。
+- 新增 `golang.org/x/term` 依赖（交互式隐藏输入）。
 
 ## [0.2.0] - 2026-08-05
 

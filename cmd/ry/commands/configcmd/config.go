@@ -34,12 +34,33 @@ func Cmd(cfg **config.Config, cfgPath string) *cobra.Command {
 	}
 
 	configSetCmd := &cobra.Command{
-		Use:         "set <key> <value>",
+		Use:         "set <key> [value]",
 		Short:       "Set a config value",
-		Args:        cobra.ExactArgs(2),
+		Args:        cobra.RangeArgs(1, 2),
 		Annotations: map[string]string{"skipSDK": "true"},
 		RunE: func(cmd *cobra.Command, args []string) error {
-			key, value := args[0], args[1]
+			key := args[0]
+			var value string
+
+			if len(args) == 2 {
+				value = args[1]
+			} else {
+				// Interactive mode — prompt for the value.
+				if key == "apikey" {
+					v, err := config.ReadSecret("Enter API key: ")
+					if err != nil {
+						return fmt.Errorf("read API key: %w", err)
+					}
+					value = v
+				} else {
+					v, err := config.ReadLine("Enter " + key + ": ")
+					if err != nil {
+						return fmt.Errorf("read %s: %w", key, err)
+					}
+					value = v
+				}
+			}
+
 			c := *cfg
 			switch key {
 			case "apikey":
@@ -52,7 +73,11 @@ func Cmd(cfg **config.Config, cfgPath string) *cobra.Command {
 			if err := config.Save(cfgPath, c); err != nil {
 				return fmt.Errorf("save config: %w", err)
 			}
-			fmt.Printf("Set %s = %s\n", key, value)
+			if key == "apikey" {
+				fmt.Printf("Set %s = %s\n", key, "(hidden)")
+			} else {
+				fmt.Printf("Set %s = %s\n", key, value)
+			}
 			return nil
 		},
 	}
