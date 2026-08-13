@@ -10,13 +10,13 @@ SDK 代码在 `apis/`，CLI 代码在 `cmd/ry/commands/`。
 | 分类 | openapi 端点 | SDK 已实现 | CLI 已接入 |
 |---|---|---|---|
 | domain | 38 | 24 | 4 |
-| public | 6 | 3 | 3 |
+| public | 6 | 4 | 4 |
 | rbm | 23 | 9 | 0 |
 | rcs | 52 | 35 | 34 |
 | rgs | 75 | 36 | 0 |
 | ros | 36 | 19 | 3 |
 | ssl | 18 | 5 | 0 |
-| **合计** | **248** | **131** | **44** |
+| **合计** | **248** | **132** | **45** |
 
 ## domain
 
@@ -68,7 +68,7 @@ CLI 命令：`add <domain-id>`, `delete <domain-id> <record-id>`, `dns`, `domain
 | 方法 | 路径 | 说明 | SDK | CLI |
 |---|---|---|---|---|
 | GET | `/app_config` | 获取页面信息 | `public.GetAppConfig` | ✓ |
-| GET | `/discourse` | 获取论坛数据 | — | — |
+| GET | `/discourse` | 获取论坛数据 | `public.GetDiscourse` | ✓ |
 | GET | `/news` | 获取论坛公告 | `public.GetNews` | ✓ |
 | GET | `/short_params` | 查询参数缩短的具体base64 | — | — |
 | POST | `/short_params` | 创建参数缩短 | — | — |

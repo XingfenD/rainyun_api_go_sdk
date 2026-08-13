@@ -15,7 +15,7 @@ func TestCmdRegistersAllCommands(t *testing.T) {
 	cmd := Cmd(&rySDK, &out)
 
 	topLevel := map[string]bool{
-		"app-config": true, "news": true, "status": true,
+		"app-config": true, "news": true, "status": true, "discourse": true,
 	}
 
 	got := map[string]bool{}

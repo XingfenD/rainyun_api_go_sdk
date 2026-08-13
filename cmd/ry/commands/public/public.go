@@ -1,6 +1,9 @@
 package public
 
 import (
+	"encoding/json"
+	"fmt"
+
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/common"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/public"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/model"
@@ -19,8 +22,33 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 	publicCmd.AddCommand(appConfigCmd(rySDK, out))
 	publicCmd.AddCommand(newsCmd(rySDK, out))
 	publicCmd.AddCommand(statusCmd(rySDK, out))
+	publicCmd.AddCommand(discourseCmd(rySDK))
 
 	return publicCmd
+}
+
+func discourseCmd(rySDK **sdk.RainyunSDK) *cobra.Command {
+	return &cobra.Command{
+		Use:   "discourse <paths>",
+		Short: "Fetch forum data by path",
+		Args:  cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			resp, err := (*rySDK).GetDiscourse(&public.GetDiscourseRequest{Paths: args[0]})
+			if err != nil {
+				return err
+			}
+			var data any
+			if err := json.Unmarshal(resp.Data, &data); err != nil {
+				return err
+			}
+			pretty, err := json.MarshalIndent(data, "", "  ")
+			if err != nil {
+				return err
+			}
+			fmt.Println(string(pretty))
+			return nil
+		},
+	}
 }
 
 func appConfigCmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
