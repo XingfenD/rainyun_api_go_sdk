@@ -45,6 +45,13 @@ type ServerPlan struct {
 	Price  int    `json:"price"`
 }
 
+type RenewPrice struct {
+	Price    float64 `json:"price"        table:"PRICE"`
+	Renew    float64 `json:"renew"        table:"RENEW"`
+	RenewEIP float64 `json:"renew_eip"    table:"RENEW EIP"`
+	Coupon   int     `json:"coupon_value" table:"COUPON VALUE"`
+}
+
 type ServerDetail struct {
 	ID              string     `json:"id"               table:"ID"`
 	Name            string     `json:"name"             table:"NAME"`
