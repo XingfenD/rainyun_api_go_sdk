@@ -1,4 +1,4 @@
-.PHONY: all build test vet fmt lint cover install tidy clean help
+.PHONY: all build build-cross test vet fmt lint cover install tidy clean help
 
 BINARY   := ry
 MAIN_PKG := ./cmd/ry
@@ -15,6 +15,19 @@ all: build
 
 build: ## Build the CLI binary into bin/
 	$(GO) build $(GOFLAGS) $(BUILD_FLAGS) -o $(OUTPUT) $(MAIN_PKG)
+
+CROSS_GOOS := linux windows darwin
+CROSS_GOARCH := amd64 arm64
+
+build-cross: ## Cross-compile for linux/windows/darwin x amd64/arm64 into bin/
+	@mkdir -p bin
+	@for os in $(CROSS_GOOS); do \
+		for arch in $(CROSS_GOARCH); do \
+			ext=""; [ "$$os" = "windows" ] && ext=".exe"; \
+			echo "Building $$os/$$arch..."; \
+			GOOS=$$os GOARCH=$$arch $(GO) build $(GOFLAGS) $(BUILD_FLAGS) -o bin/$(BINARY)-$$os-$$arch$$ext $(MAIN_PKG) || exit 1; \
+		done; \
+	done
 
 install: ## Install the CLI binary to GOPATH/bin
 	$(GO) install $(GOFLAGS) $(BUILD_FLAGS) $(MAIN_PKG)
