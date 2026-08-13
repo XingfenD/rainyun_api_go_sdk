@@ -191,7 +191,7 @@ func (s *RcaService) CreateRcaProject(req *CreateRcaProjectRequest) (*CreateRcaP
 
 // 云应用列出项目
 //
-// options: 查询参数 可以用 EncodingStandardQueryParameters 获取.
+// options: 查询参数, 可用 common.StandQueryParameters 结合 common.MarshalQueryParams 获取.
 func (s *RcaService) ListRcaProjects(options string) (*GetRcaProjectListResponse, error) {
 	path := "/product/rca/project/"
 	querys := map[string]string{"no_metrics": "false", "options": options} // no_metrics 含义不明

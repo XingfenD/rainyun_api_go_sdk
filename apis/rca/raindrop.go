@@ -95,7 +95,7 @@ func (s *RcaService) GetRcaRaindropPlansList() (*GetRcaRaindropPlansListResponse
 
 // 云应用获取雨点消费历史
 //
-// options: 查询参数 可以用 EncodingStandardQueryParameters 获取.
+// options: 查询参数, 可用 common.StandQueryParameters 结合 common.MarshalQueryParams 获取.
 func (s *RcaService) GetRaindropConsumeLog(options string) (*GetRaindropConsumeLogResponse, error) {
 	path := "/product/rca/raindrop/consume_log"
 	querys := map[string]string{"options": options}

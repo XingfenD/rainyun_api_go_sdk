@@ -367,11 +367,15 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 }
 
 func toRcaProject(p rca.RcaProject) model.RcaProject {
+	region := "-"
+	if p.Region != nil {
+		region = p.Region.ChineseName
+	}
 	return model.RcaProject{
 		ID:     strconv.Itoa(p.ID),
 		Name:   p.Name,
 		Status: p.Status,
-		Region: p.Region.ChineseName,
+		Region: region,
 		MaxCPU: p.ResourceLimits.MaxCPU,
 		MaxMem: p.ResourceLimits.MaxMemory,
 	}

@@ -16,4 +16,11 @@ func TestToRcaProject(t *testing.T) {
 	if m.ID != "5" || m.Name != "proj-a" || m.Region != "宁波" {
 		t.Errorf("m = %+v", m)
 	}
+
+	noRegion := rec
+	noRegion.Region = nil
+	m = toRcaProject(noRegion)
+	if m.Region != "-" {
+		t.Errorf("m.Region = %q, want %q", m.Region, "-")
+	}
 }

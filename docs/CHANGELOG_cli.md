@@ -5,7 +5,7 @@ SDK（`apis/`、`sdk/`）与模块级变更记录在 [`CHANGELOG.md`](./CHANGELO
 
 格式沿用 Keep a Changelog。
 
-## [0.2.0] - 2026-08-13
+## [0.1.1] - 2026-08-13
 
 ### Added / 新增
 
