@@ -24,10 +24,12 @@ type ServerEDisk struct {
 }
 
 type ServerEIP struct {
-	IP          string `json:"ip"`
-	Region      string `json:"region"`
-	Gateway     string `json:"gateway"`
-	Description string `json:"description"`
+	ID          int    `json:"id"          table:"ID"`
+	IP          string `json:"ip"          table:"IP"`
+	Region      string `json:"region"      table:"REGION"`
+	Type        string `json:"type"        table:"TYPE"`
+	Gateway     string `json:"gateway"     table:"GATEWAY"`
+	Description string `json:"description" table:"DESC"`
 }
 
 type ServerBackup struct {

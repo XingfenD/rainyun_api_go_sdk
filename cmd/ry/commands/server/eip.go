@@ -17,6 +17,23 @@ func addEIPCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **outp
 		Short: "Manage server elastic IPs",
 	}
 
+	eipListCmd := &cobra.Command{
+		Use:   "list <id>",
+		Short: "List a server's elastic IPs",
+		Args:  cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			id, err := cliutil.ParseID(args[0])
+			if err != nil {
+				return err
+			}
+			resp, err := (*rySDK).GetRcsDetail(id)
+			if err != nil {
+				return err
+			}
+			return (*out).Print(toServerEIPs(resp.Data.EIPList))
+		},
+	}
+
 	eipSetDescCmd := &cobra.Command{
 		Use:   "set-description <id> <ip> <description>",
 		Short: "Set elastic IP description",
@@ -103,6 +120,6 @@ func addEIPCommands(serverCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **outp
 		},
 	}
 
-	eipCmd.AddCommand(eipSetDescCmd, eipCreateCmd, eipChangeCmd, eipDiscardCmd)
+	eipCmd.AddCommand(eipListCmd, eipSetDescCmd, eipCreateCmd, eipChangeCmd, eipDiscardCmd)
 	serverCmd.AddCommand(eipCmd)
 }

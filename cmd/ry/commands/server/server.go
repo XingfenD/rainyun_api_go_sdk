@@ -259,12 +259,7 @@ func toServerDetail(d rcs.RcsDetail) model.ServerDetail {
 			ID: e.ID, Slot: e.Slot, Type: e.DiskType, Size: e.Size, Backup: e.Backup,
 		})
 	}
-	sd.EIPList = make([]model.ServerEIP, 0, len(d.EIPList))
-	for _, e := range d.EIPList {
-		sd.EIPList = append(sd.EIPList, model.ServerEIP{
-			IP: e.IP, Region: e.Region, Gateway: e.Gateway, Description: e.Description,
-		})
-	}
+	sd.EIPList = toServerEIPs(d.EIPList)
 	sd.BackupList = make([]model.ServerBackup, 0, len(d.RBSList))
 	for _, b := range d.RBSList {
 		sd.BackupList = append(sd.BackupList, model.ServerBackup{
@@ -290,6 +285,21 @@ func toServerDetail(d rcs.RcsDetail) model.ServerDetail {
 	sd.UpgradeSummary = summarizePlans(sd.UpgradeablePlans)
 
 	return sd
+}
+
+func toServerEIPs(items []rcs.EIPItem) []model.ServerEIP {
+	eips := make([]model.ServerEIP, 0, len(items))
+	for _, e := range items {
+		eips = append(eips, model.ServerEIP{
+			ID:          e.ID,
+			IP:          e.IP,
+			Region:      e.Region,
+			Type:        e.Type,
+			Gateway:     e.Gateway,
+			Description: e.Description,
+		})
+	}
+	return eips
 }
 
 func unixPtr(sec int) *time.Time {

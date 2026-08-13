@@ -48,7 +48,7 @@ func TestCmdNestedSubcommands(t *testing.T) {
 	cases := map[string][]string{
 		"edisk":    {"create", "expand"},
 		"backup":   {"create", "delete", "cancel", "restore", "auto"},
-		"eip":      {"set-description", "create", "change", "discard"},
+		"eip":      {"list", "set-description", "create", "change", "discard"},
 		"nat":      {"add", "delete"},
 		"traffic":  {"charge", "limit"},
 		"firewall": {"list", "set", "delete", "move"},

@@ -66,6 +66,19 @@ func TestFormatMonitorTime(t *testing.T) {
 	}
 }
 
+func TestToServerEIPs(t *testing.T) {
+	eips := toServerEIPs([]rcs.EIPItem{
+		{ID: 11, IP: "1.2.3.4", Region: "襄阳", Type: "ipv4", Gateway: "1.2.3.1", Description: "web"},
+	})
+
+	if len(eips) != 1 {
+		t.Fatalf("len(eips) = %d, want 1", len(eips))
+	}
+	if eips[0].ID != 11 || eips[0].IP != "1.2.3.4" || eips[0].Type != "ipv4" || eips[0].Gateway != "1.2.3.1" {
+		t.Errorf("eips[0] = %+v", eips[0])
+	}
+}
+
 func TestToFirewallRules(t *testing.T) {
 	records := []rcs.RcsFirewallRule{
 		{ID: 1, Protocol: "tcp", SourceAddress: "1.2.3.0/24", DestPort: "80", Action: "accept", IsEnable: true, Description: "web"},
