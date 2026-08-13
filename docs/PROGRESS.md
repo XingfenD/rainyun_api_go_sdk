@@ -7,16 +7,16 @@ SDK 代码在 `apis/`，CLI 代码在 `cmd/ry/commands/`。
 
 ## 总览
 
-| 分类     | openapi 端点 | SDK 已实现 | CLI 已接入 |
-| -------- | ------------ | ---------- | ---------- |
-| domain   | 38           | 24         | 4          |
-| public   | 6            | 3          | 0          |
-| rbm      | 23           | 9          | 0          |
-| rcs      | 52           | 35         | 34         |
-| rgs      | 75           | 36         | 0          |
-| ros      | 36           | 19         | 3          |
-| ssl      | 18           | 5          | 0          |
-| **合计** | **248**      | **131**    | **41**     |
+| 分类 | openapi 端点 | SDK 已实现 | CLI 已接入 |
+|---|---|---|---|
+| domain | 38 | 24 | 4 |
+| public | 6 | 3 | 0 |
+| rbm | 23 | 9 | 0 |
+| rcs | 52 | 35 | 34 |
+| rgs | 75 | 36 | 0 |
+| ros | 36 | 19 | 3 |
+| ssl | 18 | 5 | 0 |
+| **合计** | **248** | **131** | **41** |
 
 ## domain
 
@@ -309,6 +309,13 @@ CLI 命令：`bucket`, `create <instance-id> <name>`, `list`, `list <instance-id
 
 ## 未纳入 openapi.json 的 SDK 服务
 
-以下 SDK 服务已存在，但当前 `docs/openapi.json` 未包含对应端点，暂无法核对：
+以下 SDK 服务已存在，但当前 `docs/openapi.json` 未包含对应端点。
+已核对：这些服务使用独立路径前缀，并非其它资源域的子资源：
 
-`expense`, `product`, `rca`, `user`, `workorder`
+- `product` → `/product/`（count）、`/product/id_list`、`/product/panel_users/*`、`/product/point_renew`
+- `rca` → `/product/rca/*`
+- `user` → `/user/*`
+- `workorder` → `/workorder/*`
+- `expense` → `/expense/orders/list`
+
+`docs/openapi.json` 仅覆盖 `rcs`/`rgs`/`rgs-mp`/`ros`/`rbm`/`domain`/`sslcenter`/`public` 等资源域，需补充上述路径的 spec 后才能纳入核对。

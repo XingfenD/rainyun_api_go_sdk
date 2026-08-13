@@ -192,9 +192,16 @@ def main():
     if missing:
         lines.append("## 未纳入 openapi.json 的 SDK 服务")
         lines.append("")
-        lines.append("以下 SDK 服务已存在，但当前 `docs/openapi.json` 未包含对应端点，暂无法核对：")
+        lines.append("以下 SDK 服务已存在，但当前 `docs/openapi.json` 未包含对应端点。")
+        lines.append("已核对：这些服务使用独立路径前缀，并非其它资源域的子资源：")
         lines.append("")
-        lines.append(", ".join(f"`{s}`" for s in missing))
+        lines.append("- `product` → `/product/`（count）、`/product/id_list`、`/product/panel_users/*`、`/product/point_renew`")
+        lines.append("- `rca` → `/product/rca/*`")
+        lines.append("- `user` → `/user/*`")
+        lines.append("- `workorder` → `/workorder/*`")
+        lines.append("- `expense` → `/expense/orders/list`")
+        lines.append("")
+        lines.append("`docs/openapi.json` 仅覆盖 `rcs`/`rgs`/`rgs-mp`/`ros`/`rbm`/`domain`/`sslcenter`/`public` 等资源域，需补充上述路径的 spec 后才能纳入核对。")
         lines.append("")
 
     open(os.path.join(ROOT, "docs", "PROGRESS.md"), "w", encoding="utf-8").write("\n".join(lines))
