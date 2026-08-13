@@ -21,6 +21,7 @@ SDK（`apis/`、`sdk/`）与模块级变更记录在 [`CHANGELOG.md`](./CHANGELO
 - `server monitor` 时间参数人类可读：`--last 30m/1h/7d`（默认 1h），或 `--start`/`--end` 接受 RFC3339 / `YYYY-MM-DD[ HH:MM[:SS]]`，不再要求手输 Unix 时间戳。
 - `server get` 的扩展盘与备份区块显示各自 ID（`#id`），便于 `edisk expand --edisk-id` 与 `backup delete/cancel/restore <backup-id>` 使用。
 - 新增 `server eip list <id>`：SDK 无独立 EIP 列表接口，封装 `server get` 的 `EIPList` 提供列表视图。
+- 新增 `public` 命令接入 `public` SDK 服务：`app-config`（扁平化页面配置）、`news`（公告）、`status`（节点状态）。
 
 ### Changed / 变更
 
