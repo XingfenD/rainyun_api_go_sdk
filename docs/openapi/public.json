@@ -1,0 +1,231 @@
+{
+  "host": "api.v2.rainyun.com",
+  "info": {
+    "contact": {},
+    "description": "实现通过api管理云产品,对接代理等功能.",
+    "title": "雨云API文档",
+    "version": "2.4"
+  },
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "ApiKey": {
+      "description": "雨云 API 密钥：登录后于「用户中心 → API密钥」创建，请求时携带 X-Api-Key 请求头即可替代登录态访问接口。",
+      "in": "header",
+      "name": "X-Api-Key",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [
+    {
+      "name": "public"
+    }
+  ],
+  "paths": {
+    "/app_config": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [],
+        "summary": "获取页面信息",
+        "tags": [
+          "public"
+        ]
+      }
+    },
+    "/discourse": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "paths",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "请求成功",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "业务状态码",
+                  "example": 200,
+                  "type": "integer"
+                },
+                "data": {
+                  "description": "返回数据"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "请求错误",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "错误码",
+                  "type": "integer"
+                },
+                "message": {
+                  "description": "错误描述",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "security": [],
+        "summary": "获取论坛数据",
+        "tags": [
+          "public"
+        ]
+      }
+    },
+    "/news": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [],
+        "summary": "获取论坛公告",
+        "tags": [
+          "public"
+        ]
+      }
+    },
+    "/short_params": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "名称",
+            "in": "query",
+            "name": "name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "结果",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "security": [],
+        "summary": "查询参数缩短的具体base64",
+        "tags": [
+          "public"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user.SettingUpdateService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "随机数或指定名称",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "security": [],
+        "summary": "创建参数缩短",
+        "tags": [
+          "public"
+        ]
+      }
+    },
+    "/status": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "options",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [],
+        "summary": "获取节点网络状态",
+        "tags": [
+          "public"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "user.SettingUpdateService": {
+      "properties": {
+        "option": {
+          "enum": [
+            "name",
+            "icon",
+            "alipay_account",
+            "alipay_name",
+            "password",
+            "email",
+            "phone",
+            "apikey",
+            "totp",
+            "login_tfa",
+            "unbind_social_media"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "option"
+      ],
+      "type": "object"
+    }
+  }
+}
