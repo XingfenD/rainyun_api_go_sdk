@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis"
-	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/billing"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/configcmd"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/domain"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/public"
@@ -149,6 +148,5 @@ func init() {
 	rootCmd.AddCommand(server.Cmd(&rySDK, &out))
 	rootCmd.AddCommand(storage.Cmd(&rySDK, &out))
 	rootCmd.AddCommand(domain.Cmd(&rySDK, &out))
-	rootCmd.AddCommand(billing.Cmd(&rySDK, &out))
 	rootCmd.AddCommand(public.Cmd(&rySDK, &out))
 }

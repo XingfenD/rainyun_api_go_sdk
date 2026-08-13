@@ -30,3 +30,7 @@ SDK（`apis/`、`sdk/`）与模块级变更记录在 [`CHANGELOG.md`](./CHANGELO
 - 命令 ID 参数统一为 `int`，显示层 model ID 保持 `string`。
 - `server reinstall` flag 从 `--os` 改为 `--os-id int`。
 - 抽取通用参数解析到 `cmd/ry/internal/cliutil`（`ParseID`/`ParseDuration`/`ParseTime`/`ResolveTimeRange`），server/storage/domain 命令统一复用，消除内联 `strconv.Atoi` 与时间解析重复。
+
+### Removed / 移除
+
+- 移除 `billing` 命令：其对应端点 `/expense/orders/list` 不在当前 `docs/openapi.json` 中（仅存在于旧版 spec），调用返回 404。
