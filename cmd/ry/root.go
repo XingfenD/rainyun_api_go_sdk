@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/XingfenD/rainyun_api_go_sdk/apis"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/billing"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/configcmd"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/domain"
@@ -11,20 +12,23 @@ import (
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/storage"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/config"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/output"
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/trace"
 	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
 
 	"github.com/spf13/cobra"
 )
 
 var (
-	cfg         *config.Config
-	cfgPath     string
-	rySDK       *sdk.RainyunSDK
-	out         *output.Printer
-	flagAPIKey  string
-	flagOutput  string
-	flagRaw     bool
-	flagVerbose bool
+	cfg                  *config.Config
+	cfgPath              string
+	rySDK                *sdk.RainyunSDK
+	out                  *output.Printer
+	flagAPIKey           string
+	flagOutput           string
+	flagRaw              bool
+	flagVerbose          bool
+	flagVerboseBodyLimit int
+	flagVerboseFullBody  bool
 )
 
 var rootCmd = &cobra.Command{
@@ -57,22 +61,47 @@ Use "ry [command] --help" for more information about a command.`,
 		if apiKey == "" {
 			return fmt.Errorf("no api key configured — run 'ry config set apikey <key>'")
 		}
-		rySDK = sdk.New(apiKey)
+		if flagVerboseBodyLimit < 0 {
+			return fmt.Errorf("--verbose-body-limit must not be negative, got %d", flagVerboseBodyLimit)
+		}
+		rySDK = sdk.NewBuilder(apiKey).
+			WithTrace(verboseTraceOptions(flagVerbose, flagVerboseBodyLimit, flagVerboseFullBody, trace.NewVerboseRenderer(os.Stderr))).
+			Build()
 
-		outputFormat := cfg.Output
-		if flagOutput != "" {
-			outputFormat = flagOutput
-		}
-		if flagRaw {
-			outputFormat = "raw"
-		}
+		outputFormat, outputSource := resolveOutput(cfg.Output, flagOutput, flagRaw)
 		out = output.New(outputFormat, os.Stdout)
 		if flagVerbose {
 			fmt.Fprintf(os.Stderr, "[debug] config: %s\n", cfgPath)
-			fmt.Fprintf(os.Stderr, "[debug] output: %s\n", outputFormat)
+			fmt.Fprintf(os.Stderr, "[debug] output: format=%s source=%s raw=%t\n", outputFormat, outputSource, flagRaw)
 		}
 		return nil
 	},
+}
+
+func verboseTraceOptions(enabled bool, limit int, full bool, sink apis.TraceSink) *apis.TraceOptions {
+	if !enabled {
+		return nil
+	}
+	opts := apis.NewTraceOptions(sink)
+	switch {
+	case full:
+		opts = opts.WithFullBodyPreview()
+	case limit == 0:
+		opts = opts.WithoutBodyPreview()
+	case limit > 0:
+		opts = opts.WithBodyPreviewLimit(limit)
+	}
+	return &opts
+}
+
+func resolveOutput(configFormat, flagFormat string, raw bool) (format, source string) {
+	if raw {
+		return "raw", "--raw"
+	}
+	if flagFormat != "" {
+		return flagFormat, "--output"
+	}
+	return configFormat, "config"
 }
 
 func init() {
@@ -83,6 +112,8 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&flagOutput, "output", "o", "", "Output format: table, json, yaml, raw")
 	rootCmd.PersistentFlags().BoolVar(&flagRaw, "raw", false, "Output raw API response")
 	rootCmd.PersistentFlags().BoolVarP(&flagVerbose, "verbose", "v", false, "Enable verbose output")
+	rootCmd.PersistentFlags().IntVar(&flagVerboseBodyLimit, "verbose-body-limit", 64*1024, "Maximum response body bytes shown in verbose output (0 disables the body)")
+	rootCmd.PersistentFlags().BoolVar(&flagVerboseFullBody, "verbose-full-body", false, "Show the full response body in verbose output")
 
 	completionCmd := &cobra.Command{
 		Use:         "completion [bash|zsh|fish]",

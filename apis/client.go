@@ -9,11 +9,17 @@ import (
 )
 
 type RyClient struct {
-	APIKey string
-	client *resty.Client
+	APIKey      string
+	client      *resty.Client
+	traceSink   TraceSink
+	tracePolicy bodyPreviewPolicy
 }
 
 func NewRyClient(apiKey string) *RyClient {
+	return newRyClient(apiKey)
+}
+
+func newRyClient(apiKey string) *RyClient {
 	c := resty.New()
 	c.SetBaseURL(constant.BaseURL)
 	c.SetHeader("x-api-key", apiKey)
@@ -27,6 +33,7 @@ func NewRyClient(apiKey string) *RyClient {
 }
 
 func (c *RyClient) Do(method constant.HTTPMethod, endpoint string, querys map[string]string, body, result any) error {
+	requestID := nextTraceID()
 	req := c.client.R()
 	if querys != nil {
 		req.SetQueryParams(querys)
@@ -41,20 +48,50 @@ func (c *RyClient) Do(method constant.HTTPMethod, endpoint string, querys map[st
 	}
 	resp, err := req.Execute(string(method), endpoint)
 
-	if err != nil {
-		return err
-	}
+	ev := c.httpTrace(requestID, method, endpoint, resp, err)
 
-	if resp.StatusCode() != 200 {
+	if err == nil && resp.StatusCode() != 200 {
 		var baseResp struct {
 			Code    int    `json:"code"`
 			Message string `json:"message"`
 		}
-		if err := sonic.Unmarshal(resp.Body(), &baseResp); err != nil {
-			return err
+		if derr := sonic.Unmarshal(resp.Body(), &baseResp); derr != nil {
+			err = derr
+		} else {
+			err = fmt.Errorf("unexpected response: %+v", baseResp)
 		}
-		return fmt.Errorf("unexpected response: %+v", baseResp)
+		ev.Err = err
+		emitHTTPTrace(c.traceSink, ev)
+		return err
+	}
+
+	emitHTTPTrace(c.traceSink, ev)
+	if err != nil {
+		return err
+	}
+
+	if result != nil {
+		emitResultTrace(c.traceSink, ResultTrace{RequestID: requestID, Result: result})
 	}
 
 	return nil
+}
+
+func (c *RyClient) httpTrace(requestID uint64, method constant.HTTPMethod, endpoint string, resp *resty.Response, err error) HTTPTrace {
+	ev := HTTPTrace{
+		RequestID: requestID,
+		Method:    method,
+		URL:       endpoint,
+		Err:       err,
+	}
+	if resp == nil {
+		return ev
+	}
+	ev.URL = resp.Request.URL
+	ev.StatusCode = resp.StatusCode()
+	ev.Elapsed = resp.Time()
+	ev.ContentType = resp.Header().Get("Content-Type")
+	ev.ResponseBytes = len(resp.Body())
+	ev.BodyPreview, ev.BodyTruncated = sliceBodyPreview(resp.Body(), c.tracePolicy)
+	return ev
 }

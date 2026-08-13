@@ -32,7 +32,10 @@ type RainyunSDK struct {
 }
 
 func New(apiKey string) *RainyunSDK {
-	c := apis.NewRyClient(apiKey)
+	return newSDK(apis.NewRyClient(apiKey))
+}
+
+func newSDK(c *apis.RyClient) *RainyunSDK {
 	return &RainyunSDK{
 		PublicService:    *public.NewPublicService(c),
 		DomainService:    *domain.NewDomainService(c),
