@@ -10,6 +10,10 @@ The format loosely follows Keep a Changelog and can be adapted to the team's hab
 
 ## [0.3.0] - 2026-08-13
 
+### Added / 新增
+
+- `public` 服务新增 `GetDiscourse`：获取论坛数据（`GET /discourse?paths=...`）。
+
 ### Removed / 移除
 
 - 移除 SDK 中未纳入 `docs/openapi.json` 的 5 个服务域：`product`、`rca`、`user`、`workorder`、`expense`（对应路径仅存在于旧版 API spec）。
