@@ -1,8 +1,6 @@
 package sdk
 
 import (
-	"io"
-
 	"github.com/XingfenD/rainyun_api_go_sdk/apis"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/domain"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/expense"
@@ -17,6 +15,11 @@ import (
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/user"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/workorder"
 )
+
+type TraceSink = apis.TraceSink
+type TraceOptions = apis.TraceOptions
+type HTTPTrace = apis.HTTPTrace
+type ResultTrace = apis.ResultTrace
 
 type RainyunSDK struct {
 	public.PublicService
@@ -34,14 +37,20 @@ type RainyunSDK struct {
 }
 
 func New(apiKey string) *RainyunSDK {
-	return NewWithDebug(apiKey, nil)
+	return newSDK(apis.NewRyClient(apiKey))
 }
 
-// NewWithDebug creates an SDK client and optionally writes request tracing to
-// debug. Tracing never includes API keys, request bodies, or response bodies.
-func NewWithDebug(apiKey string, debug io.Writer) *RainyunSDK {
-	c := apis.NewRyClient(apiKey)
-	c.SetDebugWriter(debug)
+// NewWithTrace creates an SDK client that emits structured trace events to
+// options.Sink.
+func NewWithTrace(apiKey string, options TraceOptions) *RainyunSDK {
+	return newSDK(apis.NewRyClientWithTrace(apiKey, options))
+}
+
+func NewTraceOptions(sink TraceSink) TraceOptions {
+	return apis.NewTraceOptions(sink)
+}
+
+func newSDK(c *apis.RyClient) *RainyunSDK {
 	return &RainyunSDK{
 		PublicService:    *public.NewPublicService(c),
 		DomainService:    *domain.NewDomainService(c),
