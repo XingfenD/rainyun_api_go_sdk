@@ -12,6 +12,8 @@ The format loosely follows Keep a Changelog and can be adapted to the team's hab
 
 - `config set <key>` 支持交互式输入：省略 value 时交互式提示，`apikey` 使用隐藏输入避免敏感信息暴露在终端/历史中。
 - 新增 `Makefile`（build/test/vet/fmt/cover/tidy/clean/help）。
+- `ry server get` 输出细化为 `ServerDetail`：补充内网 IP、网络模式/带宽、实时 CPU/内存/网络、流量包用量与上限、自动续费/套餐/续费积分，以及扩展盘、弹性 IP、备份、可升级套餐等区块；`-o json` 输出完整结构化字段。
+- `-o raw`（原 `--raw` 标志移除）改为原样透传 API 响应体（`apis.RyClient.RawBody()` / `sdk.RainyunSDK.RawResponseBody()`），对全部读取命令统一生效，便于用户自行解析。
 
 - 迁移 rainyun-cli 到仓库内 `cmd/ry/`：新增 `main.go`、`root.go`、`commands/{server,domain,storage,billing,configcmd}`、`internal/{config,model,output}`。
 - CLI 直接调用 `sdk.New(apiKey)`，删除 CLI 自带 provider/HTTP 层。

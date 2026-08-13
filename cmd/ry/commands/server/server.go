@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/common"
@@ -14,7 +15,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer, raw *bool) *cobra.Command {
+func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 	serverCmd := &cobra.Command{
 		Use:   "server",
 		Short: "Manage cloud servers",
@@ -34,9 +35,6 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer, raw *bool) *cobra.Command
 			for i, r := range resp.Data.Records {
 				servers[i] = toServer(r)
 			}
-			if *raw {
-				return (*out).Print(resp)
-			}
 			return (*out).Print(servers)
 		},
 	}
@@ -54,11 +52,7 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer, raw *bool) *cobra.Command
 			if err != nil {
 				return err
 			}
-			s := toServer(resp.Data.Data)
-			if *raw {
-				return (*out).Print(resp)
-			}
-			return (*out).Print(s)
+			return (*out).Print(toServerDetail(resp.Data))
 		},
 	}
 
@@ -202,4 +196,123 @@ func toServer(r rcs.RcsRecord) model.Server {
 		Region:   r.Zone,
 		ExpireAt: time.Unix(int64(r.ExpDate), 0),
 	}
+}
+
+func toServerDetail(d rcs.RcsDetail) model.ServerDetail {
+	r := d.Data
+	sd := model.ServerDetail{
+		ID:              strconv.Itoa(r.ID),
+		Name:            r.HostName,
+		Status:          r.Status,
+		IP:              r.MainIPv4,
+		IntranetIP:      r.IntIPv4,
+		OS:              r.OsName,
+		Region:          r.Zone,
+		Tag:             r.Tag,
+		CPU:             r.CPU,
+		Memory:          r.Memory,
+		Disk:            r.Disk,
+		NetMode:         r.NetMode,
+		BandwidthIn:     r.NetIn,
+		BandwidthOut:    r.NetOut,
+		NatPublicIP:     r.NatPublicIP,
+		NatPublicDomain: r.NatPublicDomain,
+		CPUUsage:        r.UsageData.CPU,
+		UsedMem:         r.UsageData.UsedMem,
+		FreeMem:         r.UsageData.FreeMem,
+		MaxMem:          r.UsageData.MaxMem,
+		NetInNow:        r.UsageData.NetIn,
+		NetOutNow:       r.UsageData.NetOut,
+		DiskTemp:        r.UsageData.SmartTemp,
+		TrafficUsed:     r.TrafficBytes,
+		TrafficToday:    r.TrafficBytesToday,
+		TrafficLimit:    r.TrafficBytesDayLimit,
+		TrafficOnLimit:  r.TrafficOnLimit,
+		TrafficResetAt:  unixPtr(r.TrafficResetDate),
+		AutoRenew:       r.AutoRenew,
+		CreatedAt:       time.Unix(int64(r.CreateDate), 0),
+		ExpireAt:        time.Unix(int64(r.ExpDate), 0),
+		PlanName:        r.Plan.PlanName,
+		ChargeType:      r.Plan.ChargeType,
+		BaseTraffic:     r.Plan.TrafficBaseGb,
+		Renew7d:         d.RenewPointPrice.Num7,
+		Renew31d:        d.RenewPointPrice.Num31,
+	}
+
+	sd.EDiskList = make([]model.ServerEDisk, 0, len(d.EDiskList))
+	for _, e := range d.EDiskList {
+		sd.EDiskList = append(sd.EDiskList, model.ServerEDisk{
+			Slot: e.Slot, Type: e.DiskType, Size: e.Size, Backup: e.Backup,
+		})
+	}
+	sd.EIPList = make([]model.ServerEIP, 0, len(d.EIPList))
+	for _, e := range d.EIPList {
+		sd.EIPList = append(sd.EIPList, model.ServerEIP{
+			IP: e.IP, Region: e.Region, Gateway: e.Gateway, Description: e.Description,
+		})
+	}
+	sd.BackupList = make([]model.ServerBackup, 0, len(d.RBSList))
+	for _, b := range d.RBSList {
+		sd.BackupList = append(sd.BackupList, model.ServerBackup{
+			Label:      b.Label,
+			FileName:   b.FileName,
+			SizeBytes:  b.PackSize,
+			Status:     b.Status,
+			CreatedAt:  time.Unix(int64(b.CreateTime), 0),
+			FinishedAt: time.Unix(int64(b.FinishTime), 0),
+		})
+	}
+	sd.UpgradeablePlans = make([]model.ServerPlan, 0, len(d.UpgradeablePlans))
+	for _, p := range d.UpgradeablePlans {
+		sd.UpgradeablePlans = append(sd.UpgradeablePlans, model.ServerPlan{
+			Name: p.PlanName, CPU: p.CPU, Memory: p.Memory, Price: p.Price,
+		})
+	}
+
+	sd.EDiskSummary = summarizeEDisks(sd.EDiskList)
+	sd.EIPSummary = summarizeEIPs(sd.EIPList)
+	sd.BackupSummary = summarizeBackups(sd.BackupList)
+	sd.UpgradeSummary = summarizePlans(sd.UpgradeablePlans)
+
+	return sd
+}
+
+func unixPtr(sec int) *time.Time {
+	if sec == 0 {
+		return nil
+	}
+	t := time.Unix(int64(sec), 0)
+	return &t
+}
+
+func summarizeEDisks(items []model.ServerEDisk) string {
+	parts := make([]string, 0, len(items))
+	for _, e := range items {
+		parts = append(parts, fmt.Sprintf("slot%d %s %dGB", e.Slot, e.Type, e.Size))
+	}
+	return strings.Join(parts, ", ")
+}
+
+func summarizeEIPs(items []model.ServerEIP) string {
+	parts := make([]string, 0, len(items))
+	for _, e := range items {
+		parts = append(parts, e.IP)
+	}
+	return strings.Join(parts, ", ")
+}
+
+func summarizeBackups(items []model.ServerBackup) string {
+	parts := make([]string, 0, len(items))
+	for _, b := range items {
+		parts = append(parts, fmt.Sprintf("%s(%s)", b.Label, b.Status))
+	}
+	return strings.Join(parts, ", ")
+}
+
+func summarizePlans(items []model.ServerPlan) string {
+	parts := make([]string, 0, len(items))
+	for _, p := range items {
+		parts = append(parts, fmt.Sprintf("%s cpu%d/mem%d", p.Name, p.CPU, p.Memory))
+	}
+	return strings.Join(parts, ", ")
 }

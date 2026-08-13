@@ -11,17 +11,16 @@ func TestResolveOutput(t *testing.T) {
 	tests := []struct {
 		name                     string
 		configFormat, flagFormat string
-		raw                      bool
 		wantFormat, wantSource   string
 	}{
 		{name: "config", configFormat: "table", wantFormat: "table", wantSource: "config"},
 		{name: "output flag", configFormat: "table", flagFormat: "json", wantFormat: "json", wantSource: "--output"},
-		{name: "raw overrides output flag", configFormat: "table", flagFormat: "yaml", raw: true, wantFormat: "raw", wantSource: "--raw"},
+		{name: "raw via output flag", configFormat: "table", flagFormat: "raw", wantFormat: "raw", wantSource: "--output"},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			format, source := resolveOutput(tt.configFormat, tt.flagFormat, tt.raw)
+			format, source := resolveOutput(tt.configFormat, tt.flagFormat)
 			if format != tt.wantFormat || source != tt.wantSource {
 				t.Errorf("resolveOutput() = (%q, %q), want (%q, %q)", format, source, tt.wantFormat, tt.wantSource)
 			}

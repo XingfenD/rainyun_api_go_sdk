@@ -25,7 +25,6 @@ var (
 	out                  *output.Printer
 	flagAPIKey           string
 	flagOutput           string
-	flagRaw              bool
 	flagVerbose          bool
 	flagVerboseBodyLimit int
 	flagVerboseFullBody  bool
@@ -68,11 +67,12 @@ Use "ry [command] --help" for more information about a command.`,
 			WithTrace(verboseTraceOptions(flagVerbose, flagVerboseBodyLimit, flagVerboseFullBody, trace.NewVerboseRenderer(os.Stderr))).
 			Build()
 
-		outputFormat, outputSource := resolveOutput(cfg.Output, flagOutput, flagRaw)
+		outputFormat, outputSource := resolveOutput(cfg.Output, flagOutput)
 		out = output.New(outputFormat, os.Stdout)
+		out.SetRawBody(rySDK.RawResponseBody)
 		if flagVerbose {
 			fmt.Fprintf(os.Stderr, "[debug] config: %s\n", cfgPath)
-			fmt.Fprintf(os.Stderr, "[debug] output: format=%s source=%s raw=%t\n", outputFormat, outputSource, flagRaw)
+			fmt.Fprintf(os.Stderr, "[debug] output: format=%s source=%s\n", outputFormat, outputSource)
 		}
 		return nil
 	},
@@ -94,10 +94,7 @@ func verboseTraceOptions(enabled bool, limit int, full bool, sink apis.TraceSink
 	return &opts
 }
 
-func resolveOutput(configFormat, flagFormat string, raw bool) (format, source string) {
-	if raw {
-		return "raw", "--raw"
-	}
+func resolveOutput(configFormat, flagFormat string) (format, source string) {
 	if flagFormat != "" {
 		return flagFormat, "--output"
 	}
@@ -110,7 +107,6 @@ func init() {
 	cfgPath = config.DefaultPath()
 	rootCmd.PersistentFlags().StringVar(&flagAPIKey, "apikey", "", "Rainyun API key")
 	rootCmd.PersistentFlags().StringVarP(&flagOutput, "output", "o", "", "Output format: table, json, yaml, raw")
-	rootCmd.PersistentFlags().BoolVar(&flagRaw, "raw", false, "Output raw API response")
 	rootCmd.PersistentFlags().BoolVarP(&flagVerbose, "verbose", "v", false, "Enable verbose output")
 	rootCmd.PersistentFlags().IntVar(&flagVerboseBodyLimit, "verbose-body-limit", 64*1024, "Maximum response body bytes shown in verbose output (0 disables the body)")
 	rootCmd.PersistentFlags().BoolVar(&flagVerboseFullBody, "verbose-full-body", false, "Show the full response body in verbose output")
@@ -136,7 +132,7 @@ func init() {
 	rootCmd.AddCommand(completionCmd)
 
 	rootCmd.AddCommand(configcmd.Cmd(&cfg, cfgPath))
-	rootCmd.AddCommand(server.Cmd(&rySDK, &out, &flagRaw))
+	rootCmd.AddCommand(server.Cmd(&rySDK, &out))
 	rootCmd.AddCommand(storage.Cmd(&rySDK, &out))
 	rootCmd.AddCommand(domain.Cmd(&rySDK, &out))
 	rootCmd.AddCommand(billing.Cmd(&rySDK, &out))
