@@ -25,6 +25,7 @@ The format loosely follows Keep a Changelog and can be adapted to the team's hab
 
 ### Changed / 变更
 
+- `ry -v` 新增 HTTP 请求链路调试信息：显示请求 URL、响应状态码与耗时，不输出 API key、请求体或响应体。
 - 命令 ID 参数统一为 `int`，显示层 model ID 保持 `string`。
 - `server reinstall` flag 从 `--os` 改为 `--os-id int`。
 - `.gitignore` 新增 `bin/`、`coverage.out`、`coverage.html`。

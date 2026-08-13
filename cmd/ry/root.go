@@ -57,7 +57,11 @@ Use "ry [command] --help" for more information about a command.`,
 		if apiKey == "" {
 			return fmt.Errorf("no api key configured — run 'ry config set apikey <key>'")
 		}
-		rySDK = sdk.New(apiKey)
+		if flagVerbose {
+			rySDK = sdk.NewWithDebug(apiKey, os.Stderr)
+		} else {
+			rySDK = sdk.New(apiKey)
+		}
 
 		outputFormat := cfg.Output
 		if flagOutput != "" {

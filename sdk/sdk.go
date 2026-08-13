@@ -1,6 +1,8 @@
 package sdk
 
 import (
+	"io"
+
 	"github.com/XingfenD/rainyun_api_go_sdk/apis"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/domain"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/expense"
@@ -32,7 +34,14 @@ type RainyunSDK struct {
 }
 
 func New(apiKey string) *RainyunSDK {
+	return NewWithDebug(apiKey, nil)
+}
+
+// NewWithDebug creates an SDK client and optionally writes request tracing to
+// debug. Tracing never includes API keys, request bodies, or response bodies.
+func NewWithDebug(apiKey string, debug io.Writer) *RainyunSDK {
 	c := apis.NewRyClient(apiKey)
+	c.SetDebugWriter(debug)
 	return &RainyunSDK{
 		PublicService:    *public.NewPublicService(c),
 		DomainService:    *domain.NewDomainService(c),

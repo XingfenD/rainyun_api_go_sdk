@@ -2,6 +2,8 @@ package apis
 
 import (
 	"fmt"
+	"io"
+	"time"
 
 	"github.com/XingfenD/rainyun_api_go_sdk/constant"
 	"github.com/bytedance/sonic"
@@ -11,6 +13,7 @@ import (
 type RyClient struct {
 	APIKey string
 	client *resty.Client
+	debug  io.Writer
 }
 
 func NewRyClient(apiKey string) *RyClient {
@@ -26,7 +29,14 @@ func NewRyClient(apiKey string) *RyClient {
 	}
 }
 
+// SetDebugWriter enables request/response tracing without exposing headers or
+// response bodies. Passing nil disables tracing.
+func (c *RyClient) SetDebugWriter(w io.Writer) {
+	c.debug = w
+}
+
 func (c *RyClient) Do(method constant.HTTPMethod, endpoint string, querys map[string]string, body, result any) error {
+	started := time.Now()
 	req := c.client.R()
 	if querys != nil {
 		req.SetQueryParams(querys)
@@ -42,7 +52,13 @@ func (c *RyClient) Do(method constant.HTTPMethod, endpoint string, querys map[st
 	resp, err := req.Execute(string(method), endpoint)
 
 	if err != nil {
+		if c.debug != nil {
+			fmt.Fprintf(c.debug, "[debug] %s %s error=%v elapsed=%s\n", method, endpoint, err, time.Since(started).Round(time.Millisecond))
+		}
 		return err
+	}
+	if c.debug != nil {
+		fmt.Fprintf(c.debug, "[debug] %s %s status=%d elapsed=%s\n", method, resp.Request.URL, resp.StatusCode(), time.Since(started).Round(time.Millisecond))
 	}
 
 	if resp.StatusCode() != 200 {
