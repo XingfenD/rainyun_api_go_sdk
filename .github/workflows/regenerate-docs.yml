@@ -1,0 +1,31 @@
+name: Regenerate derived docs
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "docs/openapi.json"
+
+permissions:
+  contents: write
+
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Regenerate split files and progress doc
+        run: python3 docs/scripts/generate.py
+
+      - name: Commit generated files
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add docs/openapi docs/PROGRESS.md
+          if git diff --cached --quiet; then
+            echo "no changes to commit"
+          else
+            git commit -m "chore(docs): regenerate split files and progress doc"
+            git push
+          fi
