@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This Go module (`github.com/XingfenD/rainyun_api_go_sdk`) provides Rainyun API clients and the `ry` CLI. API services live in `apis/`, grouped by product (`rcs`, `rgs`, `ros`, `domain`, and others); shared request/query helpers are in `apis/common/`. The public SDK facade is in `sdk/`, constants in `constant/`, and CLI code in `cmd/ry/`: commands in `commands/`, implementation-only packages in `internal/`. Keep release notes in `docs/CHANGELOG.md` and user-facing documentation in `docs/`.
+This Go module (`github.com/XingfenD/rainyun_api_go_sdk`) provides Rainyun API clients and the `ry` CLI. API services live in `apis/`, grouped by product (`rcs`, `rgs`, `ros`, `domain`, and others); shared request/query helpers are in `apis/common/`. The public SDK facade is in `sdk/`, constants in `constant/`, and CLI code in `cmd/ry/`: commands in `commands/`, implementation-only packages in `internal/`. Keep SDK release notes in `docs/CHANGELOG.md`, CLI release notes in `docs/CHANGELOG_cli.md`, and user-facing documentation in `docs/`.
 
 ## Build, Test, and Development Commands
 
@@ -27,4 +27,4 @@ Write standard-library `testing` tests in adjacent `*_test.go` files. Name cases
 
 Recent history uses Conventional Commit-style messages such as `feat(cli): add interactive config input`, `fix(cmd/ry): ...`, and `docs: ...`. Use a concise imperative subject and an appropriate scope. PRs should explain the behavior change, list validation performed, link relevant issues, and include CLI output or screenshots when user-visible behavior changes.
 
-Before every commit, run `git branch --show-current`. Commit only on a development branch whose name contains `feat`, `fix`, `refactor`, or `docs`; otherwise ask for a branch name and create one first. Core changes require an entry in `docs/CHANGELOG.md`, with newer versions above older ones.
+Before every commit, run `git branch --show-current`. Commit only on a development branch whose name contains `feat`, `fix`, `refactor`, or `docs`; otherwise ask for a branch name and create one first. Core changes require an entry in the relevant changelog (`docs/CHANGELOG.md` for SDK/module changes, `docs/CHANGELOG_cli.md` for CLI changes), with newer versions above older ones.
