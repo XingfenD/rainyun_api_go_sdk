@@ -180,6 +180,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 	serverCmd.AddCommand(serverResetPasswordCmd)
 	serverCmd.AddCommand(serverVNCCmd)
 
+	addLifecycleCommands(serverCmd, rySDK, out)
+	addCreateCommand(serverCmd, rySDK, out)
+
 	return serverCmd
 }
 
