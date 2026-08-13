@@ -8,6 +8,16 @@ The format loosely follows Keep a Changelog and can be adapted to the team's hab
 
 > `ry` 命令行工具（`cmd/ry/`）的变更记录在 [`CHANGELOG_cli.md`](./CHANGELOG_cli.md)。
 
+## [0.4.0] - 2026-08-13
+
+### Added / 新增
+
+- 新增 `rcdn` 服务(21 方法):实例/加速域名/缓存清理/SSL绑定/监控/套餐与价格。
+- 新增 `rca` 服务(42 方法):雨点(余额/购买/消费/套餐/用量)、区域、项目(11)、App(19)、网站(6)。
+- 新增 `rvh` 服务(25 方法):虚拟主机主资源、备份、宝塔、域名绑定、防火墙、生命周期、续费、套餐。
+- `docs/openapi.json` 合并 rcdn/rca/rvh 三个资源域共 103 个端点(源自旧版 API spec 快照)。
+- `apis.RyClient` 新增 `SetTransport`,便于服务包用本地 stub 断言请求路径与方法。
+
 ## [0.3.0] - 2026-08-13
 
 ### Added / 新增

@@ -5,9 +5,12 @@ import (
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/domain"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/public"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/rbm"
+	"github.com/XingfenD/rainyun_api_go_sdk/apis/rca"
+	"github.com/XingfenD/rainyun_api_go_sdk/apis/rcdn"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/rcs"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/rgs"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/ros"
+	"github.com/XingfenD/rainyun_api_go_sdk/apis/rvh"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/ssl"
 )
 
@@ -19,6 +22,9 @@ type RainyunSDK struct {
 	rgs.RgsService
 	ros.RosService
 	ssl.SslService
+	rcdn.RcdnService
+	rca.RcaService
+	rvh.RvhService
 
 	client *apis.RyClient
 }
@@ -41,6 +47,9 @@ func newSDK(c *apis.RyClient) *RainyunSDK {
 		RgsService:    *rgs.NewRgsService(c),
 		RosService:    *ros.NewRosService(c),
 		SslService:    *ssl.NewSslService(c),
+		RcdnService:   *rcdn.NewRcdnService(c),
+		RcaService:    *rca.NewRcaService(c),
+		RvhService:    *rvh.NewRvhService(c),
 		client:        c,
 	}
 }

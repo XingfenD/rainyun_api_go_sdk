@@ -7,9 +7,12 @@ import (
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/domain"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/public"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/rbm"
+	"github.com/XingfenD/rainyun_api_go_sdk/apis/rca"
+	"github.com/XingfenD/rainyun_api_go_sdk/apis/rcdn"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/rcs"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/rgs"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/ros"
+	"github.com/XingfenD/rainyun_api_go_sdk/apis/rvh"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/ssl"
 )
 
@@ -34,6 +37,9 @@ func assertServicesInitialized(t *testing.T, s *RainyunSDK) {
 		{"RgsService", s.RgsService != (rgs.RgsService{})},
 		{"RosService", s.RosService != (ros.RosService{})},
 		{"SslService", s.SslService != (ssl.SslService{})},
+		{"RcdnService", s.RcdnService != (rcdn.RcdnService{})},
+		{"RcaService", s.RcaService != (rca.RcaService{})},
+		{"RvhService", s.RvhService != (rvh.RvhService{})},
 	}
 	for _, c := range checks {
 		if !c.ok {
