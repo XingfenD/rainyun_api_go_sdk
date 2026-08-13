@@ -11,6 +11,7 @@ import (
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/server"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/storage"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/config"
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/constant"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/output"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/trace"
 	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
@@ -31,8 +32,9 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "ry",
-	Short: "Rainyun CLI — manage cloud resources from your terminal",
+	Use:     "ry",
+	Short:   "Rainyun CLI — manage cloud resources from your terminal",
+	Version: constant.Version,
 	Long: `ry is a CLI that lets you manage Rainyun cloud resources from your terminal.
 
 Use "ry [command] --help" for more information about a command.`,
@@ -130,6 +132,17 @@ func init() {
 		},
 	}
 	rootCmd.AddCommand(completionCmd)
+
+	versionCmd := &cobra.Command{
+		Use:         "version",
+		Short:       "Print the CLI version",
+		Annotations: map[string]string{"skipSDK": "true"},
+		RunE: func(cmd *cobra.Command, args []string) error {
+			fmt.Println(constant.Version)
+			return nil
+		},
+	}
+	rootCmd.AddCommand(versionCmd)
 
 	rootCmd.AddCommand(configcmd.Cmd(&cfg, cfgPath))
 	rootCmd.AddCommand(server.Cmd(&rySDK, &out))

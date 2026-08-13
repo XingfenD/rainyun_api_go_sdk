@@ -16,6 +16,7 @@ SDK（`apis/`、`sdk/`）与模块级变更记录在 [`CHANGELOG.md`](./CHANGELO
 - `ry server get` 输出细化为 `ServerDetail`：补充内网 IP、网络模式/带宽、实时 CPU/内存/网络、流量包用量与上限、自动续费/套餐/续费积分，以及扩展盘、弹性 IP、备份、可升级套餐等区块；`-o json` 输出完整结构化字段。
 - 新增 `cmd/ry/internal/config` 与 `cmd/ry/internal/output` 测试（6/6 + 7/7）。
 - `ry --verbose` 渲染结构化链路追踪到 stderr，不影响标准输出；新增 `--verbose-body-limit int`（0 关闭预览）与 `--verbose-full-body` 标志。
+- 新增 `cmd/ry/internal/constant` 维护 CLI 版本号，支持 `ry version` 与 `ry --version`。
 
 ### Changed / 变更
 
