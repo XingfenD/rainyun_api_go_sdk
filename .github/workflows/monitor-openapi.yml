@@ -18,10 +18,11 @@ jobs:
       - name: Fetch upstream spec
         run: curl -fsSL https://api.rainyun.com/openapi.json -o /tmp/live_openapi.json
 
-      - name: Diff upstream vs docs/openapi.json
+      - name: Diff upstream vs tracked domains
         id: diff
         run: |
-          if python3 docs/scripts/diff_openapi.py docs/openapi.json /tmp/live_openapi.json /tmp/summary.md; then
+          python3 docs/scripts/filter_openapi.py docs/openapi.json "domain,public,rbm,rcs,rgs,ros,ssl" /tmp/repo_upstream.json
+          if python3 docs/scripts/diff_openapi.py /tmp/repo_upstream.json /tmp/live_openapi.json /tmp/summary.md; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
@@ -30,12 +31,9 @@ jobs:
       - name: Update docs/openapi.json
         if: steps.diff.outputs.changed == 'true'
         run: |
-          python3 - <<'PY'
-          import json
-          live = json.load(open("/tmp/live_openapi.json", encoding="utf-8"))
-          with open("docs/openapi.json", "w", encoding="utf-8") as f:
-              json.dump(live, f, ensure_ascii=False, indent=4)
-          PY
+          python3 docs/scripts/filter_openapi.py docs/openapi.json "rcdn,rca,rvh" /tmp/repo_extra.json
+          python3 docs/scripts/merge_openapi.py /tmp/live_openapi.json /tmp/repo_extra.json docs/openapi.json
+          python3 docs/scripts/generate.py
 
       - name: Open pull request
         if: steps.diff.outputs.changed == 'true'
@@ -47,4 +45,4 @@ jobs:
           title: "chore(docs): update openapi.json from api.rainyun.com"
           body-path: /tmp/summary.md
           labels: docs
-          add-paths: docs/openapi.json
+          add-paths: docs/openapi.json docs/openapi/ docs/PROGRESS.md
