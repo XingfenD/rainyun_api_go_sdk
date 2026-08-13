@@ -306,16 +306,3 @@ CLI 命令：`bucket`, `create <instance-id> <name>`, `list`, `list <instance-id
 | DELETE | `/product/sslcenter/{id}` | SSL证书删除操作 | `ssl.DeleteSsl` | — |
 | GET | `/product/sslcenter/{id}` | SSL证书查看操作 | `ssl.GetSslDetail` | — |
 | PUT | `/product/sslcenter/{id}` | SSL证书替换操作 | `ssl.ReplaceSsl` | — |
-
-## 未纳入 openapi.json 的 SDK 服务
-
-以下 SDK 服务已存在，但当前 `docs/openapi.json` 未包含对应端点。
-已核对：这些服务使用独立路径前缀，并非其它资源域的子资源：
-
-- `product` → `/product/`（count）、`/product/id_list`、`/product/panel_users/*`、`/product/point_renew`
-- `rca` → `/product/rca/*`
-- `user` → `/user/*`
-- `workorder` → `/workorder/*`
-- `expense` → `/expense/orders/list`
-
-`docs/openapi.json` 仅覆盖 `rcs`/`rgs`/`rgs-mp`/`ros`/`rbm`/`domain`/`sslcenter`/`public` 等资源域，需补充上述路径的 spec 后才能纳入核对。
