@@ -41,3 +41,8 @@ opencode.json
 .claude/
 .opencode/
 .hermers/
+
+# Build output (Makefile)
+bin/
+coverage.out
+coverage.html
