@@ -25,7 +25,9 @@ The format loosely follows Keep a Changelog and can be adapted to the team's hab
 
 ### Changed / 变更
 
-- `ry -v` 新增 HTTP 请求链路调试信息：显示请求 URL、响应状态码与耗时，不输出 API key、请求体或响应体。
+- `ry --verbose` 重构为结构化链路追踪：SDK 通过 `TraceSink` 发出 HTTP/Result 事件，CLI 渲染到 stderr，不影响标准输出；默认预览 64 KiB 响应体（JSON 自动格式化），新增 `--verbose-body-limit int`（0 关闭预览）与 `--verbose-full-body` 标志；不输出 API key、请求头或请求体。
+- `ry --verbose` 现在显示输出格式、其来源（config/`--output`/`--raw`）及 raw 状态。
+- SDK 调试接口重构：移除 `sdk.NewWithDebug` 与 `apis.RyClient.SetDebugWriter`，新增 `sdk.NewWithTrace`、`sdk.NewBuilder(apiKey).WithTrace(...).Build()` 链式构造及 `TraceSink`/`TraceOptions`/`HTTPTrace`/`ResultTrace` 类型。
 - 命令 ID 参数统一为 `int`，显示层 model ID 保持 `string`。
 - `server reinstall` flag 从 `--os` 改为 `--os-id int`。
 - `.gitignore` 新增 `bin/`、`coverage.out`、`coverage.html`。

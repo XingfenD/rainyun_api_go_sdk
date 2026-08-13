@@ -58,3 +58,16 @@ func TestNew(t *testing.T) {
 func TestNewWithTrace(t *testing.T) {
 	assertServicesInitialized(t, NewWithTrace("test-key", NewTraceOptions(sinkStub{})))
 }
+
+func TestBuilder(t *testing.T) {
+	t.Run("plain build", func(t *testing.T) {
+		assertServicesInitialized(t, NewBuilder("test-key").Build())
+	})
+	t.Run("nil trace options disables tracing", func(t *testing.T) {
+		assertServicesInitialized(t, NewBuilder("test-key").WithTrace(nil).Build())
+	})
+	t.Run("chained trace options", func(t *testing.T) {
+		opts := NewTraceOptions(sinkStub{}).WithBodyPreviewLimit(128)
+		assertServicesInitialized(t, NewBuilder("test-key").WithTrace(&opts).Build())
+	})
+}
