@@ -186,6 +186,7 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 	addUpgradeCommand(serverCmd, rySDK, out)
 	addEDiskCommands(serverCmd, rySDK, out)
 	addMonitorCommand(serverCmd, rySDK, out)
+	addBackupCommands(serverCmd, rySDK, out)
 
 	return serverCmd
 }
