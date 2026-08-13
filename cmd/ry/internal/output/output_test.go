@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"strings"
 	"testing"
+	"time"
 )
 
 type testItem struct {
@@ -59,31 +60,22 @@ func TestYAMLFormat(t *testing.T) {
 }
 
 func TestRawFormat(t *testing.T) {
-	raw := []byte(`{"raw":"data"}`)
 	var buf bytes.Buffer
 	printer := New("raw", &buf)
-	if err := printer.PrintRaw(raw); err != nil {
-		t.Fatalf("PrintRaw error: %v", err)
+	printer.SetRawBody(func() []byte { return []byte(`{"raw":"data"}`) })
+	if err := printer.Print("ignored"); err != nil {
+		t.Fatalf("Print raw error: %v", err)
 	}
 	if buf.String() != `{"raw":"data"}`+"\n" {
 		t.Errorf("raw output = %q", buf.String())
 	}
 }
 
-// 新增:Print 在 raw 格式下应输出 JSON
-func TestRawPrintFormat(t *testing.T) {
-	items := []testItem{{ID: "1", Name: "Alice", Age: 30}}
+func TestRawFormatWithoutProvider(t *testing.T) {
 	var buf bytes.Buffer
 	printer := New("raw", &buf)
-	if err := printer.Print(items); err != nil {
-		t.Fatalf("Print raw error: %v", err)
-	}
-	var parsed []testItem
-	if err := json.Unmarshal(buf.Bytes(), &parsed); err != nil {
-		t.Fatalf("raw Print produced invalid JSON: %v\nbuf=%s", err, buf.String())
-	}
-	if len(parsed) != 1 || parsed[0].ID != "1" {
-		t.Errorf("raw Print content mismatch: %+v", parsed)
+	if err := printer.Print("ignored"); err == nil {
+		t.Error("expected error when raw provider is unset")
 	}
 }
 
@@ -105,5 +97,20 @@ func TestUnknownFormat(t *testing.T) {
 	err := printer.Print([]testItem{})
 	if err == nil {
 		t.Error("expected error for unknown format")
+	}
+}
+
+func TestTableSingleNilPointer(t *testing.T) {
+	type withPtr struct {
+		Name string     `table:"NAME"`
+		When *time.Time `table:"WHEN"`
+	}
+	var buf bytes.Buffer
+	printer := New("table", &buf)
+	if err := printer.Print(withPtr{Name: "x"}); err != nil {
+		t.Fatalf("Print error: %v", err)
+	}
+	if !strings.Contains(buf.String(), "WHEN:      -") {
+		t.Errorf("nil pointer not rendered as '-':\n%s", buf.String())
 	}
 }

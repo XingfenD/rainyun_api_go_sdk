@@ -13,10 +13,17 @@ type RyClient struct {
 	client      *resty.Client
 	traceSink   TraceSink
 	tracePolicy bodyPreviewPolicy
+	rawBody     []byte
 }
 
 func NewRyClient(apiKey string) *RyClient {
 	return newRyClient(apiKey)
+}
+
+// RawBody returns the raw response body of the most recent request performed
+// by this client. It is nil until a request has been made.
+func (c *RyClient) RawBody() []byte {
+	return c.rawBody
 }
 
 func newRyClient(apiKey string) *RyClient {
@@ -47,6 +54,9 @@ func (c *RyClient) Do(method constant.HTTPMethod, endpoint string, querys map[st
 		req.SetResult(result)
 	}
 	resp, err := req.Execute(string(method), endpoint)
+	if resp != nil {
+		c.rawBody = resp.Body()
+	}
 
 	ev := c.httpTrace(requestID, method, endpoint, resp, err)
 

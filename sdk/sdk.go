@@ -29,10 +29,17 @@ type RainyunSDK struct {
 	user.UserService
 	workorder.WorkorderService
 	expense.ExpenseService
+
+	client *apis.RyClient
 }
 
 func New(apiKey string) *RainyunSDK {
 	return newSDK(apis.NewRyClient(apiKey))
+}
+
+// RawResponseBody returns the raw response body of the most recent API request.
+func (s *RainyunSDK) RawResponseBody() []byte {
+	return s.client.RawBody()
 }
 
 func newSDK(c *apis.RyClient) *RainyunSDK {
@@ -49,5 +56,6 @@ func newSDK(c *apis.RyClient) *RainyunSDK {
 		UserService:      *user.NewUserService(c),
 		WorkorderService: *workorder.NewWorkorderService(c),
 		ExpenseService:   *expense.NewExpenseService(c),
+		client:           c,
 	}
 }

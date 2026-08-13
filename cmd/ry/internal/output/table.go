@@ -83,10 +83,19 @@ func printTableSingle(w io.Writer, v reflect.Value) error {
 		if tag == "" {
 			continue
 		}
-		val := fmt.Sprintf("%v", v.Field(i).Interface())
-		fmt.Fprintf(w, "%-10s %s\n", tag+":", val)
+		fmt.Fprintf(w, "%-10s %s\n", tag+":", formatCell(v.Field(i)))
 	}
 	return nil
+}
+
+func formatCell(fv reflect.Value) string {
+	if fv.Kind() == reflect.Ptr {
+		if fv.IsNil() {
+			return "-"
+		}
+		return fmt.Sprintf("%v", fv.Interface())
+	}
+	return fmt.Sprintf("%v", fv.Interface())
 }
 
 func extractTableTags(t reflect.Type) ([]string, []int) {

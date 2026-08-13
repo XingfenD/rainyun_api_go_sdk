@@ -1,18 +1,25 @@
 package output
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 )
 
 type Printer struct {
-	format string
-	writer io.Writer
+	format  string
+	writer  io.Writer
+	rawBody func() []byte
 }
 
 func New(format string, w io.Writer) *Printer {
 	return &Printer{format: format, writer: w}
+}
+
+// SetRawBody registers a provider for the raw API response body. When the
+// format is "raw", Print writes the value returned by this provider instead of
+// encoding the passed data.
+func (p *Printer) SetRawBody(fn func() []byte) {
+	p.rawBody = fn
 }
 
 func (p *Printer) Print(data any) error {
@@ -24,18 +31,16 @@ func (p *Printer) Print(data any) error {
 	case "yaml":
 		return printYAML(p.writer, data)
 	case "raw":
-		b, err := json.Marshal(data)
-		if err != nil {
-			return err
-		}
-		_, err = fmt.Fprintln(p.writer, string(b))
-		return err
+		return p.printRawBody()
 	default:
 		return fmt.Errorf("unknown output format: %s", p.format)
 	}
 }
 
-func (p *Printer) PrintRaw(raw []byte) error {
-	_, err := fmt.Fprintln(p.writer, string(raw))
+func (p *Printer) printRawBody() error {
+	if p.rawBody == nil {
+		return fmt.Errorf("raw response body unavailable")
+	}
+	_, err := fmt.Fprintln(p.writer, string(p.rawBody()))
 	return err
 }

@@ -230,3 +230,23 @@ func TestDoEmitsNothingWithoutSink(t *testing.T) {
 		t.Fatalf("Do() error = %v", err)
 	}
 }
+
+func TestRawBodyCapturesResponse(t *testing.T) {
+	c := NewRyClient("test-key")
+	c.client.SetTransport(roundTripFunc(func(req *http.Request) (*http.Response, error) {
+		return jsonResponse(200, sampleResponseBody), nil
+	}))
+
+	if c.RawBody() != nil {
+		t.Fatalf("RawBody() before request = %q, want nil", c.RawBody())
+	}
+
+	var result testResult
+	if err := c.Do(constant.HTTPMethod_GET, "/test", nil, nil, &result); err != nil {
+		t.Fatalf("Do() error = %v", err)
+	}
+
+	if got := string(c.RawBody()); got != sampleResponseBody {
+		t.Errorf("RawBody() = %q, want %q", got, sampleResponseBody)
+	}
+}
