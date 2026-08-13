@@ -42,13 +42,12 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 	}
 
 	bucketCmd := &cobra.Command{
-		Use:   "bucket <instance-id>",
+		Use:   "bucket",
 		Short: "Manage buckets",
-		Args:  cobra.ExactArgs(1),
 	}
 
 	bucketListCmd := &cobra.Command{
-		Use:   "list",
+		Use:   "list <instance-id>",
 		Short: "List buckets",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			instanceID, err := strconv.Atoi(args[0])
@@ -71,7 +70,7 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 	}
 
 	bucketCreateCmd := &cobra.Command{
-		Use:   "create <name>",
+		Use:   "create <instance-id> <name>",
 		Short: "Create a bucket",
 		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {

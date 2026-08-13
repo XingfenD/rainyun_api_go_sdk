@@ -41,13 +41,12 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 	}
 
 	dnsCmd := &cobra.Command{
-		Use:   "dns <domain-id>",
+		Use:   "dns",
 		Short: "Manage DNS records",
-		Args:  cobra.ExactArgs(1),
 	}
 
 	dnsListCmd := &cobra.Command{
-		Use:   "list",
+		Use:   "list <domain-id>",
 		Short: "List DNS records",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			id, err := strconv.Atoi(args[0])

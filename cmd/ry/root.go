@@ -76,6 +76,8 @@ Use "ry [command] --help" for more information about a command.`,
 }
 
 func init() {
+	rootCmd.SilenceErrors = true
+	rootCmd.SilenceUsage = true
 	cfgPath = config.DefaultPath()
 	rootCmd.PersistentFlags().StringVar(&flagAPIKey, "apikey", "", "Rainyun API key")
 	rootCmd.PersistentFlags().StringVarP(&flagOutput, "output", "o", "", "Output format: table, json, yaml, raw")
