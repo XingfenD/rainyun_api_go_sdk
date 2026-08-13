@@ -1,0 +1,2201 @@
+{
+  "host": "api.v2.rainyun.com",
+  "info": {
+    "contact": {},
+    "description": "实现通过api管理云产品,对接代理等功能.",
+    "title": "雨云API文档",
+    "version": "2.4"
+  },
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "ApiKey": {
+      "description": "雨云 API 密钥：登录后于「用户中心 → API密钥」创建，请求时携带 X-Api-Key 请求头即可替代登录态访问接口。",
+      "in": "header",
+      "name": "X-Api-Key",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [
+    {
+      "name": "rcs"
+    }
+  ],
+  "paths": {
+    "/product/rcs/": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "is_rgpu",
+            "type": "boolean"
+          },
+          {
+            "in": "query",
+            "name": "options",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取云服务器列表",
+        "tags": [
+          "rcs"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.CreateService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "创建云服务器",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/discount-percent": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [],
+        "summary": "获取云服务器折扣比率",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/os-templates": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [],
+        "summary": "获取RCS操作系统列表",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/plans": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [],
+        "summary": "云服务器获取套餐列表",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/price": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [],
+        "summary": "获取云服务器价格",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/usage": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取使用情况列表",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取RCS详情",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/backup/": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.CreateBackupService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "RCS创建备份",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/backup/setting": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "maximum": 23,
+            "minimum": -1,
+            "name": "auto_backup_hour",
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "maximum": 59,
+            "minimum": -1,
+            "name": "auto_backup_minute",
+            "type": "integer"
+          },
+          {
+            "enum": [
+              0,
+              1,
+              3,
+              7,
+              15,
+              31
+            ],
+            "in": "query",
+            "name": "keep_last",
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "RCS设置备份选项",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/backup/{bid}/": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "bid",
+            "in": "path",
+            "name": "bid",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "RCS删除备份",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/backup/{bid}/cancel": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.CancelBackupService"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "bid",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "RCS取消备份",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/backup/{bid}/restore": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "bid",
+            "in": "path",
+            "name": "bid",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "RCS还原备份",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/bridge_setintip": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "桥接模式下设置内网",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/changeos": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.ChangeOSService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "RCS重装系统",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/edisk/": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "disk_id",
+            "in": "path",
+            "name": "disk_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.ManageEDiskService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "RCS管理弹性云盘",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/eip/": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.AttachEIPService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "创建并绑定弹性IP到RCS",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/eip/change": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.ChangeEIPService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "更换IP",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/eip/description": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.DescribeEIPService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "设置IP描述",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/eip/discard": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.AttachEIPService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "放弃IP",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/fai-send": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "发布快速app安装任务",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/firewall/mode": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "云服务器实例id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "规则参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/product.FirewallSetModeService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "创建/设置防火墙规则",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/firewall/rule": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "云服务器实例id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "options",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取防火墙规则列表",
+        "tags": [
+          "rcs"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "云服务器实例id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "规则参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/product.SetFirewallService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "创建/设置防火墙规则",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/firewall/rule/{ruleId}": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "云服务器实例id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "防火墙规则ID",
+            "in": "path",
+            "name": "ruleId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "删除防火墙规则",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/firewall/rule/{ruleId}/pos": {
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "云服务器实例id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "防火墙规则ID",
+            "in": "path",
+            "name": "ruleId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "规则参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/product.FirewallMoveRulePosService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "移动防火墙规则优先级",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/firewall/sync_time": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "云服务器实例id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "options",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取防火墙同步开始时间",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/free": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "释放",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/monitor": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "end_date",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "query",
+            "name": "start_date",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取监控数据",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/nat": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "删除NAT端口映射",
+        "tags": [
+          "rcs"
+        ]
+      },
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.AddNatPortForwardService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "添加NAT端口映射",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/reboot": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "云服务器重启操作",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/renew/": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取续费价格",
+        "tags": [
+          "rcs"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.RenewService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "续费",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/renew/option": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.SetAutoRenewService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "自动续费选项",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/reset-password": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "云服务器重置密码操作",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/start": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "云服务器开机操作",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/stop": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "云服务器关机操作",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/tag": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/product.SetTagService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "设置云服务器标签",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/to-bridge": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "转成桥接",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/toggle_dgpu": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "RCS充流量",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/toggle_primary_gpu": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "RCS充流量",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/traffic/auto": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "format": "int32",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.SetAutoTrafficService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "请求成功",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "业务状态码",
+                  "example": 200,
+                  "type": "integer"
+                },
+                "data": {
+                  "description": "返回数据"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "请求错误",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "错误码",
+                  "type": "integer"
+                },
+                "message": {
+                  "description": "错误描述",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "RCS设置自动充流量",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/traffic/charge": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "disk_id",
+            "in": "path",
+            "name": "disk_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.ChargeTrafficService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "RCS充流量",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/traffic/limit": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "disk_id",
+            "in": "path",
+            "name": "disk_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.ChargeTrafficService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "RCS限流",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/upgrade": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.UpgradeService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "升级",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/usage": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取使用情况",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/vnc": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "enum": [
+              "novnc",
+              "xtermjs"
+            ],
+            "in": "query",
+            "name": "console_type",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "连接VNC",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/vnet": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "子网改名",
+        "tags": [
+          "rcs"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "创建虚拟机内网子网",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/webbar/charge": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "创建参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.ChargeWebbarTimeService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "RCS充流量",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/ros/{id}/free": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "释放",
+        "tags": [
+          "rcs"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "product.AppVar": {
+      "properties": {
+        "app_id": {
+          "type": "integer"
+        },
+        "retry": {
+          "description": "重发之前的任务,此项存在时,无需传入参数",
+          "type": "boolean"
+        },
+        "vars": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "app_id",
+        "vars"
+      ],
+      "type": "object"
+    },
+    "product.FirewallMoveRulePosService": {
+      "properties": {
+        "newPos": {
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "product.FirewallSetModeService": {
+      "properties": {
+        "mode": {
+          "description": "black/white 默认黑名单模式",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "product.SetFirewallService": {
+      "properties": {
+        "action": {
+          "description": "动作，accept/drop，接受或者丢弃",
+          "enum": [
+            "ACCEPT",
+            "DROP"
+          ],
+          "type": "string"
+        },
+        "description": {
+          "description": "备注",
+          "maxLength": 20,
+          "type": "string"
+        },
+        "dest_port": {
+          "description": "代表本机的目的端口，可以用-来链接，空白代表所有端口",
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "is_enable": {
+          "description": "是否启用该规则",
+          "type": "boolean"
+        },
+        "protocol": {
+          "description": "协议，udp/tcp/icmp，空白代表所有",
+          "enum": [
+            "udp",
+            "tcp",
+            "icmp"
+          ],
+          "type": "string"
+        },
+        "source_address": {
+          "description": "代表来源的地址，可以用-链接范围，或者用逗号来分割多个地址，可以使用网络，CIDR格式，空则代表所有地址",
+          "type": "string"
+        },
+        "source_port": {
+          "description": "一般不填(防反射)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "type": "object"
+    },
+    "product.SetTagService": {
+      "properties": {
+        "tag_name": {
+          "maxLength": 32,
+          "minLength": 2,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rcs.AddNatPortForwardService": {
+      "properties": {
+        "port_in": {
+          "maximum": 65535,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "port_out": {
+          "maximum": 60000,
+          "minimum": 10000,
+          "type": "integer"
+        },
+        "port_type": {
+          "enum": [
+            "tcp",
+            "udp",
+            "tcp_udp"
+          ],
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "port_in",
+        "port_out",
+        "port_type"
+      ],
+      "type": "object"
+    },
+    "rcs.AttachEIPService": {
+      "properties": {
+        "with_flags": {
+          "description": "IP特征(可选)",
+          "type": "string"
+        },
+        "with_ip_num": {
+          "description": "数量",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "with_ip_type": {
+          "description": "IPv4/IPv6",
+          "type": "string"
+        }
+      },
+      "required": [
+        "with_ip_num"
+      ],
+      "type": "object"
+    },
+    "rcs.CancelBackupService": {
+      "type": "object"
+    },
+    "rcs.ChangeEIPService": {
+      "properties": {
+        "disable_old_ip_reason": {
+          "type": "string"
+        },
+        "ip": {
+          "type": "string"
+        },
+        "to_ip": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ip"
+      ],
+      "type": "object"
+    },
+    "rcs.ChangeOSService": {
+      "properties": {
+        "app_vars": {
+          "description": "当空数组时,进行单次任务下发",
+          "items": {
+            "$ref": "#/definitions/product.AppVar"
+          },
+          "type": "array"
+        },
+        "os_id": {
+          "type": "integer"
+        },
+        "reset_osd": {
+          "description": "重置系统盘容量",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "os_id"
+      ],
+      "type": "object"
+    },
+    "rcs.ChargeTrafficService": {
+      "properties": {
+        "traffic_in_gb": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "traffic_in_gb"
+      ],
+      "type": "object"
+    },
+    "rcs.ChargeWebbarTimeService": {
+      "properties": {
+        "hour": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "hour"
+      ],
+      "type": "object"
+    },
+    "rcs.CreateBackupService": {
+      "properties": {
+        "label": {
+          "maxLength": 32,
+          "minLength": 2,
+          "type": "string"
+        }
+      },
+      "required": [
+        "label"
+      ],
+      "type": "object"
+    },
+    "rcs.CreateService": {
+      "properties": {
+        "add_disk_size": {
+          "description": "额外硬盘容量GB",
+          "type": "integer"
+        },
+        "app_vars": {
+          "description": "当空数组时,进行单次任务下发",
+          "items": {
+            "$ref": "#/definitions/product.AppVar"
+          },
+          "type": "array"
+        },
+        "disk_type": {
+          "description": "硬盘类型(部分区域可空)",
+          "type": "string"
+        },
+        "duration": {
+          "description": "时长",
+          "enum": [
+            1,
+            3,
+            6,
+            12
+          ],
+          "type": "integer"
+        },
+        "key_pair_ids": {
+          "description": "创建时绑定的 Key Pair ID 列表",
+          "items": {
+            "type": "integer"
+          },
+          "type": "array"
+        },
+        "node_uuid": {
+          "description": "指定节点(管理员可用，用户不可用)",
+          "type": "string"
+        },
+        "os_id": {
+          "description": "系统ID",
+          "type": "integer"
+        },
+        "plan_id": {
+          "description": "套餐ID",
+          "type": "integer"
+        },
+        "try": {
+          "description": "是否为试用",
+          "type": "boolean"
+        },
+        "with_coupon_id": {
+          "description": "优惠券ID",
+          "type": "integer"
+        },
+        "with_eip_flags": {
+          "description": "是否开启高防，us_ddosip -> 美国高防，nb_ddosip -> 宁波高防",
+          "type": "string"
+        },
+        "with_eip_num": {
+          "description": "IP数量",
+          "type": "integer"
+        },
+        "with_eip_type": {
+          "description": "IPv4(默认)/IPv6",
+          "type": "string"
+        },
+        "zone": {
+          "description": "内网可用区",
+          "type": "string"
+        }
+      },
+      "required": [
+        "duration",
+        "os_id"
+      ],
+      "type": "object"
+    },
+    "rcs.DescribeEIPService": {
+      "properties": {
+        "description": {
+          "maxLength": 100,
+          "type": "string"
+        },
+        "ip": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ip"
+      ],
+      "type": "object"
+    },
+    "rcs.ManageEDiskAction": {
+      "properties": {
+        "action": {
+          "items": {
+            "type": "integer"
+          },
+          "type": "array"
+        },
+        "type": {
+          "enum": [
+            "create",
+            "delete",
+            "expand"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "rcs.ManageEDiskService": {
+      "properties": {
+        "actions": {
+          "items": {
+            "$ref": "#/definitions/rcs.ManageEDiskAction"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "actions"
+      ],
+      "type": "object"
+    },
+    "rcs.RenewService": {
+      "properties": {
+        "duration": {
+          "enum": [
+            1,
+            3,
+            6,
+            12
+          ],
+          "type": "integer"
+        },
+        "with_coupon_id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "duration"
+      ],
+      "type": "object"
+    },
+    "rcs.SetAutoRenewService": {
+      "properties": {
+        "auto_renew_option": {
+          "description": "0：关闭 / 1：开启",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "rcs.SetAutoTrafficService": {
+      "properties": {
+        "auto_charge_gb": {
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "rcs.UpgradeService": {
+      "properties": {
+        "dest_plan": {
+          "type": "integer"
+        },
+        "with_coupon_id": {
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

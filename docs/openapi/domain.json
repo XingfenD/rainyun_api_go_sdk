@@ -1,0 +1,1648 @@
+{
+  "host": "api.v2.rainyun.com",
+  "info": {
+    "contact": {},
+    "description": "实现通过api管理云产品,对接代理等功能.",
+    "title": "雨云API文档",
+    "version": "2.4"
+  },
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "ApiKey": {
+      "description": "雨云 API 密钥：登录后于「用户中心 → API密钥」创建，请求时携带 X-Api-Key 请求头即可替代登录态访问接口。",
+      "in": "header",
+      "name": "X-Api-Key",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [
+    {
+      "name": "domain"
+    }
+  ],
+  "paths": {
+    "/product/domain/": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "options",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "列出域名列表",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/certify": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.DeleteCertifyService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "删除域名认证",
+        "tags": [
+          "domain"
+        ]
+      },
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "options",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取已验证域名列表",
+        "tags": [
+          "domain"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.AddCertifyService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "添加域名认证",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/certify/verify": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.VerifyCertifyService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "域名认证校验",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/check": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.CheckDomainRegisteredService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "检查域名能否注册",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/free_subdomain": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.DeleteFreeSubDomainService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "删除免费二级域名",
+        "tags": [
+          "domain"
+        ]
+      },
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "options",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取免费二级域名列表",
+        "tags": [
+          "domain"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.AddFreeSubDomainService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "创建免费二级域名",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/free_subdomain/proxy": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.ChangeProxySettingService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "修改免费二级域名的CDN设置",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/free_subdomain/usable": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取可用的免费域名列表",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/register": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.RegisterService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "域名注册",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/template": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.TemplateService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "编辑域名模板",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/template/": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.DeleteTemplateService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "删除域名信息模板",
+        "tags": [
+          "domain"
+        ]
+      },
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "is_select",
+            "type": "boolean"
+          },
+          {
+            "in": "query",
+            "name": "options",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "查询域名模板列表",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/template/detail/": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "模板标识",
+            "in": "query",
+            "name": "sys_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取域名模板详情",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/whitelist": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "options",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取域名白名单列表",
+        "tags": [
+          "domain"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.AddWhitelistService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "添加域名白名单",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/whois": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "要查询的域名",
+            "in": "query",
+            "name": "domain",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取域名whois信息",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/{id}": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取域名详情",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/{id}/cert": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "下载域名证书",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/{id}/dns": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.DNSRecordService"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "修改域名DNS解析",
+        "tags": [
+          "domain"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.DNSRecordService"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "添加域名DNS解析",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/{id}/dns/": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.DeleteDNSRecordService"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "删除域名DNS解析",
+        "tags": [
+          "domain"
+        ]
+      },
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "每页大小",
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "第几页",
+            "in": "query",
+            "name": "page_no",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取域名DNS解析记录列表",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/{id}/dnssec": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取域名DNSSEC详情",
+        "tags": [
+          "domain"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.AddDNSSecService"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "添加域名DNSSEC",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/{id}/dnssec/delete": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.DelDNSSecService"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "删除域名DNSSEC",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/{id}/dnssec/sync": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "同步域名DNSSEC",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/{id}/lock/disable": {
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "关闭域名锁定",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/{id}/lock/enable": {
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "开启域名锁定",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/{id}/nameservers": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.ChangeNameserverService"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "修改域名NS服务器",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/{id}/nameservers/reset": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "重置域名NS服务器",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/{id}/password": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取域名管理密码",
+        "tags": [
+          "domain"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.ManagePasswordService"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "更新域名管理密码",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/{id}/renew": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.RenewDomainService"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "续费域名",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/{id}/renew-price": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取域名续费价格",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
+    "/product/domain/{id}/transfer": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/domain.TransferDomainService"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {},
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "域名过户",
+        "tags": [
+          "domain"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "domain.AddCertifyService": {
+      "properties": {
+        "domain": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "domain"
+      ],
+      "type": "object"
+    },
+    "domain.AddDNSSecService": {
+      "properties": {
+        "domain": {
+          "type": "string"
+        },
+        "keyalg": {
+          "type": "string"
+        },
+        "keydigest": {
+          "type": "string"
+        },
+        "keytag": {
+          "type": "string"
+        },
+        "keytype": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "domain",
+        "keyalg",
+        "keydigest",
+        "keytag",
+        "keytype"
+      ],
+      "type": "object"
+    },
+    "domain.AddFreeSubDomainService": {
+      "properties": {
+        "domain_name": {
+          "type": "string"
+        },
+        "host_name": {
+          "description": "前缀",
+          "type": "string"
+        },
+        "is_cloud_flare_proxied": {
+          "type": "boolean"
+        },
+        "target_info": {
+          "type": "string"
+        },
+        "target_type": {
+          "enum": [
+            "rcs",
+            "rvh",
+            "rgs",
+            "rbm",
+            "custom"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "domain_name",
+        "host_name",
+        "target_info",
+        "target_type"
+      ],
+      "type": "object"
+    },
+    "domain.AddWhitelistService": {
+      "properties": {
+        "domain": {
+          "type": "string"
+        },
+        "region": {
+          "description": "过白区域",
+          "type": "string"
+        }
+      },
+      "required": [
+        "domain",
+        "region"
+      ],
+      "type": "object"
+    },
+    "domain.ChangeNameserverService": {
+      "properties": {
+        "name_servers": {
+          "description": "域名服务器列表",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 6,
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "name_servers"
+      ],
+      "type": "object"
+    },
+    "domain.ChangeProxySettingService": {
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "is_enable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "type": "object"
+    },
+    "domain.CheckDomainRegisteredService": {
+      "properties": {
+        "domain": {
+          "description": "要检查的域名（中文域名同时支持汉字及punycode转码）",
+          "type": "string"
+        },
+        "suffix": {
+          "description": "要检查的后缀，多个的话，用英文逗号分割",
+          "type": "string"
+        }
+      },
+      "required": [
+        "domain",
+        "suffix"
+      ],
+      "type": "object"
+    },
+    "domain.DNSRecordService": {
+      "properties": {
+        "host": {
+          "description": "主机名",
+          "type": "string"
+        },
+        "level": {
+          "description": "优先等级",
+          "type": "integer"
+        },
+        "line": {
+          "description": "线路，必须有一个默认的才可以",
+          "enum": [
+            "DEFAULT",
+            "LTEL",
+            "LCNC",
+            "LMOB",
+            "LEDU",
+            "LSEO",
+            "LFOR"
+          ],
+          "type": "string"
+        },
+        "rain_product_id": {
+          "type": "integer"
+        },
+        "rain_product_type": {
+          "enum": [
+            "rcs",
+            "rvh",
+            "rgs",
+            "rbm"
+          ],
+          "type": "string"
+        },
+        "record_id": {
+          "description": "记录ID",
+          "type": "integer"
+        },
+        "ttl": {
+          "description": "解析生效时间",
+          "type": "integer"
+        },
+        "type": {
+          "description": "解析类型",
+          "enum": [
+            "A",
+            "CNAME",
+            "MX",
+            "TXT",
+            "AAAA",
+            "SRV"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "description": "解析值",
+          "type": "string"
+        }
+      },
+      "required": [
+        "host",
+        "line",
+        "ttl",
+        "type",
+        "value"
+      ],
+      "type": "object"
+    },
+    "domain.DelDNSSecService": {
+      "properties": {
+        "domain": {
+          "type": "string"
+        },
+        "keydigest": {
+          "type": "string"
+        },
+        "keytag": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "domain",
+        "keydigest",
+        "keytag"
+      ],
+      "type": "object"
+    },
+    "domain.DeleteCertifyService": {
+      "properties": {
+        "domain": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "domain"
+      ],
+      "type": "object"
+    },
+    "domain.DeleteDNSRecordService": {
+      "properties": {
+        "record_id": {
+          "description": "解析ID",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "record_id"
+      ],
+      "type": "object"
+    },
+    "domain.DeleteFreeSubDomainService": {
+      "properties": {
+        "id": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "type": "object"
+    },
+    "domain.DeleteTemplateService": {
+      "properties": {
+        "sys_id": {
+          "description": "模板标识",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sys_id"
+      ],
+      "type": "object"
+    },
+    "domain.ManagePasswordService": {
+      "properties": {
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "password"
+      ],
+      "type": "object"
+    },
+    "domain.RegisterService": {
+      "properties": {
+        "domain": {
+          "description": "要检查的域名（中文域名同时支持汉字及punycode转码），不支持多个注册",
+          "type": "string"
+        },
+        "duration": {
+          "description": "注册年限",
+          "maximum": 10,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "new_template_info": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/domain.TemplateService"
+            }
+          ],
+          "description": "和TemplateID二选一，如果没模板就用这个新建模板"
+        },
+        "template_sys_id": {
+          "description": "和NewTemplateInfo二选一，这个是如果有现成的域名信息模板ID（西数那边的ID）",
+          "type": "string"
+        },
+        "type": {
+          "description": "域名类型，看是否是溢价域名, normal代表普通域名，prime代表溢价域名",
+          "enum": [
+            "normal",
+            "premium"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "domain",
+        "duration",
+        "type"
+      ],
+      "type": "object"
+    },
+    "domain.RenewDomainService": {
+      "properties": {
+        "duration": {
+          "description": "要续费的年限",
+          "maximum": 10,
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "duration"
+      ],
+      "type": "object"
+    },
+    "domain.TemplateService": {
+      "properties": {
+        "address": {
+          "description": "中文，通讯地址",
+          "type": "string"
+        },
+        "city": {
+          "description": "中文，市",
+          "type": "string"
+        },
+        "company_en_name": {
+          "description": "企业英文名称，如果类型是企业就要传入",
+          "type": "string"
+        },
+        "company_name": {
+          "description": "企业名称，如果类型是企业就要传入",
+          "type": "string"
+        },
+        "country": {
+          "description": "所在国家",
+          "type": "string"
+        },
+        "email": {
+          "description": "邮箱",
+          "type": "string"
+        },
+        "id_img": {
+          "description": "base64编码的证件照片",
+          "type": "string"
+        },
+        "id_num": {
+          "description": "证件值",
+          "type": "string"
+        },
+        "id_type": {
+          "description": "证件类型，如SFZ",
+          "type": "string"
+        },
+        "name": {
+          "description": "联系人名",
+          "maxLength": 100,
+          "minLength": 2,
+          "type": "string"
+        },
+        "phone": {
+          "description": "联系电话",
+          "type": "string"
+        },
+        "province": {
+          "description": "中文，省",
+          "type": "string"
+        },
+        "sys_id": {
+          "description": "模板标识",
+          "type": "string"
+        },
+        "type": {
+          "description": "所有者类型，I是个人，E是企业",
+          "enum": [
+            "I",
+            "E"
+          ],
+          "type": "string"
+        },
+        "zip_code": {
+          "description": "中文，邮编",
+          "type": "string"
+        }
+      },
+      "required": [
+        "address",
+        "city",
+        "country",
+        "email",
+        "id_num",
+        "id_type",
+        "name",
+        "phone",
+        "province",
+        "type",
+        "zip_code"
+      ],
+      "type": "object"
+    },
+    "domain.TransferDomainService": {
+      "properties": {
+        "new_template_info": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/domain.TemplateService"
+            }
+          ],
+          "description": "和TemplateID二选一，如果没模板就用这个新建模板"
+        },
+        "sys_id": {
+          "description": "新域名模板ID",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "domain.VerifyCertifyService": {
+      "properties": {
+        "domain": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "domain"
+      ],
+      "type": "object"
+    }
+  }
+}

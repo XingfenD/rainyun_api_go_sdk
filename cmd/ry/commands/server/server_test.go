@@ -49,14 +49,14 @@ func TestToServerDetail(t *testing.T) {
 		},
 		RenewPointPrice: rcs.RenewPointPrice{Num7: 100, Num31: 400},
 		EDiskList: []rcs.EDiskItem{
-			{Slot: 1, DiskType: "ssd", Size: 30},
-			{Slot: 2, DiskType: "hdd", Size: 50},
+			{ID: 101, Slot: 1, DiskType: "ssd", Size: 30},
+			{ID: 102, Slot: 2, DiskType: "hdd", Size: 50},
 		},
 		EIPList: []rcs.EIPItem{
 			{IP: "5.6.7.8", Region: "襄阳", Gateway: "5.6.7.1"},
 		},
 		RBSList: []rcs.RBSItem{
-			{Label: "auto", FileName: "b1.tar.gz", PackSize: 100, Status: "success", CreateTime: 1600000000},
+			{ID: 5, Label: "auto", FileName: "b1.tar.gz", PackSize: 100, Status: "success", CreateTime: 1600000000},
 		},
 		UpgradeablePlans: []rcs.UpgradeablePlan{
 			{PlanName: "通用型-4C8G", CPU: 4, Memory: 8192, Price: 60},
@@ -87,13 +87,13 @@ func TestToServerDetail(t *testing.T) {
 		t.Errorf("PlanName = %q", sd.PlanName)
 	}
 
-	if want := "slot1 ssd 30GB, slot2 hdd 50GB"; sd.EDiskSummary != want {
+	if want := "#101 slot1 ssd 30GB, #102 slot2 hdd 50GB"; sd.EDiskSummary != want {
 		t.Errorf("EDiskSummary = %q, want %q", sd.EDiskSummary, want)
 	}
 	if want := "5.6.7.8"; sd.EIPSummary != want {
 		t.Errorf("EIPSummary = %q, want %q", sd.EIPSummary, want)
 	}
-	if want := "auto(success)"; sd.BackupSummary != want {
+	if want := "auto(#5, success)"; sd.BackupSummary != want {
 		t.Errorf("BackupSummary = %q, want %q", sd.BackupSummary, want)
 	}
 	if want := "通用型-4C8G cpu4/mem8192"; sd.UpgradeSummary != want {

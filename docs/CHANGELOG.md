@@ -10,6 +10,10 @@ The format loosely follows Keep a Changelog and can be adapted to the team's hab
 
 ## [0.2.1] - 2026-08-13
 
+### Fixed / 修复
+
+- 依据 `docs/openapi.json` 修正多处端点 HTTP 方法：`rcs.SetRcsTag`（POST→PATCH）、`rgs.SetRgsTag`（POST→PATCH）、`domain.EditDomainTemplate`（PUT→PATCH）、`domain.UpdateDomainNS`（PUT→POST）、`ros.ToggleRosInstanceExtraAccounting`（PATCH→POST）、`rcs.AddRcsNatPortMapping`（POST→GET）。
+
 ### Added / 新增
 
 - 补齐 SDK 4 个缺口端点：`domain list`、`dns list`、`bucket-by-instance`、`expense orders`。

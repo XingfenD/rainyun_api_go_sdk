@@ -33,7 +33,7 @@ func (s *DomainService) EditDomainTemplate(req *EditDomainTemplateRequest) (*com
 	path := "/product/domain/template"
 
 	var resp common.BasicOperationResponse
-	err := s.client.Do(constant.HTTPMethod_PUT, path, nil, req, &resp)
+	err := s.client.Do(constant.HTTPMethod_PATCH, path, nil, req, &resp)
 
 	return &resp, err
 }

@@ -8,6 +8,7 @@ import (
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/common"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/rcs"
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/cliutil"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/model"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/output"
 	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
@@ -44,9 +45,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Get server details",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid server id: %s", args[0])
+				return err
 			}
 			resp, err := (*rySDK).GetRcsDetail(id)
 			if err != nil {
@@ -61,9 +62,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Start a server",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid server id: %s", args[0])
+				return err
 			}
 			if _, err := (*rySDK).StartRcs(id); err != nil {
 				return err
@@ -78,9 +79,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Stop a server",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid server id: %s", args[0])
+				return err
 			}
 			if _, err := (*rySDK).StopRcs(id); err != nil {
 				return err
@@ -95,9 +96,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Reboot a server",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid server id: %s", args[0])
+				return err
 			}
 			if _, err := (*rySDK).RebootRcs(id); err != nil {
 				return err
@@ -112,9 +113,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Reinstall server OS",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid server id: %s", args[0])
+				return err
 			}
 			osID, _ := cmd.Flags().GetInt("os-id")
 			if osID == 0 {
@@ -133,9 +134,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Reset server password",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid server id: %s", args[0])
+				return err
 			}
 			if _, err := (*rySDK).ResetRcsPassword(id, ""); err != nil {
 				return err
@@ -150,9 +151,9 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 		Short: "Get VNC connection URL",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
+			id, err := cliutil.ParseID(args[0])
 			if err != nil {
-				return fmt.Errorf("invalid server id: %s", args[0])
+				return err
 			}
 			v, err := (*rySDK).GetRcsVnc(id, "novnc")
 			if err != nil {
@@ -179,6 +180,19 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 	serverCmd.AddCommand(serverReinstallCmd)
 	serverCmd.AddCommand(serverResetPasswordCmd)
 	serverCmd.AddCommand(serverVNCCmd)
+
+	addLifecycleCommands(serverCmd, rySDK, out)
+	addCreateCommand(serverCmd, rySDK, out)
+	addRenewCommands(serverCmd, rySDK, out)
+	addUpgradeCommand(serverCmd, rySDK, out)
+	addEDiskCommands(serverCmd, rySDK, out)
+	addMonitorCommand(serverCmd, rySDK, out)
+	addBackupCommands(serverCmd, rySDK, out)
+	addEIPCommands(serverCmd, rySDK, out)
+	addNatCommands(serverCmd, rySDK, out)
+	addTrafficCommands(serverCmd, rySDK, out)
+	addFirewallCommands(serverCmd, rySDK, out)
+	addPveAddressCommand(serverCmd, rySDK, out)
 
 	return serverCmd
 }
@@ -242,18 +256,14 @@ func toServerDetail(d rcs.RcsDetail) model.ServerDetail {
 	sd.EDiskList = make([]model.ServerEDisk, 0, len(d.EDiskList))
 	for _, e := range d.EDiskList {
 		sd.EDiskList = append(sd.EDiskList, model.ServerEDisk{
-			Slot: e.Slot, Type: e.DiskType, Size: e.Size, Backup: e.Backup,
+			ID: e.ID, Slot: e.Slot, Type: e.DiskType, Size: e.Size, Backup: e.Backup,
 		})
 	}
-	sd.EIPList = make([]model.ServerEIP, 0, len(d.EIPList))
-	for _, e := range d.EIPList {
-		sd.EIPList = append(sd.EIPList, model.ServerEIP{
-			IP: e.IP, Region: e.Region, Gateway: e.Gateway, Description: e.Description,
-		})
-	}
+	sd.EIPList = toServerEIPs(d.EIPList)
 	sd.BackupList = make([]model.ServerBackup, 0, len(d.RBSList))
 	for _, b := range d.RBSList {
 		sd.BackupList = append(sd.BackupList, model.ServerBackup{
+			ID:         b.ID,
 			Label:      b.Label,
 			FileName:   b.FileName,
 			SizeBytes:  b.PackSize,
@@ -277,6 +287,21 @@ func toServerDetail(d rcs.RcsDetail) model.ServerDetail {
 	return sd
 }
 
+func toServerEIPs(items []rcs.EIPItem) []model.ServerEIP {
+	eips := make([]model.ServerEIP, 0, len(items))
+	for _, e := range items {
+		eips = append(eips, model.ServerEIP{
+			ID:          e.ID,
+			IP:          e.IP,
+			Region:      e.Region,
+			Type:        e.Type,
+			Gateway:     e.Gateway,
+			Description: e.Description,
+		})
+	}
+	return eips
+}
+
 func unixPtr(sec int) *time.Time {
 	if sec == 0 {
 		return nil
@@ -288,7 +313,7 @@ func unixPtr(sec int) *time.Time {
 func summarizeEDisks(items []model.ServerEDisk) string {
 	parts := make([]string, 0, len(items))
 	for _, e := range items {
-		parts = append(parts, fmt.Sprintf("slot%d %s %dGB", e.Slot, e.Type, e.Size))
+		parts = append(parts, fmt.Sprintf("#%d slot%d %s %dGB", e.ID, e.Slot, e.Type, e.Size))
 	}
 	return strings.Join(parts, ", ")
 }
@@ -304,7 +329,7 @@ func summarizeEIPs(items []model.ServerEIP) string {
 func summarizeBackups(items []model.ServerBackup) string {
 	parts := make([]string, 0, len(items))
 	for _, b := range items {
-		parts = append(parts, fmt.Sprintf("%s(%s)", b.Label, b.Status))
+		parts = append(parts, fmt.Sprintf("%s(#%d, %s)", b.Label, b.ID, b.Status))
 	}
 	return strings.Join(parts, ", ")
 }

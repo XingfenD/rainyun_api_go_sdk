@@ -59,6 +59,6 @@ func (s *RcsService) SetRcsTag(id int, tag string) (*common.BasicOperationRespon
 	path := fmt.Sprintf("/product/rcs/%d/tag", id)
 
 	var resp common.BasicOperationResponse
-	err := s.client.Do(constant.HTTPMethod_POST, path, nil, SetRcsTagRequest{TagName: tag}, &resp)
+	err := s.client.Do(constant.HTTPMethod_PATCH, path, nil, SetRcsTagRequest{TagName: tag}, &resp)
 	return &resp, err
 }

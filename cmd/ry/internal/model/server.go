@@ -16,6 +16,7 @@ type Server struct {
 }
 
 type ServerEDisk struct {
+	ID     int    `json:"id"`
 	Slot   int    `json:"slot"`
 	Type   string `json:"type"`
 	Size   int    `json:"size_gb"`
@@ -23,13 +24,16 @@ type ServerEDisk struct {
 }
 
 type ServerEIP struct {
-	IP          string `json:"ip"`
-	Region      string `json:"region"`
-	Gateway     string `json:"gateway"`
-	Description string `json:"description"`
+	ID          int    `json:"id"          table:"ID"`
+	IP          string `json:"ip"          table:"IP"`
+	Region      string `json:"region"      table:"REGION"`
+	Type        string `json:"type"        table:"TYPE"`
+	Gateway     string `json:"gateway"     table:"GATEWAY"`
+	Description string `json:"description" table:"DESC"`
 }
 
 type ServerBackup struct {
+	ID         int       `json:"id"`
 	Label      string    `json:"label"`
 	FileName   string    `json:"file_name"`
 	SizeBytes  int64     `json:"size_bytes"`
@@ -43,6 +47,28 @@ type ServerPlan struct {
 	CPU    int    `json:"cpu"`
 	Memory int    `json:"memory"`
 	Price  int    `json:"price"`
+}
+
+type RenewPrice struct {
+	Price    float64 `json:"price"        table:"PRICE"`
+	Renew    float64 `json:"renew"        table:"RENEW"`
+	RenewEIP float64 `json:"renew_eip"    table:"RENEW EIP"`
+	Coupon   int     `json:"coupon_value" table:"COUPON VALUE"`
+}
+
+type MonitorSample struct {
+	Time    string `json:"time"    table:"TIME"`
+	Metrics string `json:"metrics" table:"METRICS"`
+}
+
+type FirewallRule struct {
+	ID       string `json:"id"        table:"ID"`
+	Protocol string `json:"protocol"  table:"PROTOCOL"`
+	Source   string `json:"source"    table:"SOURCE"`
+	DestPort string `json:"dest_port" table:"DEST PORT"`
+	Action   string `json:"action"    table:"ACTION"`
+	Enabled  bool   `json:"enabled"   table:"ENABLED"`
+	Desc     string `json:"desc"      table:"DESC"`
 }
 
 type ServerDetail struct {

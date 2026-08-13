@@ -22,7 +22,7 @@ func (s *RcsService) AddRcsNatPortMapping(id int, req *AddRcsNatPortMappingReque
 	path := fmt.Sprintf("/product/rcs/%d/nat", id)
 
 	var resp common.BasicOperationResponse
-	err := s.client.Do(constant.HTTPMethod_POST, path, nil, req, &resp)
+	err := s.client.Do(constant.HTTPMethod_GET, path, nil, req, &resp)
 	return &resp, err
 }
 
