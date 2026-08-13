@@ -8,6 +8,12 @@ The format loosely follows Keep a Changelog and can be adapted to the team's hab
 
 > `ry` 命令行工具（`cmd/ry/`）的变更记录在 [`CHANGELOG_cli.md`](./CHANGELOG_cli.md)。
 
+## [0.3.0] - 2026-08-13
+
+### Removed / 移除
+
+- 移除 SDK 中未纳入 `docs/openapi.json` 的 5 个服务域：`product`、`rca`、`user`、`workorder`、`expense`（对应路径仅存在于旧版 API spec）。
+
 ## [0.2.1] - 2026-08-13
 
 ### Fixed / 修复
