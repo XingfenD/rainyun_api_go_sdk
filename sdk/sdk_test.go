@@ -3,6 +3,7 @@ package sdk
 import (
 	"testing"
 
+	"github.com/XingfenD/rainyun_api_go_sdk/apis"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/domain"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/expense"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/product"
@@ -19,8 +20,8 @@ import (
 
 type sinkStub struct{}
 
-func (sinkStub) OnHTTPTrace(HTTPTrace)     {}
-func (sinkStub) OnResultTrace(ResultTrace) {}
+func (sinkStub) OnHTTPTrace(apis.HTTPTrace)     {}
+func (sinkStub) OnResultTrace(apis.ResultTrace) {}
 
 func assertServicesInitialized(t *testing.T, s *RainyunSDK) {
 	t.Helper()
@@ -55,10 +56,6 @@ func TestNew(t *testing.T) {
 	assertServicesInitialized(t, New("test-key"))
 }
 
-func TestNewWithTrace(t *testing.T) {
-	assertServicesInitialized(t, NewWithTrace("test-key", NewTraceOptions(sinkStub{})))
-}
-
 func TestBuilder(t *testing.T) {
 	t.Run("plain build", func(t *testing.T) {
 		assertServicesInitialized(t, NewBuilder("test-key").Build())
@@ -67,7 +64,7 @@ func TestBuilder(t *testing.T) {
 		assertServicesInitialized(t, NewBuilder("test-key").WithTrace(nil).Build())
 	})
 	t.Run("chained trace options", func(t *testing.T) {
-		opts := NewTraceOptions(sinkStub{}).WithBodyPreviewLimit(128)
+		opts := apis.NewTraceOptions(sinkStub{}).WithBodyPreviewLimit(128)
 		assertServicesInitialized(t, NewBuilder("test-key").WithTrace(&opts).Build())
 	})
 }

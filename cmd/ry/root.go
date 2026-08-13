@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/XingfenD/rainyun_api_go_sdk/apis"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/billing"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/configcmd"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/domain"
@@ -77,11 +78,11 @@ Use "ry [command] --help" for more information about a command.`,
 	},
 }
 
-func verboseTraceOptions(enabled bool, limit int, full bool, sink sdk.TraceSink) *sdk.TraceOptions {
+func verboseTraceOptions(enabled bool, limit int, full bool, sink apis.TraceSink) *apis.TraceOptions {
 	if !enabled {
 		return nil
 	}
-	opts := sdk.NewTraceOptions(sink)
+	opts := apis.NewTraceOptions(sink)
 	switch {
 	case full:
 		opts = opts.WithFullBodyPreview()

@@ -7,7 +7,7 @@ import (
 	"io"
 	"time"
 
-	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
+	"github.com/XingfenD/rainyun_api_go_sdk/apis"
 )
 
 // VerboseRenderer renders SDK trace events as human-readable diagnostics.
@@ -20,7 +20,7 @@ func NewVerboseRenderer(w io.Writer) *VerboseRenderer {
 	return &VerboseRenderer{Writer: w}
 }
 
-func (r *VerboseRenderer) OnHTTPTrace(ev sdk.HTTPTrace) {
+func (r *VerboseRenderer) OnHTTPTrace(ev apis.HTTPTrace) {
 	if ev.Err != nil {
 		fmt.Fprintf(r.Writer, "[debug] %s %s error=%v\n", ev.Method, ev.URL, ev.Err)
 		return
@@ -36,7 +36,7 @@ func (r *VerboseRenderer) OnHTTPTrace(ev sdk.HTTPTrace) {
 	}
 }
 
-func (r *VerboseRenderer) OnResultTrace(ev sdk.ResultTrace) {
+func (r *VerboseRenderer) OnResultTrace(ev apis.ResultTrace) {
 	fmt.Fprintf(r.Writer, "[debug] result: type=%T\n", ev.Result)
 }
 

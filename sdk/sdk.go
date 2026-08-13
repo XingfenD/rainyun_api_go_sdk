@@ -16,11 +16,6 @@ import (
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/workorder"
 )
 
-type TraceSink = apis.TraceSink
-type TraceOptions = apis.TraceOptions
-type HTTPTrace = apis.HTTPTrace
-type ResultTrace = apis.ResultTrace
-
 type RainyunSDK struct {
 	public.PublicService
 	domain.DomainService
@@ -38,16 +33,6 @@ type RainyunSDK struct {
 
 func New(apiKey string) *RainyunSDK {
 	return newSDK(apis.NewRyClient(apiKey))
-}
-
-// NewWithTrace creates an SDK client that emits structured trace events to
-// options.Sink.
-func NewWithTrace(apiKey string, options TraceOptions) *RainyunSDK {
-	return newSDK(apis.NewRyClientWithTrace(apiKey, options))
-}
-
-func NewTraceOptions(sink TraceSink) TraceOptions {
-	return apis.NewTraceOptions(sink)
 }
 
 func newSDK(c *apis.RyClient) *RainyunSDK {

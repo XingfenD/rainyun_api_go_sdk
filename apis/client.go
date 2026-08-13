@@ -19,15 +19,6 @@ func NewRyClient(apiKey string) *RyClient {
 	return newRyClient(apiKey)
 }
 
-// NewRyClientWithTrace creates a client that emits structured trace events to
-// options.Sink. A nil sink disables tracing.
-func NewRyClientWithTrace(apiKey string, options TraceOptions) *RyClient {
-	c := newRyClient(apiKey)
-	c.traceSink = options.Sink
-	c.tracePolicy = options.previewPolicy()
-	return c
-}
-
 func newRyClient(apiKey string) *RyClient {
 	c := resty.New()
 	c.SetBaseURL(constant.BaseURL)

@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
+	"github.com/XingfenD/rainyun_api_go_sdk/apis"
 )
 
 func TestResolveOutput(t *testing.T) {
@@ -31,22 +31,22 @@ func TestResolveOutput(t *testing.T) {
 
 type noopTraceSink struct{}
 
-func (noopTraceSink) OnHTTPTrace(sdk.HTTPTrace)     {}
-func (noopTraceSink) OnResultTrace(sdk.ResultTrace) {}
+func (noopTraceSink) OnHTTPTrace(apis.HTTPTrace)     {}
+func (noopTraceSink) OnResultTrace(apis.ResultTrace) {}
 
 func TestVerboseTraceOptions(t *testing.T) {
 	sink := noopTraceSink{}
-	wantDefault := sdk.NewTraceOptions(sink)
-	wantNoBody := sdk.NewTraceOptions(sink).WithoutBodyPreview()
-	wantLimited := sdk.NewTraceOptions(sink).WithBodyPreviewLimit(128)
-	wantFull := sdk.NewTraceOptions(sink).WithFullBodyPreview()
+	wantDefault := apis.NewTraceOptions(sink)
+	wantNoBody := apis.NewTraceOptions(sink).WithoutBodyPreview()
+	wantLimited := apis.NewTraceOptions(sink).WithBodyPreviewLimit(128)
+	wantFull := apis.NewTraceOptions(sink).WithFullBodyPreview()
 
 	tests := []struct {
 		name    string
 		enabled bool
 		limit   int
 		full    bool
-		want    *sdk.TraceOptions
+		want    *apis.TraceOptions
 	}{
 		{name: "disabled", enabled: false, want: nil},
 		{name: "default is 65536", enabled: true, limit: 64 * 1024, want: &wantDefault},

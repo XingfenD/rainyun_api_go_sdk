@@ -64,7 +64,7 @@ func jsonResponse(status int, body string) *http.Response {
 }
 
 func newTracedClient(sink TraceSink, options TraceOptions) *RyClient {
-	c := NewRyClientWithTrace("test-key", options)
+	c := NewBuilder("test-key").WithTrace(&options).Build()
 	c.client.SetTransport(roundTripFunc(func(req *http.Request) (*http.Response, error) {
 		return jsonResponse(200, sampleResponseBody), nil
 	}))
@@ -142,7 +142,8 @@ func TestDoEmitsFullCapture(t *testing.T) {
 
 func TestDoEmitsNon200OnlyHTTP(t *testing.T) {
 	sink := &countSink{}
-	c := NewRyClientWithTrace("test-key", NewTraceOptions(sink))
+	opts := NewTraceOptions(sink)
+	c := NewBuilder("test-key").WithTrace(&opts).Build()
 	c.client.SetTransport(roundTripFunc(func(req *http.Request) (*http.Response, error) {
 		return jsonResponse(500, `{"code":500,"message":"boom"}`), nil
 	}))
@@ -162,7 +163,8 @@ func TestDoEmitsNon200OnlyHTTP(t *testing.T) {
 
 func TestDoEmitsTransportErrorOnlyHTTP(t *testing.T) {
 	sink := &seqSink{}
-	c := NewRyClientWithTrace("test-key", NewTraceOptions(sink))
+	opts := NewTraceOptions(sink)
+	c := NewBuilder("test-key").WithTrace(&opts).Build()
 	c.client.SetTransport(roundTripFunc(func(req *http.Request) (*http.Response, error) {
 		return nil, errors.New("connection refused")
 	}))
@@ -185,7 +187,8 @@ func TestDoEmitsTransportErrorOnlyHTTP(t *testing.T) {
 
 func TestDoEmitsDecodeErrorOnlyHTTP(t *testing.T) {
 	sink := &countSink{}
-	c := NewRyClientWithTrace("test-key", NewTraceOptions(sink))
+	opts := NewTraceOptions(sink)
+	c := NewBuilder("test-key").WithTrace(&opts).Build()
 	c.client.SetTransport(roundTripFunc(func(req *http.Request) (*http.Response, error) {
 		return jsonResponse(200, "not-json"), nil
 	}))
@@ -204,7 +207,8 @@ func TestDoEmitsDecodeErrorOnlyHTTP(t *testing.T) {
 }
 
 func TestDoEmitsSinkPanicDoesNotAlterOutcome(t *testing.T) {
-	c := NewRyClientWithTrace("test-key", NewTraceOptions(panicSink{}))
+	opts := NewTraceOptions(panicSink{})
+	c := NewBuilder("test-key").WithTrace(&opts).Build()
 	c.client.SetTransport(roundTripFunc(func(req *http.Request) (*http.Response, error) {
 		return jsonResponse(200, sampleResponseBody), nil
 	}))

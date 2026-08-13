@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/XingfenD/rainyun_api_go_sdk/apis"
 	"github.com/XingfenD/rainyun_api_go_sdk/constant"
-	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
 )
 
 func TestFormatPreview(t *testing.T) {
@@ -39,7 +39,7 @@ func TestFormatPreview(t *testing.T) {
 func TestVerboseRendererHTTPTrace(t *testing.T) {
 	var buf bytes.Buffer
 	r := NewVerboseRenderer(&buf)
-	r.OnHTTPTrace(sdk.HTTPTrace{
+	r.OnHTTPTrace(apis.HTTPTrace{
 		Method:        constant.HTTPMethod_GET,
 		URL:           "https://api.v2.rainyun.com/test",
 		StatusCode:    200,
@@ -67,7 +67,7 @@ func TestVerboseRendererHTTPTrace(t *testing.T) {
 func TestVerboseRendererEmptyPreview(t *testing.T) {
 	var buf bytes.Buffer
 	r := NewVerboseRenderer(&buf)
-	r.OnHTTPTrace(sdk.HTTPTrace{Method: constant.HTTPMethod_GET, URL: "/test", StatusCode: 200})
+	r.OnHTTPTrace(apis.HTTPTrace{Method: constant.HTTPMethod_GET, URL: "/test", StatusCode: 200})
 
 	if !strings.Contains(buf.String(), "(empty)") {
 		t.Errorf("output missing %q:\n%s", "(empty)", buf.String())
@@ -77,7 +77,7 @@ func TestVerboseRendererEmptyPreview(t *testing.T) {
 func TestVerboseRendererHTTPTraceError(t *testing.T) {
 	var buf bytes.Buffer
 	r := NewVerboseRenderer(&buf)
-	r.OnHTTPTrace(sdk.HTTPTrace{Method: constant.HTTPMethod_GET, URL: "/test", Err: errors.New("boom")})
+	r.OnHTTPTrace(apis.HTTPTrace{Method: constant.HTTPMethod_GET, URL: "/test", Err: errors.New("boom")})
 
 	if !strings.Contains(buf.String(), "error=boom") {
 		t.Errorf("output missing %q:\n%s", "error=boom", buf.String())
@@ -90,7 +90,7 @@ func TestVerboseRendererResultTrace(t *testing.T) {
 	var buf bytes.Buffer
 	r := NewVerboseRenderer(&buf)
 	res := &sampleResult{ID: 7}
-	r.OnResultTrace(sdk.ResultTrace{Result: res})
+	r.OnResultTrace(apis.ResultTrace{Result: res})
 
 	want := fmt.Sprintf("[debug] result: type=%T\n", res)
 	if buf.String() != want {
