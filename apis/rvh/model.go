@@ -13,7 +13,7 @@ type RvhPlan struct {
 	ChargeType      string         `json:"charge_type"`
 	Chinese         string         `json:"chinese"`
 	IsFree          bool           `json:"is_free"`
-	PointRenewPrice any            `json:"point_renew_price"`
+	PointRenewPrice any            `json:"point_renew_price"` // TODO: 结构未公开,实测后补强类型
 	IsSelling       bool           `json:"is_selling"`
 	Price           int            `json:"price"`
 	Tools           int            `json:"tools"`
@@ -35,14 +35,16 @@ type GetRvhListRequest struct {
 	Options common.StandQueryParameters `json:"options"`
 }
 
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRvhListResponse struct {
 	Code int `json:"code"`
-	Data any `json:"data"` // 记录结构未公开,透传
+	Data any `json:"data"`
 }
 
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRvhDetailResponse struct {
 	Code int `json:"code"`
-	Data any `json:"data"` // 记录结构未公开,透传
+	Data any `json:"data"`
 }
 
 type CreateRvhRequest struct {
@@ -101,6 +103,7 @@ type SetRvhFirewallRuleRequest struct {
 	Value  string `json:"value"`
 }
 
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRvhRenewPriceResponse struct {
 	Code int `json:"code"`
 	Data any `json:"data"`
@@ -111,6 +114,7 @@ type GetRvhPlanListResponse struct {
 	Data []RvhPlan `json:"data"`
 }
 
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRvhPriceResponse struct {
 	Code int `json:"code"`
 	Data any `json:"data"`

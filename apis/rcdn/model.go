@@ -4,10 +4,10 @@ import "github.com/XingfenD/rainyun_api_go_sdk/apis/common"
 
 // 实例记录(rcdnM.RCDN)
 type RcdnInstance struct {
-	UsageData               any      `json:"UsageData"` // 使用状况(缓存)
+	UsageData               any      `json:"UsageData"` // 使用状况(缓存) TODO: 结构未公开,实测后补强类型
 	AutoRenew               bool     `json:"autoRenew"`
 	CreateDate              int      `json:"createDate"`
-	DomainConfig            any      `json:"domainConfig"` // 域名默认CDN配置
+	DomainConfig            any      `json:"domainConfig"` // 域名默认CDN配置 TODO: 结构未公开,实测后补强类型
 	ExpDate                 int      `json:"expDate"`
 	ExpireNotice            int      `json:"expireNotice"`
 	ExtraPayTime            int      `json:"extra_pay_time"`
@@ -66,7 +66,7 @@ type RcdnPlan struct {
 	Line              string  `json:"line"`
 	Machine           string  `json:"machine"`
 	PlanName          string  `json:"plan_name"`
-	PointRenewPrice   any     `json:"point_renew_price"`
+	PointRenewPrice   any     `json:"point_renew_price"` // TODO: 结构未公开,实测后补强类型
 	Price             float64 `json:"price"`
 	RainDiscount      float64 `json:"rain_discount"`
 	Region            string  `json:"region"`
@@ -76,15 +76,15 @@ type RcdnPlan struct {
 
 // 加速域名记录(rcdnM.RCDNDomain)
 type RcdnDomain struct {
-	UsageData     any    `json:"UsageData"`
+	UsageData     any    `json:"UsageData"` // TODO: 结构未公开,实测后补强类型
 	CNAME         string `json:"cname"`
-	Config        any    `json:"config"` // datatypes.JSONType-rcdnM_DomainConfig
+	Config        any    `json:"config"` // datatypes.JSONType-rcdnM_DomainConfig TODO: 结构未公开,实测后补强类型
 	CreateDate    int    `json:"create_date"`
 	DefenceReason string `json:"defence_reason"`
 	DefenceTime   int    `json:"defence_time"`
 	Domain        string `json:"domain"`
 	ID            int    `json:"id"`
-	Product       any    `json:"product"`
+	Product       any    `json:"product"` // TODO: 结构未公开,实测后补强类型
 	ProductID     int    `json:"product_id"`
 	ReadyDelete   bool   `json:"ready_delete"`
 	Region        string `json:"region"`
@@ -105,13 +105,13 @@ type RcdnDomainConfig struct {
 	ACLConfig      RcdnACLConfig     `json:"acl_config"`
 	BaseConfig     RcdnBaseConfig    `json:"baseConfig"`
 	CacheConfigs   []RcdnCacheConfig `json:"cache_configs"`
-	OriginHeaders  []any             `json:"origin_headers"`
+	OriginHeaders  []any             `json:"origin_headers"` // TODO: 结构未公开,实测后补强类型
 	OriginHost     string            `json:"origin_host"`
 	RespConfig     []RcdnRespConfig  `json:"resp_config"`
 	RespRemoveList []string          `json:"resp_remove_list"`
 	SpeedLimits    []RcdnSpeedLimit  `json:"speed_limits"`
 	SSLConfig      RcdnSSLConfig     `json:"ssl_config"`
-	WAFConfig      any               `json:"wafConfig"`
+	WAFConfig      any               `json:"wafConfig"` // TODO: 结构未公开,实测后补强类型
 }
 
 type RcdnACLConfig struct {
@@ -258,6 +258,7 @@ type GetRcdnUsageRequest struct {
 	Unit    string `json:"unit"`
 }
 
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRcdnUsageResponse struct {
 	Code int `json:"code"`
 	Data any `json:"data"`
@@ -272,6 +273,7 @@ type GetRcdnMonitorDataRequest struct {
 	Unit    string `json:"unit"`
 }
 
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRcdnMonitorDataResponse struct {
 	Code int `json:"code"`
 	Data any `json:"data"`
@@ -282,6 +284,7 @@ type GetRcdnPlanListResponse struct {
 	Data []RcdnPlan `json:"data"`
 }
 
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRcdnPriceResponse struct {
 	Code int `json:"code"`
 	Data any `json:"data"`

@@ -5,6 +5,13 @@ SDK（`apis/`、`sdk/`）与模块级变更记录在 [`CHANGELOG.md`](./CHANGELO
 
 格式沿用 Keep a Changelog。
 
+## [0.1.2] - 2026-08-14
+
+### Added / 新增
+
+- 新增 `ry ssl`:证书 `list/get/upload/replace/delete`、`apply`(list/create/verify)、`order`(list/create/price/get/assign/cert/description/revoke/verify)、`products`。
+- `ssl list/order list/order get/products/price` 依据实测响应输出强类型表格(域名/状态/到期时间/价格等),其余端点输出原始数据,详查用 `-o json`。
+
 ## [0.1.1] - 2026-08-13
 
 ### Added / 新增

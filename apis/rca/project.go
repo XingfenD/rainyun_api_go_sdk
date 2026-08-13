@@ -56,7 +56,7 @@ type RcaNode struct {
 	ChineseName       string `json:"ChineseName"`
 	PhysicalNode      string `json:"PhysicalNode"`
 	Config            string `json:"Config"`
-	Stock             any    `json:"Stock"`
+	Stock             any    `json:"Stock"` // TODO: 结构未公开,实测后补强类型
 	StatusData        string `json:"StatusData"`
 	ShowMonitorData   string `json:"ShowMonitorData"`
 	UpdateTime        string `json:"UpdateTime"`
@@ -131,7 +131,7 @@ type RcaProject struct {
 	HourlyPrice             float64             `json:"hourly_price"` // 小时价格
 	NextChargeTime          int                 `json:"next_charge_time"`
 	BackupTarget            RcaBackupTarget     `json:"backup_target"` // 备份目标
-	SftpSetting             any                 `json:"sftp_setting"`
+	SftpSetting             any                 `json:"sftp_setting"`  // TODO: 结构未公开,实测后补强类型
 	IdleAlarmFlag           bool                `json:"idle_alarm_flag"`
 	PaymentDueEnd           int                 `json:"payment_due_end"`
 }

@@ -18,8 +18,8 @@ SDK 代码在 `apis/`，CLI 代码在 `cmd/ry/commands/`。
 | rgs | 75 | 36 | 0 |
 | ros | 36 | 19 | 3 |
 | rvh | 25 | 25 | 11 |
-| ssl | 18 | 5 | 0 |
-| **合计** | **351** | **220** | **85** |
+| ssl | 18 | 18 | 18 |
+| **合计** | **351** | **233** | **103** |
 
 ## domain
 
@@ -415,21 +415,21 @@ CLI 命令：`backup`, `bind <id> <domain>`, `create`, `create <id> <label>`, `d
 
 | 方法 | 路径 | 说明 | SDK | CLI |
 |---|---|---|---|---|
-| GET | `/product/sslcenter/` | SSL证书获取列表 | `ssl.GetSSLCertificateList` | — |
-| POST | `/product/sslcenter/` | SSL证书上传操作 | `ssl.UploadSSLCertificate` | — |
-| POST | `/product/sslcenter/cert/order` | 创建SSL证书申请 | — | — |
-| POST | `/product/sslcenter/cert/order_verify` | 验证SSL证书申请 | — | — |
-| GET | `/product/sslcenter/cert/orders` | 获取SSL证书申请列表 | — | — |
-| GET | `/product/sslcenter/order` | 获取SSL证书订单列表 | — | — |
-| POST | `/product/sslcenter/order` | 创建SSL证书订单 | — | — |
-| GET | `/product/sslcenter/order/{id}` | 获取SSL证书订单信息 | — | — |
-| POST | `/product/sslcenter/order/{id}/assign` | 将SSL证书添加到证书列表 | — | — |
-| GET | `/product/sslcenter/order/{id}/cert` | 获取SSL证书 | — | — |
-| POST | `/product/sslcenter/order/{id}/description` | 更新SSL订单描述 | — | — |
-| POST | `/product/sslcenter/order/{id}/revoke` | 申请吊销SSL证书 | — | — |
-| POST | `/product/sslcenter/order/{id}/verify` | 验证SSL证书订单 | — | — |
-| POST | `/product/sslcenter/price` | 获取SSL证书订单价格 | — | — |
-| GET | `/product/sslcenter/product` | 获取SSL证书产品列表 | — | — |
-| DELETE | `/product/sslcenter/{id}` | SSL证书删除操作 | `ssl.DeleteSsl` | — |
-| GET | `/product/sslcenter/{id}` | SSL证书查看操作 | `ssl.GetSslDetail` | — |
-| PUT | `/product/sslcenter/{id}` | SSL证书替换操作 | `ssl.ReplaceSsl` | — |
+| GET | `/product/sslcenter/` | SSL证书获取列表 | `ssl.GetSSLCertificateList` | ✓ |
+| POST | `/product/sslcenter/` | SSL证书上传操作 | `ssl.UploadSSLCertificate` | ✓ |
+| POST | `/product/sslcenter/cert/order` | 创建SSL证书申请 | `ssl.ApplyFreeSSLCertificate` | ✓ |
+| POST | `/product/sslcenter/cert/order_verify` | 验证SSL证书申请 | `ssl.VerifyFreeSSLCertificate` | ✓ |
+| GET | `/product/sslcenter/cert/orders` | 获取SSL证书申请列表 | `ssl.GetSSLCertApplyList` | ✓ |
+| GET | `/product/sslcenter/order` | 获取SSL证书订单列表 | `ssl.GetSSLOrderList` | ✓ |
+| POST | `/product/sslcenter/order` | 创建SSL证书订单 | `ssl.CreateSSLOrder` | ✓ |
+| GET | `/product/sslcenter/order/{id}` | 获取SSL证书订单信息 | `ssl.GetSSLOrderDetail` | ✓ |
+| POST | `/product/sslcenter/order/{id}/assign` | 将SSL证书添加到证书列表 | `ssl.AssignSSLOrder` | ✓ |
+| GET | `/product/sslcenter/order/{id}/cert` | 获取SSL证书 | `ssl.GetSSLOrderCert` | ✓ |
+| POST | `/product/sslcenter/order/{id}/description` | 更新SSL订单描述 | `ssl.UpdateSSLOrderDescription` | ✓ |
+| POST | `/product/sslcenter/order/{id}/revoke` | 申请吊销SSL证书 | `ssl.RevokeSSLOrder` | ✓ |
+| POST | `/product/sslcenter/order/{id}/verify` | 验证SSL证书订单 | `ssl.VerifySSLOrder` | ✓ |
+| POST | `/product/sslcenter/price` | 获取SSL证书订单价格 | `ssl.GetSSLOrderPrice` | ✓ |
+| GET | `/product/sslcenter/product` | 获取SSL证书产品列表 | `ssl.GetSSLProductList` | ✓ |
+| DELETE | `/product/sslcenter/{id}` | SSL证书删除操作 | `ssl.DeleteSsl` | ✓ |
+| GET | `/product/sslcenter/{id}` | SSL证书查看操作 | `ssl.GetSslDetail` | ✓ |
+| PUT | `/product/sslcenter/{id}` | SSL证书替换操作 | `ssl.ReplaceSsl` | ✓ |

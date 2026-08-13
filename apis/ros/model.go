@@ -12,7 +12,7 @@ type RosNode struct {
 	ChineseName       string `json:"ChineseName"`
 	PhysicalNode      string `json:"PhysicalNode"`
 	Config            string `json:"Config"`
-	Stock             any    `json:"Stock"`
+	Stock             any    `json:"Stock"` // TODO: 结构未公开,实测后补强类型
 	StatusData        string `json:"StatusData"`
 	ShowMonitorData   string `json:"ShowMonitorData"`
 	UpdateTime        string `json:"UpdateTime"`
@@ -33,7 +33,7 @@ type RosPlan struct {
 	ChargeType         string  `json:"charge_type"`
 	Chinese            string  `json:"chinese"`
 	IsFree             bool    `json:"is_free"`
-	PointRenewPrice    any     `json:"point_renew_price"`
+	PointRenewPrice    any     `json:"point_renew_price"` // TODO: 结构未公开,实测后补强类型
 	IsSelling          bool    `json:"is_selling"`
 	Price              int     `json:"price"`
 	StorageSize        int     `json:"storage_size"`
@@ -80,7 +80,7 @@ type RosInstance struct {
 	UnsubscribeAble         bool         `json:"UnsubscribeAble"`
 	Try                     bool         `json:"Try"` // 是否试用
 	PublicAPIURL            string       `json:"public_api_url"`
-	Buckets                 any          `json:"buckets"`
+	Buckets                 any          `json:"buckets"` // TODO: 结构未公开,实测后补强类型
 	ExtraPayTime            int          `json:"extra_pay_time"`
 	UsageData               RosUsageData `json:"UsageData"`
 	Restrictions            string       `json:"restrictions"`
@@ -99,9 +99,9 @@ type RosBucket struct {
 	InstanceID                   int          `json:"instance_id"`      // 实例ID
 	Instance                     RosInstance  `json:"Instance"`
 	StopReason                   string       `json:"stop_reason"`
-	DomainList                   any          `json:"DomainList"`
+	DomainList                   any          `json:"DomainList"` // TODO: 结构未公开,实测后补强类型
 	SslIsEnable                  bool         `json:"ssl_is_enable"`
-	SSLCertList                  any          `json:"SSLCertList"`
+	SSLCertList                  any          `json:"SSLCertList"` // TODO: 结构未公开,实测后补强类型
 	SslAutoRedirect              bool         `json:"ssl_auto_redirect"`
 	WafIsEnable                  bool         `json:"waf_is_enable"`
 	WafGlobalQPS                 int          `json:"waf_global_qps"`
@@ -110,12 +110,12 @@ type RosBucket struct {
 	WafGlobalJsCheck             bool         `json:"waf_global_js_check"`
 	WafPerIPJsCheck              bool         `json:"waf_per_ip_js_check"`
 	RefererRestrictIsEnable      bool         `json:"referer_restrict_is_enable"`
-	RefererRestrictWhitelist     any          `json:"RefererRestrictWhitelist"`
-	RefererRestrictBlacklist     any          `json:"RefererRestrictBlacklist"`
+	RefererRestrictWhitelist     any          `json:"RefererRestrictWhitelist"` // TODO: 结构未公开,实测后补强类型
+	RefererRestrictBlacklist     any          `json:"RefererRestrictBlacklist"` // TODO: 结构未公开,实测后补强类型
 	RefererRestrictBypassMissing bool         `json:"referer_restrict_bypass_missing"`
 	IPRestrictIsEnable           bool         `json:"ip_restrict_is_enable"`
-	IPRestrictWhitelist          any          `json:"IPRestrictWhitelist"`
-	IPRestrictBlacklist          any          `json:"IPRestrictBlacklist"`
+	IPRestrictWhitelist          any          `json:"IPRestrictWhitelist"` // TODO: 结构未公开,实测后补强类型
+	IPRestrictBlacklist          any          `json:"IPRestrictBlacklist"` // TODO: 结构未公开,实测后补强类型
 	GzipIsEnable                 bool         `json:"gzip_is_enable"`
 	GzipCompressLevel            int          `json:"gzip_compress_level"`
 	UsageData                    RosUsageData `json:"UsageData"`
@@ -137,5 +137,5 @@ type GetRosMonitorDataResponse struct {
 // RosMonitorData 对象存储监控数据（桶和实例通用）
 type RosMonitorData struct {
 	Columns []string `json:"Columns"`
-	Values  [][]any  `json:"Values"`
+	Values  [][]any  `json:"Values"` // TODO: 结构未公开,实测后补强类型
 }

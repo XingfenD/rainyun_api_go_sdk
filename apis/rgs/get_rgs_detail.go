@@ -16,7 +16,7 @@ type GetRgsDetailResponse struct {
 type RgsDetailData struct {
 	Data            RgsRecord          `json:"Data"`
 	NatList         []RgsNatItem       `json:"NatList"` // 端口映射列表
-	EIPList         any                `json:"EIPList"`
+	EIPList         any                `json:"EIPList"` // TODO: 结构未公开,实测后补强类型
 	ConfigPrice     int                `json:"ConfigPrice"`
 	RenewPointPrice RgsRenewPointPrice `json:"RenewPointPrice"` // 积分续费
 }

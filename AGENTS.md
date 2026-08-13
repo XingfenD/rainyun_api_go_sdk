@@ -23,6 +23,12 @@ Use Go 1.24.1 or later, as declared in `go.mod`.
 
 Format all Go changes with `gofmt -s`; use tabs and standard Go import grouping. Follow existing package naming: concise, lowercase directory and package names such as `apis/workorder`. Exported identifiers use `PascalCase`; unexported identifiers use `camelCase`. Keep one API area per `apis/<service>/` package and place its client setup in `client.go`. Prefer explicit request/response model names and JSON tags that match the API contract.
 
+## API Response Typing & Live Probes
+
+- Derive request/response models from `docs/openapi.json` and the official spec first; when a response schema is unpublished, probe the live API with curl to derive strong types: read the API key from `~/.config/ry/config.toml`, call `https://api.v2.rainyun.com/` (`constant.BaseURL`) with the `x-api-key` header.
+- Only curl safe endpoints (GET reads, price-calculation POSTs); **never** call dangerous APIs: paid order creation, certificate revoke/delete, resource destruction, assign/verify, or any write operation that mutates account state.
+- Responses that cannot be safely probed stay passthrough (`Data any`) with a `TODO: 结构未公开,实测后补强类型` marker on the response type, its method, or the field; free-form request fields (e.g. `vars`, `options`, `php_limits`) are exempt.
+
 ## Testing Guidelines
 
 Write standard-library `testing` tests in adjacent `*_test.go` files. Name cases `Test<Subject>` (for example, `TestMarshalQueryParams`) and include error paths and boundary/default behavior. Use `t.TempDir()` for file-backed tests; do not depend on user configuration or live API credentials. To stub the API, inject a fake `http.RoundTripper` via `apis.RyClient.SetTransport` (used throughout existing tests) or set `constant.BaseURL`-independent stubs; never hit the live API. Run `make test` before submitting, and run `make cover` when changing complex serialization, configuration, or output logic.
