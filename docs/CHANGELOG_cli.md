@@ -17,6 +17,7 @@ SDK（`apis/`、`sdk/`）与模块级变更记录在 [`CHANGELOG.md`](./CHANGELO
 - 新增 `cmd/ry/internal/config` 与 `cmd/ry/internal/output` 测试（6/6 + 7/7）。
 - `ry --verbose` 渲染结构化链路追踪到 stderr，不影响标准输出；新增 `--verbose-body-limit int`（0 关闭预览）与 `--verbose-full-body` 标志。
 - 新增 `cmd/ry/internal/constant` 维护 CLI 版本号，支持 `ry version` 与 `ry --version`。
+- `ry server` 补全剩余 SDK 接口：`free`、`set-tag`、`create`、`upgrade`、`renew-price`、`renew`、`auto-renew`、`edisk (create/expand)`、`monitor`、`backup (create/delete/cancel/restore/auto)`、`eip (set-description/create/change/discard)`、`nat (add/delete)`、`traffic (charge/limit)`、`firewall (list/set/delete/move)`、`pve-address`。
 
 ### Changed / 变更
 
