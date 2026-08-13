@@ -8,6 +8,13 @@ The format loosely follows Keep a Changelog and can be adapted to the team's hab
 
 > `ry` 命令行工具（`cmd/ry/`）的变更记录在 [`CHANGELOG_cli.md`](./CHANGELOG_cli.md)。
 
+## [0.2.3] - 2026-08-14
+
+### Added / 新增
+
+- `ssl` 服务补齐 13 个订单/申请端点：免费证书申请与验证、订单列表/创建/详情/价格、订单证书获取/吊销/验证/描述、证书产品列表（`GET/POST /product/sslcenter/order...`、`/cert/order...`、`/price`、`/product`）。
+- 依据线上接口实测为订单/产品/价格端点补齐强类型模型（`SslOrder`/`SslProduct`/`SslOrderPrice` 等）；无法安全探测的写操作（创建订单/吊销/分配/验证）响应以 `SslPassthroughResponse` 透传。
+
 ## [0.2.2] - 2026-08-13
 
 ### Added / 新增

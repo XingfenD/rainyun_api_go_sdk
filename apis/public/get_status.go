@@ -19,7 +19,7 @@ type GetStatusResponse struct {
 
 type NodeStatus struct {
 	TotalRecords         int                    `json:"TotalRecords"`
-	OngoingServiceEvents []interface{}          `json:"OngoingServiceEvents"`
+	OngoingServiceEvents []any                  `json:"OngoingServiceEvents"` // TODO: 结构未公开,实测后补强类型
 	Records              []NodeStatusRecordItem `json:"Records"`
 }
 

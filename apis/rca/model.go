@@ -73,32 +73,37 @@ type UpgradeRcaAppRequest struct {
 	ReleaseID int `json:"release_id"`
 }
 
-// app 透传响应(上游无公开结构)
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRcaAppListResponse struct {
 	Code int `json:"code"`
 	Data any `json:"data"`
 }
 
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRcaAppDetailResponse struct {
 	Code int `json:"code"`
 	Data any `json:"data"`
 }
 
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRcaAppConfigMapResponse struct {
 	Code int `json:"code"`
 	Data any `json:"data"`
 }
 
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRcaAppContainerMetricsResponse struct {
 	Code int `json:"code"`
 	Data any `json:"data"`
 }
 
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRcaAppPHPSettingResponse struct {
 	Code int `json:"code"`
 	Data any `json:"data"`
 }
 
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRcaAppServiceListResponse struct {
 	Code int `json:"code"`
 	Data any `json:"data"`
@@ -145,17 +150,19 @@ type UpdateRcaWebsiteNginxRequest struct {
 	SSLProtocol               []string `json:"ssl_protocol"`
 }
 
-// website 透传响应
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRcaWebsiteListResponse struct {
 	Code int `json:"code"`
 	Data any `json:"data"`
 }
 
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRcaWebsiteDetailResponse struct {
 	Code int `json:"code"`
 	Data any `json:"data"`
 }
 
+// TODO: 响应结构未公开,透传;实测后补强类型
 type GetRcaWebsiteRewriteConfigResponse struct {
 	Code int `json:"code"`
 	Data any `json:"data"`

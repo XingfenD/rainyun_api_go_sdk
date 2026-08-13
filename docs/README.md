@@ -111,6 +111,17 @@ make cover    # 生成覆盖率报告
 make install  # 安装 CLI 到 GOPATH/bin
 ```
 
+## 贡献 / Contributing
+
+欢迎任何形式的贡献：问题报告、文档改进、代码 PR。
+
+**当前最需要的是 API 响应结构体定义。** SDK 中仍有大量响应字段/端点因上游未公开结构而以 `Data any` 透传，并标记了 `TODO: 结构未公开,实测后补强类型`（可在代码中搜索该标记，进度见 [`docs/PROGRESS.md`](PROGRESS.md)）。如果您有雨云账号并能调用对应接口，欢迎提交 PR 补全：
+
+1. 用您的 API key 实测接口，获取真实响应体（在调用前请务必确保该接口为只读，仅在确有需要时调用创建订单、吊销证书、销毁资源等危险操作）。
+2. 为响应体定义强类型结构体，替换 `Data any` 透传并移除 TODO 标记。
+3. 用 `http.RoundTripper` stub 补一个反序列化测试（参考 `apis/*/*_test.go` 现有写法）。
+4. `make fmt && make vet && make test` 通过后提交。
+
 ## 文档
 
 - [`docs/CHANGELOG.md`](CHANGELOG.md)：SDK 更新日志

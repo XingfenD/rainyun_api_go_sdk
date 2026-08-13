@@ -21,7 +21,7 @@ type Node struct {
 	ChineseName       string `json:"ChineseName"`
 	PhysicalNode      string `json:"PhysicalNode"`
 	Config            string `json:"Config"`
-	Stock             any    `json:"Stock"` // NOTE: any?
+	Stock             any    `json:"Stock"` // TODO: 结构未公开,实测后补强类型
 	StatusData        string `json:"StatusData"`
 	ShowMonitorData   string `json:"ShowMonitorData"`
 	UpdateTime        string `json:"UpdateTime"`
@@ -50,7 +50,7 @@ type UsageData struct {
 	DiskWrite   float64       `json:"DiskWrite"`
 	NetOut      float64       `json:"NetOut"`
 	NetIn       float64       `json:"NetIn"`
-	SmartHealth any           `json:"SmartHealth"`
+	SmartHealth any           `json:"SmartHealth"` // TODO: 结构未公开,实测后补强类型
 	SmartTemp   int           `json:"SmartTemp"`
 	UpdateTime  int           `json:"UpdateTime"`
 }
@@ -75,7 +75,7 @@ type Plan struct {
 	ChargeType      string       `json:"charge_type"`
 	Chinese         string       `json:"chinese"`
 	IsFree          bool         `json:"is_free"`
-	PointRenewPrice any          `json:"point_renew_price"`
+	PointRenewPrice any          `json:"point_renew_price"` // TODO: 结构未公开,实测后补强类型
 	IsSelling       bool         `json:"is_selling"`
 	Price           int          `json:"price"`
 	TrafficBaseGb   int          `json:"traffic_base_gb"`
@@ -84,13 +84,13 @@ type Plan struct {
 	Memory          int          `json:"memory"`
 	NetIn           int          `json:"net_in"`
 	NetOut          int          `json:"net_out"`
-	IPPrices        any          `json:"ip_prices"`
-	IPSelling       any          `json:"ip_selling"`
+	IPPrices        any          `json:"ip_prices"`  // TODO: 结构未公开,实测后补强类型
+	IPSelling       any          `json:"ip_selling"` // TODO: 结构未公开,实测后补强类型
 	AutoRestock     int          `json:"auto_restock"`
 	AvailableStock  int          `json:"available_stock"`
 	GpuMemorySize   int          `json:"gpu_memory_size"`
 	DgpuDevType     string       `json:"dgpu_dev_type"`
-	WebbarConfig    any          `json:"webbar_config"`
+	WebbarConfig    any          `json:"webbar_config"` // TODO: 结构未公开,实测后补强类型
 	NoBackup        bool         `json:"no_backup"`
 	DiskPrice       DiskPrice    `json:"disk_price"`
 }

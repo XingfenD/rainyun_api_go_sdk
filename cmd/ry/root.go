@@ -12,6 +12,7 @@ import (
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/rcdn"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/rvh"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/server"
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/ssl"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/storage"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/config"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/constant"
@@ -155,4 +156,5 @@ func init() {
 	rootCmd.AddCommand(rcdn.Cmd(&rySDK, &out))
 	rootCmd.AddCommand(rca.Cmd(&rySDK, &out))
 	rootCmd.AddCommand(rvh.Cmd(&rySDK, &out))
+	rootCmd.AddCommand(ssl.Cmd(&rySDK, &out))
 }

@@ -19,7 +19,7 @@ type RosPlanItem struct {
 	ChargeType         string  `json:"charge_type"`
 	Chinese            string  `json:"chinese"`
 	IsFree             bool    `json:"is_free"`
-	PointRenewPrice    any     `json:"point_renew_price"` // 积分续费价格
+	PointRenewPrice    any     `json:"point_renew_price"` // 积分续费价格 TODO: 结构未公开,实测后补强类型
 	IsSelling          bool    `json:"is_selling"`
 	Price              int     `json:"price"`
 	StorageSize        int     `json:"storage_size"`

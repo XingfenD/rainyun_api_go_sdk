@@ -55,14 +55,14 @@ type RgsCreateData struct {
 	Node          RgsNode `json:"Node"` // 节点信息
 	Plan          RgsPlan `json:"Plan"`
 	EggTypeID     int     `json:"EggTypeId"`
-	EggType       any     `json:"EggType"`
+	EggType       any     `json:"EggType"` // TODO: 结构未公开,实测后补强类型
 	PteroUserName string  `json:"PteroUserName"`
-	PteroUser     any     `json:"PteroUser"`
+	PteroUser     any     `json:"PteroUser"` // TODO: 结构未公开,实测后补强类型
 	ServerID      int     `json:"ServerID"`
 	AllocationID  int     `json:"AllocationID"`
 	ServerUUID    string  `json:"ServerUUID"`
 	DaemonUUID    string  `json:"DaemonUUID"`
-	GameInfo      any     `json:"GameInfo"`
+	GameInfo      any     `json:"GameInfo"` // TODO: 结构未公开,实测后补强类型
 }
 
 type RgsNode struct {
@@ -76,7 +76,7 @@ type RgsNode struct {
 	ChineseName       string `json:"ChineseName"`
 	PhysicalNode      string `json:"PhysicalNode"`
 	Config            string `json:"Config"`
-	Stock             any    `json:"Stock"`
+	Stock             any    `json:"Stock"` // TODO: 结构未公开,实测后补强类型
 	StatusData        string `json:"StatusData"`
 	ShowMonitorData   string `json:"ShowMonitorData"`
 	UpdateTime        string `json:"UpdateTime"`
@@ -96,12 +96,12 @@ type RgsPlan struct {
 	ChargeType       string          `json:"charge_type"`
 	Chinese          string          `json:"chinese"`
 	IsFree           bool            `json:"is_free"`
-	PointRenewPrice  any             `json:"point_renew_price"`
+	PointRenewPrice  any             `json:"point_renew_price"` // TODO: 结构未公开,实测后补强类型
 	IsSelling        bool            `json:"is_selling"`
 	StockDiscount    int             `json:"stock_discount"`
 	EipStockDiscount int             `json:"eip_stock_discount"`
-	IPPrices         any             `json:"ip_prices"`
-	IPSelling        any             `json:"ip_selling"`
+	IPPrices         any             `json:"ip_prices"`  // TODO: 结构未公开,实测后补强类型
+	IPSelling        any             `json:"ip_selling"` // TODO: 结构未公开,实测后补强类型
 	CPUPrice         int             `json:"cpu_price"`
 	MemoryPrice      int             `json:"memory_price"`
 	NetInPrice       int             `json:"net_in_price"`
