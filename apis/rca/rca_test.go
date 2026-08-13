@@ -89,3 +89,28 @@ func TestStartRcaAppPath(t *testing.T) {
 		t.Fatalf("StartRcaApp() error = %v", err)
 	}
 }
+
+func TestGetRcaProjectMetricsPathAndQuery(t *testing.T) {
+	c := apis.NewRyClient("test-key")
+	c.SetTransport(roundTripFunc(func(req *http.Request) (*http.Response, error) {
+		if req.Method != "GET" {
+			t.Errorf("method = %s, want GET", req.Method)
+		}
+		if req.URL.Path != "/product/rca/project/7/metrics" {
+			t.Errorf("path = %s, want /product/rca/project/7/metrics", req.URL.Path)
+		}
+		q := req.URL.Query()
+		if q.Get("start_time") != "1700000000" || q.Get("end_time") != "1700003600" {
+			t.Errorf("query = %v, want start_time=1700000000 end_time=1700003600", q)
+		}
+		return jsonResponse(200, `{"code":200,"data":{"Columns":["time"],"Values":[[1.5]]}}`), nil
+	}))
+	svc := NewRcaService(c)
+	resp, err := svc.GetRcaProjectMetrics(7, 1700000000, 1700003600)
+	if err != nil {
+		t.Fatalf("GetRcaProjectMetrics() error = %v", err)
+	}
+	if len(resp.Data.Columns) == 0 || resp.Data.Columns[0] != "time" {
+		t.Errorf("Columns = %v, want [time]", resp.Data.Columns)
+	}
+}

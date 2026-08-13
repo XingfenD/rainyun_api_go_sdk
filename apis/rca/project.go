@@ -2,6 +2,7 @@ package rca
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/common"
 	"github.com/XingfenD/rainyun_api_go_sdk/constant"
@@ -219,10 +220,14 @@ func (s *RcaService) DestroyRcaProject(id int) (*common.BasicOperationResponse, 
 //
 // endtime: 结束时间(timestamp)
 func (s *RcaService) GetRcaProjectMetrics(id int, startTime int, endTime int) (*GetRcaProjectMetricsResponse, error) {
-	path := fmt.Sprintf("/product/rca/project/%d/metrics?start_time=%d&end_time=%d", id, startTime, endTime)
+	path := fmt.Sprintf("/product/rca/project/%d/metrics", id)
+	querys := map[string]string{
+		"start_time": strconv.Itoa(startTime),
+		"end_time":   strconv.Itoa(endTime),
+	}
 
 	var resp GetRcaProjectMetricsResponse
-	err := s.client.Do(constant.HTTPMethod_GET, path, nil, nil, &resp)
+	err := s.client.Do(constant.HTTPMethod_GET, path, querys, nil, &resp)
 	return &resp, err
 }
 
