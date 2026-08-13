@@ -32,7 +32,7 @@ func (s *DomainService) UpdateDomainNS(id int, nss []string) (*common.BasicOpera
 	path := fmt.Sprintf("/product/domain/%d/nameservers", id)
 
 	var resp common.BasicOperationResponse
-	err := s.client.Do(constant.HTTPMethod_PUT, path, nil, UpdateDomainNSRequest{NameServers: nss}, &resp)
+	err := s.client.Do(constant.HTTPMethod_POST, path, nil, UpdateDomainNSRequest{NameServers: nss}, &resp)
 
 	return &resp, err
 }

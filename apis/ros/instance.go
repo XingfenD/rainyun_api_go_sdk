@@ -197,7 +197,7 @@ func (s *RosService) ToggleRosInstanceExtraAccounting(instanceID int, isEnable b
 	path := fmt.Sprintf("/product/ros/instance/%d/toggle-extra-accounting", instanceID)
 
 	var resp common.BasicOperationResponse
-	err := s.client.Do(constant.HTTPMethod_PATCH, path, nil, ToggleRosInstanceExtraAccountingRequest{IsEnable: isEnable}, &resp)
+	err := s.client.Do(constant.HTTPMethod_POST, path, nil, ToggleRosInstanceExtraAccountingRequest{IsEnable: isEnable}, &resp)
 	return &resp, err
 }
 
