@@ -40,3 +40,18 @@ func (s *RgsService) DisCardRgsIP(id int, req rcs.DisCardRcsIPRequest) (*common.
 	err := s.client.Do(constant.HTTPMethod_POST, path, nil, req, &resp)
 	return &resp, err
 }
+
+// 设置游戏云IP描述
+//
+// id: 游戏云 ID
+//
+// ip: IP地址
+//
+// desc: 描述
+func (s *RgsService) SetRgsEipDescription(id int, ip, desc string) (*common.BasicOperationResponse, error) {
+	path := fmt.Sprintf("/product/rgs/%d/eip/description", id)
+
+	var resp common.BasicOperationResponse
+	err := s.client.Do(constant.HTTPMethod_POST, path, nil, rcs.SetRcsEipDescriptionRequest{IP: ip, Description: desc}, &resp)
+	return &resp, err
+}
