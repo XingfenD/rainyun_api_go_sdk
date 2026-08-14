@@ -68,8 +68,17 @@ def scan_sdk():
             pm = re.search(r'path\s*:?=\s*(?:fmt\.Sprintf\("([^"]+)"|"([^"]+)")', body)
             raw = pm.group(1) or pm.group(2) if pm else None
             dm = re.search(r"Do\(constant\.HTTPMethod_(\w+),", body)
+            passthrough = False
+            rm = re.search(r"var resp (\w+)", body)
+            if rm:
+                resp_type = rm.group(1)
+                type_def = re.search(
+                    rf"type {resp_type} struct \{{[^}}]+\}}", text, re.DOTALL
+                )
+                if type_def and "Data any" in type_def.group(0) and "TODO: 结构未公开" in type_def.group(0):
+                    passthrough = True
             if dm and raw:
-                rows.append((svc, funcname, dm.group(1), raw))
+                rows.append((svc, funcname, dm.group(1), raw, passthrough))
     return rows
 
 
@@ -145,7 +154,7 @@ def main():
 
     # ---- SDK / CLI scan ----
     sdk_rows = scan_sdk()
-    sdk_index = {(norm_path(raw), method): (svc, func) for svc, func, method, raw in sdk_rows}
+    sdk_index = {(norm_path(raw), method): (svc, func, passthrough) for svc, func, method, raw, passthrough in sdk_rows}
     cli_calls = scan_cli_calls()
 
     # ---- progress doc ----
@@ -195,23 +204,25 @@ def main():
             if uses:
                 lines.append("CLI 命令：`" + "`, `".join(uses) + "`")
                 lines.append("")
-        lines.append("| 方法 | 路径 | 说明 | SDK | CLI |")
-        lines.append("|---|---|---|---|---|")
+        lines.append("| 方法 | 路径 | 说明 | SDK | 响应类型 | CLI |")
+        lines.append("|---|---|---|---|---|---|")
         for method, p, summary in sorted(rows, key=lambda r: (r[1], r[0])):
             key = spec_key(method, p)
             hit = sdk_index.get(key)
             if hit:
-                svc, func = hit
+                svc, func, passthrough = hit
                 sdk_cell = f"`{svc}.{func}`"
+                resp_cell = "passthrough" if passthrough else "typed"
                 cli_cell = "✓" if func in cli_calls else "—"
             else:
                 sdk_cell = "—"
+                resp_cell = ""
                 cli_cell = "—"
-            lines.append(f"| {method} | `{p}` | {summary} | {sdk_cell} | {cli_cell} |")
+            lines.append(f"| {method} | `{p}` | {summary} | {sdk_cell} | {resp_cell} | {cli_cell} |")
         lines.append("")
 
     # services in the SDK but not covered by openapi.json
-    sdk_svcs = sorted({svc for svc, _, _, _ in sdk_rows})
+    sdk_svcs = sorted({svc for svc, _, _, _, _ in sdk_rows})
     spec_tags = set(tagged)
     missing = [s for s in sdk_svcs if s not in spec_tags]
     if missing:
