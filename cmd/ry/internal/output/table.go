@@ -5,7 +5,28 @@ import (
 	"io"
 	"reflect"
 	"strings"
+	"unicode"
 )
+
+func displayWidth(s string) int {
+	w := 0
+	for _, r := range s {
+		if unicode.Is(unicode.Han, r) || unicode.Is(unicode.Hangul, r) || unicode.Is(unicode.Katakana, r) || unicode.Is(unicode.Hiragana, r) {
+			w += 2
+		} else {
+			w++
+		}
+	}
+	return w
+}
+
+func padRight(s string, width int) string {
+	dw := displayWidth(s)
+	if dw >= width {
+		return s
+	}
+	return s + strings.Repeat(" ", width-dw)
+}
 
 func printTable(w io.Writer, data any) error {
 	v := reflect.ValueOf(data)
@@ -39,12 +60,12 @@ func printTableSlice(w io.Writer, v reflect.Value) error {
 
 	widths := make([]int, len(headers))
 	for i, h := range headers {
-		widths[i] = len(h)
+		widths[i] = displayWidth(h)
 	}
 	for _, row := range rows {
 		for i, cell := range row {
-			if len(cell) > widths[i] {
-				widths[i] = len(cell)
+			if displayWidth(cell) > widths[i] {
+				widths[i] = displayWidth(cell)
 			}
 		}
 	}
@@ -68,7 +89,7 @@ func printTableSlice(w io.Writer, v reflect.Value) error {
 func renderRow(w io.Writer, cells []string, widths []int, sep string) {
 	parts := make([]string, len(cells))
 	for i, cell := range cells {
-		parts[i] = fmt.Sprintf("%-*s", widths[i], cell)
+		parts[i] = padRight(cell, widths[i])
 	}
 	fmt.Fprintln(w, strings.Join(parts, sep))
 }

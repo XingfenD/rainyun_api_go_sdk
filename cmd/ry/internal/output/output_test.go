@@ -114,3 +114,35 @@ func TestTableSingleNilPointer(t *testing.T) {
 		t.Errorf("nil pointer not rendered as '-':\n%s", buf.String())
 	}
 }
+
+func TestTableCJKAlignment(t *testing.T) {
+	type product struct {
+		ID   string `table:"ID"`
+		Name string `table:"NAME"`
+		Type string `table:"TYPE"`
+	}
+	items := []product{
+		{ID: "1", Name: "TrustAsia域名型SSL证书", Type: "dv"},
+		{ID: "2", Name: "GeoSSL域名型通配符SSL证书", Type: "dv"},
+		{ID: "3", Name: "PlainASCII", Type: "ov"},
+	}
+	var buf bytes.Buffer
+	printer := New("table", &buf)
+	if err := printer.Print(items); err != nil {
+		t.Fatalf("Print error: %v", err)
+	}
+	lines := strings.Split(strings.TrimRight(buf.String(), "\n"), "\n")
+	if len(lines) < 5 {
+		t.Fatalf("expected 5 lines (header+sep+3rows), got %d", len(lines))
+	}
+	idxType := strings.Index(lines[0], "TYPE")
+	for i, line := range lines {
+		if i == 1 {
+			continue
+		}
+		pos := strings.Index(line, lines[i][idxType:idxType+4])
+		if pos != idxType {
+			t.Errorf("line %d: TYPE column at pos %d, want %d\n%s", i, pos, idxType, buf.String())
+		}
+	}
+}
