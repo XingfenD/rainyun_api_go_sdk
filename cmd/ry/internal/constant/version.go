@@ -1,4 +1,4 @@
 package constant
 
 // Version is the version of the ry CLI.
-const Version = "0.1.0"
+const Version = "0.1.1"
