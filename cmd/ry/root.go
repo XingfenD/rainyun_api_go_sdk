@@ -16,6 +16,7 @@ import (
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/storage"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/config"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/constant"
+	sdkconst "github.com/XingfenD/rainyun_api_go_sdk/constant"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/output"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/trace"
 	"github.com/XingfenD/rainyun_api_go_sdk/sdk"
@@ -43,7 +44,8 @@ var rootCmd = &cobra.Command{
 
 Use "ry [command] --help" for more information about a command.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		return cmd.Help()
+		printBanner(cmd)
+		return nil
 	},
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		var err error
@@ -105,6 +107,21 @@ func resolveOutput(configFormat, flagFormat string) (format, source string) {
 		return flagFormat, "--output"
 	}
 	return configFormat, "config"
+}
+
+func printBanner(cmd *cobra.Command) {
+	banner := `
+ _ __ _   _
+| '__| | | |
+| |  | |_| |
+|_|   \__, |
+      |___/
+
+  Rainyun CLI  v` + constant.Version + `
+  SDK v` + sdkconst.RainyunSdkVersion + `  |  API Doc v` + sdkconst.APIDocVersion + `
+  Manage cloud resources from your terminal
+`
+	cmd.Print(banner)
 }
 
 func init() {
