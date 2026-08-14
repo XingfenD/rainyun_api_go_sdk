@@ -252,6 +252,7 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 	addEggCommands(gameCmd, rySDK, out)
 	addPlansCommands(gameCmd, rySDK, out)
 	addPanelCommands(gameCmd, rySDK, out)
+	addPalCommands(gameCmd, rySDK, out)
 
 	return gameCmd
 }
