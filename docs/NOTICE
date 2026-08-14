@@ -7,8 +7,8 @@ Mozilla Public License 2.0 (see the LICENSE file in the repository root).
 Code Attribution
 ----------------
 
-The request and response data structures (structs) in this project were
-refactored based on ssdomei232/rainyun-go-sdk
+Portions of the request and response data structures (structs) in this
+project are derived from ssdomei232/rainyun-go-sdk
 (https://github.com/ssdomei232/rainyun-go-sdk), Copyright (c) 2025 mei,
 distributed under the MIT License.
 
