@@ -64,3 +64,37 @@ func (s *RgsService) MobileRgsFirewallRulePriority(id, ruleID int, req rcs.Mobil
 	err := s.client.Do(constant.HTTPMethod_PUT, path, nil, req, &resp)
 	return &resp, err
 }
+
+// SetRgsFirewallModeRequest 防火墙模式设置请求
+type SetRgsFirewallModeRequest struct {
+	Mode string `json:"mode"`
+}
+
+// 创建/设置游戏云防火墙模式
+//
+// id: 游戏云 ID
+//
+// mode: black/white 默认黑名单模式
+func (s *RgsService) SetRgsFirewallMode(id int, mode string) (*common.BasicOperationResponse, error) {
+	path := fmt.Sprintf("/product/rgs/%d/firewall/mode", id)
+
+	var resp common.BasicOperationResponse
+	err := s.client.Do(constant.HTTPMethod_POST, path, nil, SetRgsFirewallModeRequest{Mode: mode}, &resp)
+	return &resp, err
+}
+
+type GetRgsFirewallSyncTimeResponse struct {
+	Code int `json:"code"`
+	Data any `json:"data"` // TODO: 结构未公开,实测后补强类型
+}
+
+// 获取游戏云防火墙同步开始时间
+//
+// id: 游戏云 ID
+func (s *RgsService) GetRgsFirewallSyncTime(id int) (*GetRgsFirewallSyncTimeResponse, error) {
+	path := fmt.Sprintf("/product/rgs/%d/firewall/sync_time", id)
+
+	var resp GetRgsFirewallSyncTimeResponse
+	err := s.client.Do(constant.HTTPMethod_GET, path, nil, nil, &resp)
+	return &resp, err
+}

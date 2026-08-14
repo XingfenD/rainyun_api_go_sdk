@@ -162,3 +162,22 @@ func (s *RgsService) ChangeRgsEgg(id int, eggTypeID int, saveDirs []string) (*co
 	err := s.client.Do(constant.HTTPMethod_POST, path, nil, ChangeRgsEggRequest{EggTypeID: eggTypeID, SaveDirs: saveDirs}, &resp)
 	return &resp, err
 }
+
+// SwitchRgsPanelUserRequest 切换面板用户请求
+// TODO: 结构未公开,实测后补强类型(字段为推测)
+type SwitchRgsPanelUserRequest struct {
+	Subtype  string `json:"subtype,omitempty"`  // 面板类型(ptero/mcsm/k8s_panel)
+	Name     string `json:"name,omitempty"`     // 用户名
+	Password string `json:"password,omitempty"` // 密码
+}
+
+// 游戏云切换面板用户
+//
+// id: 游戏云 ID
+func (s *RgsService) SwitchRgsPanelUser(id int, req *SwitchRgsPanelUserRequest) (*common.BasicOperationResponse, error) {
+	path := fmt.Sprintf("/product/rgs/%d/switch-user", id)
+
+	var resp common.BasicOperationResponse
+	err := s.client.Do(constant.HTTPMethod_POST, path, nil, req, &resp)
+	return &resp, err
+}

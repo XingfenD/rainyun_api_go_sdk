@@ -21,6 +21,7 @@ CATEGORY_CLI_DIR = {
     "rcdn": "rcdn",
     "rca": "rca",
     "rvh": "rvh",
+    "rgs": "game",
 }
 
 
@@ -28,6 +29,28 @@ def norm_path(p):
     p = re.sub(r"\{[^}]+\}", "{}", p)
     p = p.replace("%d", "{}").replace("%s", "{}").replace("%v", "{}")
     return p.rstrip("/")
+
+
+SPEC_OVERRIDES = {
+    ("/product/rgs/change-egg", "POST"): ("/product/rgs/{}/change-egg", "POST"),
+    ("/product/rgs/switch-user", "POST"): ("/product/rgs/{}/switch-user", "POST"),
+    ("/product/rgs/mcsm/pal/config", "GET"): ("/product/rgs/{}/mcsm/pal/config", "GET"),
+    ("/product/rgs/mcsm/pal/config", "POST"): ("/product/rgs/{}/mcsm/pal/config", "POST"),
+    ("/product/rgs/mcsm/pal/init", "POST"): ("/product/rgs/{}/mcsm/pal/init", "POST"),
+    ("/product/rgs/mcsm/pal/lang", "GET"): ("/product/rgs/{}/mcsm/pal/lang", "GET"),
+    ("/product/rgs/mcsm/pal/rcon", "POST"): ("/product/rgs/{}/mcsm/pal/rcon", "POST"),
+    ("/product/rgs/mcsm/pal/restart", "POST"): ("/product/rgs/{}/mcsm/pal/restart", "POST"),
+    ("/product/rgs/mcsm/pal/stop", "POST"): ("/product/rgs/{}/mcsm/pal/stop", "POST"),
+    ("/product/rgs/mcsm/sftp_init", "POST"): ("/product/rgs/{}/mcsm/sftp_init", "POST"),
+    ("/product/rgs/mcsm/start", "POST"): ("/product/rgs/{}/mcsm/start", "POST"),
+    ("/product/rgs/mcsm/status", "GET"): ("/product/rgs/{}/mcsm/status", "GET"),
+    ("/product/rgs/{}/monitor", "POST"): ("/product/rgs/{}/monitor", "GET"),
+}
+
+
+def spec_key(method, p):
+    key = (norm_path(p), method)
+    return SPEC_OVERRIDES.get(key, key)
 
 
 def scan_sdk():
@@ -147,11 +170,11 @@ def main():
     for tag in sorted(tagged):
         rows = tagged[tag]
         n = len(rows)
-        n_sdk = sum(1 for method, p, _ in rows if (norm_path(p), method) in sdk_index)
+        n_sdk = sum(1 for method, p, _ in rows if spec_key(method, p) in sdk_index)
         n_cli = sum(
             1
             for method, p, _ in rows
-            if (norm_path(p), method) in sdk_index and sdk_index[(norm_path(p), method)][1] in cli_calls
+            if spec_key(method, p) in sdk_index and sdk_index[spec_key(method, p)][1] in cli_calls
         )
         total_eps += n
         total_sdk += n_sdk
@@ -175,7 +198,7 @@ def main():
         lines.append("| 方法 | 路径 | 说明 | SDK | CLI |")
         lines.append("|---|---|---|---|---|")
         for method, p, summary in sorted(rows, key=lambda r: (r[1], r[0])):
-            key = (norm_path(p), method)
+            key = spec_key(method, p)
             hit = sdk_index.get(key)
             if hit:
                 svc, func = hit

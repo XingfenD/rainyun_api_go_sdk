@@ -88,41 +88,41 @@ type RgsNode struct {
 }
 
 type RgsPlan struct {
-	ID               int             `json:"id"`
-	Region           string          `json:"region"`
-	Subtype          string          `json:"subtype"`
-	PlanName         string          `json:"plan_name"`
-	Machine          string          `json:"machine"`
-	ChargeType       string          `json:"charge_type"`
-	Chinese          string          `json:"chinese"`
-	IsFree           bool            `json:"is_free"`
-	PointRenewPrice  any             `json:"point_renew_price"` // TODO: 结构未公开,实测后补强类型
-	IsSelling        bool            `json:"is_selling"`
-	StockDiscount    int             `json:"stock_discount"`
-	EipStockDiscount int             `json:"eip_stock_discount"`
-	IPPrices         any             `json:"ip_prices"`  // TODO: 结构未公开,实测后补强类型
-	IPSelling        any             `json:"ip_selling"` // TODO: 结构未公开,实测后补强类型
-	CPUPrice         int             `json:"cpu_price"`
-	MemoryPrice      int             `json:"memory_price"`
-	NetInPrice       int             `json:"net_in_price"`
-	NetOutPrice      int             `json:"net_out_price"`
-	BaseDiskPrice    int             `json:"base_disk_price"`
-	DataDiskPrice    int             `json:"data_disk_price"`
-	Config           []RgsPlanConfig `json:"config"` // 这里不知道为什么要返还一堆套餐列表
-	AutoRestock      int             `json:"auto_restock"`
-	AvailableStock   int             `json:"available_stock"`
-	CPUPointDefault  int             `json:"cpu_point_default"`
-	CPUPointConsume  int             `json:"cpu_point_consume"`
-	CPUPointPrice    float64         `json:"cpu_point_price"`
-	CPUBase          float64         `json:"cpu_base"`
-	CPUMax           int             `json:"cpu_max"`
-	EipPrice         int             `json:"eip_price"`
-	DefencePrice     int             `json:"defence_price"`
-	AllocationPrice  int             `json:"allocation_price"`
-	DatabasePrice    int             `json:"database_price"`
-	BackupPrice      int             `json:"backup_price"`
-	DailyModeSupport bool            `json:"daily_mode_support"`
-	DailyPriceScale  int             `json:"daily_price_scale"`
+	ID               int                `json:"id"`
+	Region           string             `json:"region"`
+	Subtype          string             `json:"subtype"`
+	PlanName         string             `json:"plan_name"`
+	Machine          string             `json:"machine"`
+	ChargeType       string             `json:"charge_type"`
+	Chinese          string             `json:"chinese"`
+	IsFree           bool               `json:"is_free"`
+	PointRenewPrice  any                `json:"point_renew_price"` // TODO: 结构未公开,实测后补强类型
+	IsSelling        bool               `json:"is_selling"`
+	StockDiscount    int                `json:"stock_discount"`
+	EipStockDiscount float64            `json:"eip_stock_discount"`
+	IPPrices         map[string]float64 `json:"ip_prices"`
+	IPSelling        any                `json:"ip_selling"` // TODO: 结构未公开,实测后补强类型
+	CPUPrice         int                `json:"cpu_price"`
+	MemoryPrice      int                `json:"memory_price"`
+	NetInPrice       int                `json:"net_in_price"`
+	NetOutPrice      int                `json:"net_out_price"`
+	BaseDiskPrice    int                `json:"base_disk_price"`
+	DataDiskPrice    int                `json:"data_disk_price"`
+	Config           []RgsPlanConfig    `json:"config"` // 这里不知道为什么要返还一堆套餐列表
+	AutoRestock      int                `json:"auto_restock"`
+	AvailableStock   int                `json:"available_stock"`
+	CPUPointDefault  int                `json:"cpu_point_default"`
+	CPUPointConsume  int                `json:"cpu_point_consume"`
+	CPUPointPrice    float64            `json:"cpu_point_price"`
+	CPUBase          float64            `json:"cpu_base"`
+	CPUMax           int                `json:"cpu_max"`
+	EipPrice         int                `json:"eip_price"`
+	DefencePrice     int                `json:"defence_price"`
+	AllocationPrice  int                `json:"allocation_price"`
+	DatabasePrice    int                `json:"database_price"`
+	BackupPrice      int                `json:"backup_price"`
+	DailyModeSupport bool               `json:"daily_mode_support"`
+	DailyPriceScale  int                `json:"daily_price_scale"`
 }
 
 type RgsPlanConfig struct {

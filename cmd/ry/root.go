@@ -7,6 +7,7 @@ import (
 	"github.com/XingfenD/rainyun_api_go_sdk/apis"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/configcmd"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/domain"
+	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/game"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/public"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/rca"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/commands/rcdn"
@@ -196,4 +197,5 @@ func init() {
 	rootCmd.AddCommand(rca.Cmd(&rySDK, &out))
 	rootCmd.AddCommand(rvh.Cmd(&rySDK, &out))
 	rootCmd.AddCommand(ssl.Cmd(&rySDK, &out))
+	rootCmd.AddCommand(game.Cmd(&rySDK, &out))
 }
