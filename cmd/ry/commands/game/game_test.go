@@ -49,3 +49,21 @@ func TestToGameServerDetail(t *testing.T) {
 		t.Errorf("NatList = %+v", gd.NatList)
 	}
 }
+
+func TestToGamePlan(t *testing.T) {
+	p := rgs.RgsPlan{ID: 1, Region: "cn-sq1", Subtype: "kvm", PlanName: "large",
+		Machine: "5900X", ChargeType: "elastic_dynamic", Chinese: "Ryzen 5900X 动态计费",
+		IsSelling: true, CPUPrice: 10, MemoryPrice: 10, NetOutPrice: 7}
+	m := toGamePlan(p)
+	if m.ID != 1 || m.Plan != "large" || m.Chinese != "Ryzen 5900X 动态计费" || m.NetOutPrice != 7 {
+		t.Errorf("m = %+v", m)
+	}
+}
+
+func TestToGameEggServer(t *testing.T) {
+	s := rgs.RgsEggServer{Server: "ArclightFabric", EggName: "mc_fabric", Desc: "d", Order: 30}
+	m := toGameEggServer(s)
+	if m.Server != "ArclightFabric" || m.EggName != "mc_fabric" || m.Order != 30 {
+		t.Errorf("m = %+v", m)
+	}
+}
