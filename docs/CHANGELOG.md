@@ -8,6 +8,18 @@ The format loosely follows Keep a Changelog and can be adapted to the team's hab
 
 > `ry` 命令行工具（`cmd/ry/`）的变更记录在 [`CHANGELOG_cli.md`](./CHANGELOG_cli.md)。
 
+## [0.3.0] - 2026-08-14
+
+### Added / 新增
+
+- `rgs` 服务补齐 37 个端点：套餐列表/折扣比率、游戏服务端类型列表、用量（列表/实例）、rgs-mp（列表/创建/续费）、MCSM 面板（用户列表/开服/状态/sftp 初始化）、翼龙面板用户 CRUD、帕鲁(pal)面板 7 端点、切换面板用户、网络（桥接/内网IP/子网创建与改名）、EIP 描述、快速安装任务(fai-send)、防火墙模式与同步时间、K8S 面板（数据库/SFTP/启动命令）、NAT 删除、配置升级(scale)。
+- 依据线上实测为 `plans`/`egg_server`/`usage` 补齐强类型；`RgsPlan.EipStockDiscount` 修正为 float64、`IPPrices` 强化为 map[string]float64。
+- 无法安全探测或上游未公开结构的端点保持透传（`Data any`）并以 TODO 标记。
+
+### Notes / 说明
+
+- 实测确认 openapi.json 中部分 rgs 路径滞后于线上路由（pal/mcsm 实例操作/switch-user 实际位于 `{id}` 路径下，monitor 实际为 GET），SDK 按线上真实路由实现。
+
 ## [0.2.3] - 2026-08-14
 
 ### Added / 新增

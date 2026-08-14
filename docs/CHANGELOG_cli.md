@@ -5,6 +5,17 @@ SDK（`apis/`、`sdk/`）与模块级变更记录在 [`CHANGELOG.md`](./CHANGELO
 
 格式沿用 Keep a Changelog。
 
+## [0.2.0] - 2026-08-14
+
+### Added / 新增
+
+- 新增 `ry game` 命令组，覆盖游戏云(rgs)全部 75 个端点：实例生命周期/详情、创建、续费与自动续费、续费/升级价格、配置升级(scale)、备份、EIP、防火墙、NAT、监控、用量、游戏(egg)列表与切换、套餐/折扣/系统镜像、面板用户(mcsm/ptero)与切换、帕鲁(pal)面板、K8S 面板、桥接与子网、rgs-mp、CPU 充电/日付/余额结算模式。
+- `game list/plans/egg server` 等只读命令输出强类型表格，其余写操作输出操作结果，详查用 `-o json`。
+
+### Fixed / 修复
+
+- 版本常量与 changelog 对齐（此前常量 0.1.1 落后于 changelog 0.1.2）。
+
 ## [0.1.2] - 2026-08-14
 
 ### Added / 新增
