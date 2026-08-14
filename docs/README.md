@@ -18,7 +18,7 @@
 - **进度追踪**：见 [`docs/PROGRESS.md`](docs/PROGRESS.md)，追踪 SDK/CLI 对 `docs/openapi.json` 的接入情况。
 - **CI 监控**：自动监测上游 `openapi.json` 变化（`.github/workflows/`）。
 
-## 安装
+## 安装 / Installation
 
 ### SDK
 
@@ -34,7 +34,7 @@ make build        # 构建 bin/ry
 go install ./cmd/ry
 ```
 
-## 快速开始
+## 快速开始 / Quick Start
 
 ### SDK
 
@@ -69,13 +69,13 @@ func main() {
 ```bash
 ry config set apikey <你的-API-Key>   # 首次配置，写入 ~/.config/ry/config.toml
 ry server list
-ry server get 370018
+ry server get <your-rcs-id>
 ry public news
 ```
 
 输出格式通过 `-o` 指定：`table`（默认）/`json`/`yaml`/`raw`。
 
-## SDK 服务域
+## SDK 服务域 / SDK Server Domain
 
 | 服务   | 包            | 说明                                           |
 | ------ | ------------- | ---------------------------------------------- |
@@ -89,7 +89,7 @@ ry public news
 
 SDK 门面 `sdk.RainyunSDK` 内嵌以上服务，通过 `sdk.New(apiKey)` 或 `sdk.NewBuilder(apiKey).WithTrace(...).Build()` 构建。
 
-## CLI 命令
+## CLI 命令 / CLI Commands
 
 | 命令         | 说明            | 子命令                                                                                                                                                                                                                   |
 | ------------ | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -101,7 +101,7 @@ SDK 门面 `sdk.RainyunSDK` 内嵌以上服务，通过 `sdk.New(apiKey)` 或 `s
 | `completion` | 生成 shell 补全 | —                                                                                                                                                                                                                        |
 | `version`    | 查看版本        | —                                                                                                                                                                                                                        |
 
-## 开发
+## 开发 / Developing
 
 ```bash
 make test     # 运行全部测试（-race）
@@ -122,21 +122,21 @@ make install  # 安装 CLI 到 GOPATH/bin
 3. 用 `http.RoundTripper` stub 补一个反序列化测试（参考 `apis/*/*_test.go` 现有写法）。
 4. `make fmt && make vet && make test` 通过后提交。
 
-## 文档
+## 文档 / Documentations
 
 - [`docs/CHANGELOG.md`](CHANGELOG.md)：SDK 更新日志
 - [`docs/CHANGELOG_cli.md`](CHANGELOG_cli.md)：CLI 更新日志
 - [`docs/PROGRESS.md`](PROGRESS.md)：SDK/CLI 接入进度（`python3 docs/scripts/generate.py` 生成）
 
-## License
+## 开源许可 / License
 
 [Mozilla Public License 2.0](../LICENSE)
 
 第三方依赖及代码归属声明见 [`docs/NOTICE`](NOTICE)。
 
-## 相关项目
+## 相关项目 / Related Efforts
 
-感谢 `ssdomei232/rainyun-go-sdk` 为本项目提供请求/响应体参考。
+感谢 `ssdomei232/rainyun-go-sdk` 为本项目提供部分请求/响应体参考。
 
 - ssdomei232/rainyun-go-sdk
 - skyhhjmk/rainyun-php-sdk
