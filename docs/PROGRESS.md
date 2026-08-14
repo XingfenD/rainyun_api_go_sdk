@@ -15,11 +15,11 @@ SDK 代码在 `apis/`，CLI 代码在 `cmd/ry/commands/`。
 | rca | 56 | 42 | 20 |
 | rcdn | 22 | 21 | 9 |
 | rcs | 52 | 35 | 34 |
-| rgs | 75 | 36 | 0 |
+| rgs | 75 | 75 | 75 |
 | ros | 36 | 19 | 3 |
 | rvh | 25 | 25 | 11 |
 | ssl | 18 | 18 | 18 |
-| **合计** | **351** | **233** | **103** |
+| **合计** | **351** | **272** | **178** |
 
 ## domain
 
@@ -258,83 +258,85 @@ CLI 命令：`add <id>`, `auto <id>`, `auto-renew <id>`, `backup`, `cancel <id> 
 
 ## rgs
 
+CLI 命令：`add <id>`, `auto-renew <id>`, `backup`, `cancel <id> <backup-id>`, `change <id>`, `change <id> <ip>`, `config <id>`, `config-set <id> <json>`, `cpu-charge <id>`, `cpu-limit-mode <id>`, `create`, `create <id> <label>`, `create <id> <name>`, `create <name> <password>`, `daily-mode <id>`, `database <id>`, `delete <id> <backup-id>`, `delete <id> <nat-id>`, `delete <id> <rule-id>`, `delete <name>`, `discard <id> <ip>`, `discount-percent`, `edit <name> <password>`, `egg`, `eip`, `fai-send <id>`, `firewall`, `free <id>`, `game`, `get <id>`, `init <id>`, `k8s`, `lang <id>`, `list`, `list <id>`, `mcsm`, `mode <id> <mode>`, `monitor <id>`, `move <id> <rule-id>`, `mp`, `nat`, `os`, `pal`, `plans`, `ptero`, `rcon <id> <command>`, `reboot <id>`, `reinstall <id>`, `rename <id> <new-name>`, `renew <id>`, `renew-price <id>`, `reset-password <id>`, `restart <id>`, `restore <id> <backup-id>`, `scale <id>`, `server`, `set-description <id> <ip> <description>`, `set-int-ip <id> <ip>`, `set-tag <id> <tag>`, `setting <id>`, `sftp <id>`, `sftp-init <id>`, `start <id>`, `start-command <id> <command>`, `status <id>`, `stop <id>`, `switch-user <id>`, `sync-time <id>`, `to-bridge <id>`, `type`, `upgrade-price <id>`, `usage [id]`, `user`, `vnc <id>`, `vnet`
+
 | 方法 | 路径 | 说明 | SDK | CLI |
 |---|---|---|---|---|
-| GET | `/product/rgs-mp/` | 获取列表 | — | — |
-| POST | `/product/rgs-mp/` | 创建游戏云MP | — | — |
-| POST | `/product/rgs-mp/{id}/renew/` | 续费游戏云MP | — | — |
-| GET | `/product/rgs/` | 获取列表 | `rgs.GetRgsList` | — |
-| POST | `/product/rgs/` | 创建游戏云 | `rgs.CreateRgs` | — |
-| POST | `/product/rgs/change-egg` | RGS切换egg(游戏类型) | — | — |
-| GET | `/product/rgs/discount-percent` | 获取游戏云折扣比率 | — | — |
-| GET | `/product/rgs/egg` | 蛋(游戏)列表 | `public.GetEggList` | — |
-| GET | `/product/rgs/egg_server` | 服务端类型列表 | — | — |
-| GET | `/product/rgs/egg_type` | 蛋(游戏类型)类型列表 | `public.GetEggTypeList` | — |
-| GET | `/product/rgs/mcsm/pal/config` | pal配置 | — | — |
-| POST | `/product/rgs/mcsm/pal/config` | pal配置 | — | — |
-| POST | `/product/rgs/mcsm/pal/init` | pal配置 | — | — |
-| GET | `/product/rgs/mcsm/pal/lang` | pal配置中文 | — | — |
-| POST | `/product/rgs/mcsm/pal/rcon` | 关闭pal | — | — |
-| POST | `/product/rgs/mcsm/pal/restart` | 关闭pal | — | — |
-| POST | `/product/rgs/mcsm/pal/stop` | 关闭pal | — | — |
-| GET | `/product/rgs/mcsm/panel_user/` | 翼龙面板用户列表 | — | — |
-| PATCH | `/product/rgs/mcsm/panel_user/` | 编辑面板用户 | `rgs.EditMcsmUser` | — |
-| POST | `/product/rgs/mcsm/panel_user/` | 创建面板用户 | `rgs.CreateMcsmUser` | — |
-| DELETE | `/product/rgs/mcsm/panel_user/{name}` | 删除面板用户 | `rgs.DeleteMcsmUser` | — |
-| POST | `/product/rgs/mcsm/sftp_init` | 初始化/刷新sftp功能 | — | — |
-| POST | `/product/rgs/mcsm/start/` | 开服 | — | — |
-| GET | `/product/rgs/mcsm/status` | 实例信息和状态 | — | — |
-| GET | `/product/rgs/os-templates` | 系统列表 | `public.GetRgsOSList` | — |
-| GET | `/product/rgs/plans` | 获取套餐列表 | — | — |
-| GET | `/product/rgs/price` | 获取游戏云价格 | `rgs.GetRgsUpgradePrice` | — |
-| GET | `/product/rgs/ptero/panel_user/` | 翼龙面板用户列表 | — | — |
-| PATCH | `/product/rgs/ptero/panel_user/` | 编辑面板用户 | — | — |
-| POST | `/product/rgs/ptero/panel_user/` | 创建翼龙面板用户 | — | — |
-| DELETE | `/product/rgs/ptero/panel_user/{name}` | 删除面板用户 | — | — |
-| POST | `/product/rgs/switch-user` | RGS切换面板用户 | — | — |
-| GET | `/product/rgs/usage` | 获取使用情况列表 | — | — |
-| GET | `/product/rgs/{id}/` | 获取RGS详情 | `rgs.GetRgsDetail` | — |
-| POST | `/product/rgs/{id}/backup/` | RGS创建备份 | `rgs.CreateRgsBackup` | — |
-| PATCH | `/product/rgs/{id}/backup/setting` | RGS设置备份选项 | `rgs.EnableRgsAutoBackup` | — |
-| DELETE | `/product/rgs/{id}/backup/{bid}/` | RGS删除备份 | `rgs.DeleteRgsBackup` | — |
-| POST | `/product/rgs/{id}/backup/{bid}/cancel` | RGS取消备份 | `rgs.CancelRgsBackup` | — |
-| POST | `/product/rgs/{id}/backup/{bid}/restore` | RGS还原备份 | `rgs.RestoreRgsBackup` | — |
-| POST | `/product/rgs/{id}/bridge_setintip` | 桥接模式下设置内网 | — | — |
-| POST | `/product/rgs/{id}/changeos` | RGS重装系统 | `rgs.ReinstallRgs` | — |
-| POST | `/product/rgs/{id}/cpu-charge` | cpu充电 | `rgs.ChargeRgsCPU` | — |
-| POST | `/product/rgs/{id}/cpu-limit-mode` | 游戏云限制模式(是否用余额结算)切换 | `rgs.SwitchRgsBalanceMode` | — |
-| POST | `/product/rgs/{id}/daily-mode` | 游戏云日付模式开关 | `rgs.SwitchRgsDailyMode` | — |
-| POST | `/product/rgs/{id}/eip` | 创建并绑定弹性IP到RGS | `rgs.CreateAndBindElasticIpToRgs` | — |
-| POST | `/product/rgs/{id}/eip/change` | 更换IP | `rgs.ChangeRgsIP` | — |
-| POST | `/product/rgs/{id}/eip/description` | 设置IP描述 | — | — |
-| POST | `/product/rgs/{id}/eip/discard` | 放弃IP | `rgs.DisCardRgsIP` | — |
-| POST | `/product/rgs/{id}/fai-send` | 发布快速app安装任务 | — | — |
-| POST | `/product/rgs/{id}/firewall/mode` | 创建/设置防火墙规则 | — | — |
-| GET | `/product/rgs/{id}/firewall/rule` | 获取防火墙规则列表 | `rgs.GetRgsFirewallRules` | — |
-| POST | `/product/rgs/{id}/firewall/rule` | 创建/设置防火墙规则 | `rgs.SetRgsFirewallRule` | — |
-| DELETE | `/product/rgs/{id}/firewall/rule/{ruleId}` | 删除防火墙规则 | `rgs.DeleteRgsFirewallRule` | — |
-| PUT | `/product/rgs/{id}/firewall/rule/{ruleId}/pos` | 移动防火墙规则优先级 | `rgs.MobileRgsFirewallRulePriority` | — |
-| GET | `/product/rgs/{id}/firewall/sync_time` | 获取防火墙同步开始时间 | — | — |
-| POST | `/product/rgs/{id}/free` | 释放游戏云 | `rgs.FreeRgs` | — |
-| PATCH | `/product/rgs/{id}/k8s-panel/database` | K8S面板修改数据库设置 | — | — |
-| POST | `/product/rgs/{id}/k8s-panel/set-start-command` | 游戏云设置启动命令（仅支持雨云面板） | — | — |
-| PATCH | `/product/rgs/{id}/k8s-panel/sftp` | K8S面板修改SFTP设置 | — | — |
-| POST | `/product/rgs/{id}/monitor` | 获取监控数据 | — | — |
-| DELETE | `/product/rgs/{id}/nat` | 删除NAT端口映射 | — | — |
-| POST | `/product/rgs/{id}/nat` | 添加NAT端口映射 | `rgs.AddRgsNatPortMapping` | — |
-| POST | `/product/rgs/{id}/reboot` | 游戏云重启操作 | `rgs.RebootRgs` | — |
-| POST | `/product/rgs/{id}/renew/` | 续费 | `rgs.RenewRgs` | — |
-| POST | `/product/rgs/{id}/renew/option` | 自动续费选项 | `rgs.EnableRgsAutoRenew` | — |
-| POST | `/product/rgs/{id}/reset-password` | 游戏云重置密码操作 | `rgs.ResetRgsPassword` | — |
-| POST | `/product/rgs/{id}/scale` | 升级 | — | — |
-| POST | `/product/rgs/{id}/start` | 游戏云开机操作 | `rgs.StartRgs` | — |
-| POST | `/product/rgs/{id}/stop` | 游戏云关机操作 | `rgs.StopRgs` | — |
-| PATCH | `/product/rgs/{id}/tag` | 设置游戏云标签 | `rgs.SetRgsTag` | — |
-| POST | `/product/rgs/{id}/to-bridge` | 转成桥接 | — | — |
-| GET | `/product/rgs/{id}/usage` | 获取使用情况 | — | — |
-| GET | `/product/rgs/{id}/vnc` | 连接VNC | `rgs.GetRgsVnc` | — |
-| PATCH | `/product/rgs/{id}/vnet` | 子网改名 | — | — |
-| POST | `/product/rgs/{id}/vnet` | 创建虚拟机内网子网 | — | — |
+| GET | `/product/rgs-mp/` | 获取列表 | `rgs.ListRgsMp` | ✓ |
+| POST | `/product/rgs-mp/` | 创建游戏云MP | `rgs.CreateRgsMp` | ✓ |
+| POST | `/product/rgs-mp/{id}/renew/` | 续费游戏云MP | `rgs.RenewRgsMp` | ✓ |
+| GET | `/product/rgs/` | 获取列表 | `rgs.GetRgsList` | ✓ |
+| POST | `/product/rgs/` | 创建游戏云 | `rgs.CreateRgs` | ✓ |
+| POST | `/product/rgs/change-egg` | RGS切换egg(游戏类型) | `rgs.ChangeRgsEgg` | ✓ |
+| GET | `/product/rgs/discount-percent` | 获取游戏云折扣比率 | `rgs.GetRgsDiscountPercent` | ✓ |
+| GET | `/product/rgs/egg` | 蛋(游戏)列表 | `public.GetEggList` | ✓ |
+| GET | `/product/rgs/egg_server` | 服务端类型列表 | `rgs.GetRgsEggServerList` | ✓ |
+| GET | `/product/rgs/egg_type` | 蛋(游戏类型)类型列表 | `public.GetEggTypeList` | ✓ |
+| GET | `/product/rgs/mcsm/pal/config` | pal配置 | `rgs.GetPalConfig` | ✓ |
+| POST | `/product/rgs/mcsm/pal/config` | pal配置 | `rgs.SetPalConfig` | ✓ |
+| POST | `/product/rgs/mcsm/pal/init` | pal配置 | `rgs.InitPal` | ✓ |
+| GET | `/product/rgs/mcsm/pal/lang` | pal配置中文 | `rgs.GetPalLang` | ✓ |
+| POST | `/product/rgs/mcsm/pal/rcon` | 关闭pal | `rgs.PalRcon` | ✓ |
+| POST | `/product/rgs/mcsm/pal/restart` | 关闭pal | `rgs.RestartPal` | ✓ |
+| POST | `/product/rgs/mcsm/pal/stop` | 关闭pal | `rgs.StopPal` | ✓ |
+| GET | `/product/rgs/mcsm/panel_user/` | 翼龙面板用户列表 | `rgs.GetMcsmUserList` | ✓ |
+| PATCH | `/product/rgs/mcsm/panel_user/` | 编辑面板用户 | `rgs.EditMcsmUser` | ✓ |
+| POST | `/product/rgs/mcsm/panel_user/` | 创建面板用户 | `rgs.CreateMcsmUser` | ✓ |
+| DELETE | `/product/rgs/mcsm/panel_user/{name}` | 删除面板用户 | `rgs.DeleteMcsmUser` | ✓ |
+| POST | `/product/rgs/mcsm/sftp_init` | 初始化/刷新sftp功能 | `rgs.McsmSftpInit` | ✓ |
+| POST | `/product/rgs/mcsm/start/` | 开服 | `rgs.StartMcsmInstance` | ✓ |
+| GET | `/product/rgs/mcsm/status` | 实例信息和状态 | `rgs.GetMcsmStatus` | ✓ |
+| GET | `/product/rgs/os-templates` | 系统列表 | `public.GetRgsOSList` | ✓ |
+| GET | `/product/rgs/plans` | 获取套餐列表 | `rgs.GetRgsPlanList` | ✓ |
+| GET | `/product/rgs/price` | 获取游戏云价格 | `rgs.GetRgsUpgradePrice` | ✓ |
+| GET | `/product/rgs/ptero/panel_user/` | 翼龙面板用户列表 | `rgs.GetPteroUserList` | ✓ |
+| PATCH | `/product/rgs/ptero/panel_user/` | 编辑面板用户 | `rgs.EditPteroUser` | ✓ |
+| POST | `/product/rgs/ptero/panel_user/` | 创建翼龙面板用户 | `rgs.CreatePteroUser` | ✓ |
+| DELETE | `/product/rgs/ptero/panel_user/{name}` | 删除面板用户 | `rgs.DeletePteroUser` | ✓ |
+| POST | `/product/rgs/switch-user` | RGS切换面板用户 | `rgs.SwitchRgsPanelUser` | ✓ |
+| GET | `/product/rgs/usage` | 获取使用情况列表 | `rgs.GetRgsUsageList` | ✓ |
+| GET | `/product/rgs/{id}/` | 获取RGS详情 | `rgs.GetRgsDetail` | ✓ |
+| POST | `/product/rgs/{id}/backup/` | RGS创建备份 | `rgs.CreateRgsBackup` | ✓ |
+| PATCH | `/product/rgs/{id}/backup/setting` | RGS设置备份选项 | `rgs.EnableRgsAutoBackup` | ✓ |
+| DELETE | `/product/rgs/{id}/backup/{bid}/` | RGS删除备份 | `rgs.DeleteRgsBackup` | ✓ |
+| POST | `/product/rgs/{id}/backup/{bid}/cancel` | RGS取消备份 | `rgs.CancelRgsBackup` | ✓ |
+| POST | `/product/rgs/{id}/backup/{bid}/restore` | RGS还原备份 | `rgs.RestoreRgsBackup` | ✓ |
+| POST | `/product/rgs/{id}/bridge_setintip` | 桥接模式下设置内网 | `rgs.RgsBridgeSetIntIP` | ✓ |
+| POST | `/product/rgs/{id}/changeos` | RGS重装系统 | `rgs.ReinstallRgs` | ✓ |
+| POST | `/product/rgs/{id}/cpu-charge` | cpu充电 | `rgs.ChargeRgsCPU` | ✓ |
+| POST | `/product/rgs/{id}/cpu-limit-mode` | 游戏云限制模式(是否用余额结算)切换 | `rgs.SwitchRgsBalanceMode` | ✓ |
+| POST | `/product/rgs/{id}/daily-mode` | 游戏云日付模式开关 | `rgs.SwitchRgsDailyMode` | ✓ |
+| POST | `/product/rgs/{id}/eip` | 创建并绑定弹性IP到RGS | `rgs.CreateAndBindElasticIpToRgs` | ✓ |
+| POST | `/product/rgs/{id}/eip/change` | 更换IP | `rgs.ChangeRgsIP` | ✓ |
+| POST | `/product/rgs/{id}/eip/description` | 设置IP描述 | `rgs.SetRgsEipDescription` | ✓ |
+| POST | `/product/rgs/{id}/eip/discard` | 放弃IP | `rgs.DisCardRgsIP` | ✓ |
+| POST | `/product/rgs/{id}/fai-send` | 发布快速app安装任务 | `rgs.SendRgsFaiTask` | ✓ |
+| POST | `/product/rgs/{id}/firewall/mode` | 创建/设置防火墙规则 | `rgs.SetRgsFirewallMode` | ✓ |
+| GET | `/product/rgs/{id}/firewall/rule` | 获取防火墙规则列表 | `rgs.GetRgsFirewallRules` | ✓ |
+| POST | `/product/rgs/{id}/firewall/rule` | 创建/设置防火墙规则 | `rgs.SetRgsFirewallRule` | ✓ |
+| DELETE | `/product/rgs/{id}/firewall/rule/{ruleId}` | 删除防火墙规则 | `rgs.DeleteRgsFirewallRule` | ✓ |
+| PUT | `/product/rgs/{id}/firewall/rule/{ruleId}/pos` | 移动防火墙规则优先级 | `rgs.MobileRgsFirewallRulePriority` | ✓ |
+| GET | `/product/rgs/{id}/firewall/sync_time` | 获取防火墙同步开始时间 | `rgs.GetRgsFirewallSyncTime` | ✓ |
+| POST | `/product/rgs/{id}/free` | 释放游戏云 | `rgs.FreeRgs` | ✓ |
+| PATCH | `/product/rgs/{id}/k8s-panel/database` | K8S面板修改数据库设置 | `rgs.SetK8SPanelDatabase` | ✓ |
+| POST | `/product/rgs/{id}/k8s-panel/set-start-command` | 游戏云设置启动命令（仅支持雨云面板） | `rgs.SetK8SPanelStartCommand` | ✓ |
+| PATCH | `/product/rgs/{id}/k8s-panel/sftp` | K8S面板修改SFTP设置 | `rgs.SetK8SPanelSFTP` | ✓ |
+| POST | `/product/rgs/{id}/monitor` | 获取监控数据 | `rgs.GetRgsMonitorData` | ✓ |
+| DELETE | `/product/rgs/{id}/nat` | 删除NAT端口映射 | `rgs.DeleteRgsNatPortMapping` | ✓ |
+| POST | `/product/rgs/{id}/nat` | 添加NAT端口映射 | `rgs.AddRgsNatPortMapping` | ✓ |
+| POST | `/product/rgs/{id}/reboot` | 游戏云重启操作 | `rgs.RebootRgs` | ✓ |
+| POST | `/product/rgs/{id}/renew/` | 续费 | `rgs.RenewRgs` | ✓ |
+| POST | `/product/rgs/{id}/renew/option` | 自动续费选项 | `rgs.EnableRgsAutoRenew` | ✓ |
+| POST | `/product/rgs/{id}/reset-password` | 游戏云重置密码操作 | `rgs.ResetRgsPassword` | ✓ |
+| POST | `/product/rgs/{id}/scale` | 升级 | `rgs.ScaleRgs` | ✓ |
+| POST | `/product/rgs/{id}/start` | 游戏云开机操作 | `rgs.StartRgs` | ✓ |
+| POST | `/product/rgs/{id}/stop` | 游戏云关机操作 | `rgs.StopRgs` | ✓ |
+| PATCH | `/product/rgs/{id}/tag` | 设置游戏云标签 | `rgs.SetRgsTag` | ✓ |
+| POST | `/product/rgs/{id}/to-bridge` | 转成桥接 | `rgs.RgsToBridge` | ✓ |
+| GET | `/product/rgs/{id}/usage` | 获取使用情况 | `rgs.GetRgsUsage` | ✓ |
+| GET | `/product/rgs/{id}/vnc` | 连接VNC | `rgs.GetRgsVnc` | ✓ |
+| PATCH | `/product/rgs/{id}/vnet` | 子网改名 | `rgs.RenameRgsVnet` | ✓ |
+| POST | `/product/rgs/{id}/vnet` | 创建虚拟机内网子网 | `rgs.CreateRgsVnet` | ✓ |
 
 ## ros
 
