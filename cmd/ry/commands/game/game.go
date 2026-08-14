@@ -245,6 +245,7 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 	addRenewCommands(gameCmd, rySDK, out)
 	addBackupCommands(gameCmd, rySDK, out)
 	addEIPCommands(gameCmd, rySDK, out)
+	addFirewallCommands(gameCmd, rySDK, out)
 
 	return gameCmd
 }
