@@ -5,6 +5,12 @@ SDK（`apis/`、`sdk/`）与模块级变更记录在 [`CHANGELOG.md`](./CHANGELO
 
 格式沿用 Keep a Changelog。
 
+## [0.1.3] - 2026-08-14
+
+### Fixed / 修复
+
+- 修复表格输出中中文字符对齐问题：CJK 字符按 2 列宽计算，ASCII 按 1 列宽，避免 `ry ssl products` 等含中文的表格错位。
+
 ## [0.1.2] - 2026-08-14
 
 ### Added / 新增
