@@ -22,7 +22,8 @@ jobs:
         id: diff
         run: |
           python3 docs/scripts/filter_openapi.py docs/openapi.json "domain,public,rbm,rcs,rgs,ros,ssl" /tmp/repo_upstream.json
-          if python3 docs/scripts/diff_openapi.py /tmp/repo_upstream.json /tmp/live_openapi.json /tmp/summary.md; then
+          python3 docs/scripts/filter_openapi.py /tmp/live_openapi.json "domain,public,rbm,rcs,rgs,ros,ssl" /tmp/live_upstream.json
+          if python3 docs/scripts/diff_openapi.py /tmp/repo_upstream.json /tmp/live_upstream.json /tmp/summary.md; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
