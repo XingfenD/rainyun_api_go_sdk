@@ -2590,6 +2590,13 @@
         "plan_id": {
           "type": "integer"
         },
+        "security_group_ids": {
+          "description": "创建时绑定的安全组 ID 列表（仅 KVM 子类型支持，多个时仅第一个生效）",
+          "items": {
+            "type": "integer"
+          },
+          "type": "array"
+        },
         "subtype": {
           "enum": [
             "kvm",
