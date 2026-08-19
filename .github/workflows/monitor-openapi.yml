@@ -36,6 +36,7 @@ jobs:
           python3 docs/scripts/generate.py
 
       - name: Open pull request
+        id: cpr
         if: steps.diff.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
@@ -45,4 +46,15 @@ jobs:
           title: "chore(docs): update openapi.json from api.rainyun.com"
           body-path: /tmp/summary.md
           labels: docs
-          add-paths: docs/openapi.json docs/openapi/ docs/PROGRESS.md
+          add-paths: |
+            docs/openapi.json
+            docs/openapi/
+            docs/PROGRESS.md
+
+      - name: Assert PR created
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          if [ -z "${{ steps.cpr.outputs.pull-request-number }}" ]; then
+            echo "::error::expected a PR but none was created"
+            exit 1
+          fi
