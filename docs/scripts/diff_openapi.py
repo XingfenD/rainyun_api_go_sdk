@@ -4,7 +4,8 @@
 Usage: python3 docs/scripts/diff_openapi.py OLD.json NEW.json [OUTPUT.md]
 
 Prints the report to stdout, or writes it to OUTPUT.md when given.
-Exit code is 0 when the specs are identical, 1 when they differ.
+Exit code is 0 when the synced parts (paths + definitions) are identical,
+1 when they differ.
 """
 import json
 import sys
@@ -24,6 +25,10 @@ def endpoints(spec):
             if isinstance(op, dict):
                 out[(method.upper(), path)] = op
     return out
+
+
+def definitions(spec):
+    return dict(spec.get("definitions", {}))
 
 
 def short(v, limit=120):
@@ -55,21 +60,37 @@ def summarize_op_change(old, new):
 
 
 def report(old_spec, new_spec):
-    old = endpoints(old_spec)
-    new = endpoints(new_spec)
-    added = sorted(set(new) - set(old))
-    removed = sorted(set(old) - set(new))
-    modified = sorted((m, p) for m, p in (set(old) & set(new)) if old[(m, p)] != new[(m, p)])
+    old_eps = endpoints(old_spec)
+    new_eps = endpoints(new_spec)
+    old_defs = definitions(old_spec)
+    new_defs = definitions(new_spec)
+
+    added_eps = sorted(set(new_eps) - set(old_eps))
+    removed_eps = sorted(set(old_eps) - set(new_eps))
+    modified_eps = sorted(
+        (m, p) for m, p in (set(old_eps) & set(new_eps))
+        if old_eps[(m, p)] != new_eps[(m, p)]
+    )
+
+    added_defs = sorted(set(new_defs) - set(old_defs))
+    removed_defs = sorted(set(old_defs) - set(new_defs))
+    modified_defs = sorted(
+        n for n in (set(old_defs) & set(new_defs))
+        if old_defs[n] != new_defs[n]
+    )
 
     lines = []
     lines.append("## 变更摘要")
     lines.append("")
-    lines.append(f"- 新增端点：{len(added)}")
-    lines.append(f"- 移除端点：{len(removed)}")
-    lines.append(f"- 修改端点：{len(modified)}")
+    lines.append(f"- 新增端点：{len(added_eps)}")
+    lines.append(f"- 移除端点：{len(removed_eps)}")
+    lines.append(f"- 修改端点：{len(modified_eps)}")
+    lines.append(f"- 新增定义：{len(added_defs)}")
+    lines.append(f"- 移除定义：{len(removed_defs)}")
+    lines.append(f"- 修改定义：{len(modified_defs)}")
     lines.append("")
 
-    def table(rows, source):
+    def ep_table(rows, source):
         lines.append("| 方法 | 路径 | 说明 |")
         lines.append("|---|---|---|")
         for method, path in rows[:MAX_ROWS]:
@@ -79,25 +100,53 @@ def report(old_spec, new_spec):
             lines.append(f"| … | 及另外 {len(rows) - MAX_ROWS} 个端点 | |")
         lines.append("")
 
-    if added:
+    def def_table(rows, source):
+        lines.append("| 名称 | 说明 |")
+        lines.append("|---|---|")
+        for name in rows[:MAX_ROWS]:
+            lines.append(f"| `{name}` | {short(source[name].get('title')) if isinstance(source[name], dict) else ''} |")
+        if len(rows) > MAX_ROWS:
+            lines.append(f"| … | 及另外 {len(rows) - MAX_ROWS} 个定义 |")
+        lines.append("")
+
+    if added_eps:
         lines.append("## 新增端点")
         lines.append("")
-        table(added, new)
+        ep_table(added_eps, new_eps)
 
-    if removed:
+    if removed_eps:
         lines.append("## 移除端点")
         lines.append("")
-        table(removed, old)
+        ep_table(removed_eps, old_eps)
 
-    if modified:
+    if modified_eps:
         lines.append("## 修改端点")
         lines.append("")
-        for method, path in modified:
-            o, n = old[(method, path)], new[(method, path)]
+        for method, path in modified_eps:
+            o, n = old_eps[(method, path)], new_eps[(method, path)]
             title = o.get("summary") or n.get("summary") or ""
             lines.append(f"### `{method} {path}` {title}".rstrip())
             lines.append("")
             lines.extend(summarize_op_change(o, n))
+            lines.append("")
+
+    if added_defs:
+        lines.append("## 新增定义")
+        lines.append("")
+        def_table(added_defs, new_defs)
+
+    if removed_defs:
+        lines.append("## 移除定义")
+        lines.append("")
+        def_table(removed_defs, old_defs)
+
+    if modified_defs:
+        lines.append("## 修改定义")
+        lines.append("")
+        for name in modified_defs:
+            lines.append(f"### `{name}`")
+            lines.append("")
+            lines.extend(summarize_op_change(old_defs[name], new_defs[name]))
             lines.append("")
 
     return "\n".join(lines)
@@ -109,7 +158,9 @@ def main():
         sys.exit(2)
     old = load(sys.argv[1])
     new = load(sys.argv[2])
-    identical = old == new
+    old_eps, new_eps = endpoints(old), endpoints(new)
+    old_defs, new_defs = definitions(old), definitions(new)
+    identical = (old_eps == new_eps) and (old_defs == new_defs)
     out = report(old, new)
     if len(sys.argv) > 3:
         with open(sys.argv[3], "w", encoding="utf-8") as f:
