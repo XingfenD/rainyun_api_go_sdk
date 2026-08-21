@@ -1,8 +1,9 @@
 package public
 
 import (
-	"encoding/json"
 	"fmt"
+
+	"github.com/bytedance/sonic"
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/common"
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/public"
@@ -38,10 +39,10 @@ func discourseCmd(rySDK **sdk.RainyunSDK) *cobra.Command {
 				return err
 			}
 			var data any
-			if err := json.Unmarshal(resp.Data, &data); err != nil {
+			if err := sonic.Unmarshal(resp.Data, &data); err != nil {
 				return err
 			}
-			pretty, err := json.MarshalIndent(data, "", "  ")
+			pretty, err := sonic.ConfigStd.MarshalIndent(data, "", "  ")
 			if err != nil {
 				return err
 			}

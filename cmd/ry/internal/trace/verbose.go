@@ -1,11 +1,11 @@
 package trace
 
 import (
-	"bytes"
-	"encoding/json"
 	"fmt"
 	"io"
 	"time"
+
+	"github.com/bytedance/sonic"
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis"
 )
@@ -45,9 +45,11 @@ func formatPreview(body []byte) string {
 		return "(empty)"
 	}
 
-	var pretty bytes.Buffer
-	if err := json.Indent(&pretty, body, "", "  "); err == nil {
-		return pretty.String()
+	var v any
+	if err := sonic.Unmarshal(body, &v); err == nil {
+		if pretty, err := sonic.ConfigStd.MarshalIndent(v, "", "  "); err == nil {
+			return string(pretty)
+		}
 	}
 	return string(body)
 }

@@ -1,8 +1,9 @@
 package game
 
 import (
-	"encoding/json"
 	"fmt"
+
+	"github.com/bytedance/sonic"
 
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/cliutil"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/model"
@@ -45,7 +46,7 @@ func addPalCommands(gameCmd *cobra.Command, rySDK **sdk.RainyunSDK, out **output
 				return err
 			}
 			var config map[string]any
-			if err := json.Unmarshal([]byte(args[1]), &config); err != nil {
+			if err := sonic.Unmarshal([]byte(args[1]), &config); err != nil {
 				return fmt.Errorf("invalid JSON config: %w", err)
 			}
 			if _, err := (*rySDK).SetPalConfig(id, config); err != nil {

@@ -33,6 +33,8 @@ func newRyClient(apiKey string) *RyClient {
 	c.SetHeader("x-api-key", apiKey)
 	c.SetHeader("User-Agent", "github.com/XingfenD/rainyun_api_go_sdk/"+constant.RainyunSdkVersion)
 	c.SetHeader("Accept", "application/json")
+	c.SetJSONMarshaler(sonic.Marshal)
+	c.SetJSONUnmarshaler(sonic.Unmarshal)
 
 	return &RyClient{
 		APIKey: apiKey,
