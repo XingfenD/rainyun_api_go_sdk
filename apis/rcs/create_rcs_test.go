@@ -1,22 +1,23 @@
 package rcs
 
 import (
-	"encoding/json"
 	"testing"
+
+	"github.com/bytedance/sonic"
 )
 
 func TestCreateRcsRequest_SecurityGroupIDs(t *testing.T) {
 	req := &CreateRcsRequest{
-		PlanID:          int(1),
+		PlanID:           int(1),
 		SecurityGroupIDs: []int{10, 20},
-		Duration:        int(1),
+		Duration:         int(1),
 	}
-	b, err := json.Marshal(req)
+	b, err := sonic.Marshal(req)
 	if err != nil {
 		t.Fatalf("marshal: %v", err)
 	}
 	var m map[string]any
-	if err := json.Unmarshal(b, &m); err != nil {
+	if err := sonic.Unmarshal(b, &m); err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}
 	sg, ok := m["security_group_ids"].([]any)
@@ -43,7 +44,7 @@ func TestRcsManagesElasticCloudDisks_MoveStorage(t *testing.T) {
 			},
 		},
 	}
-	b, err := json.Marshal(req)
+	b, err := sonic.Marshal(req)
 	if err != nil {
 		t.Fatalf("marshal: %v", err)
 	}
@@ -56,7 +57,7 @@ func TestRcsManagesElasticCloudDisks_MoveStorage(t *testing.T) {
 			} `json:"action"`
 		} `json:"actions"`
 	}
-	if err := json.Unmarshal(b, &m); err != nil {
+	if err := sonic.Unmarshal(b, &m); err != nil {
 		t.Fatalf("unmarshal: %v", err)
 	}
 	if m.Actions[0].Type != "move_storage" {
