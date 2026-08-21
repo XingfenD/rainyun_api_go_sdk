@@ -1,7 +1,7 @@
 package public
 
 import (
-	"encoding/json"
+	"github.com/bytedance/sonic"
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/common"
 	"github.com/XingfenD/rainyun_api_go_sdk/constant"
@@ -16,8 +16,8 @@ type GetDiscourseRequest struct {
 
 // GetDiscourseResponse 获取论坛数据响应，Data 为论坛返回的原始数据
 type GetDiscourseResponse struct {
-	Code int             `json:"code"`
-	Data json.RawMessage `json:"data"`
+	Code int                    `json:"code"`
+	Data sonic.NoCopyRawMessage `json:"data"`
 }
 
 // GetDiscourse 获取论坛数据

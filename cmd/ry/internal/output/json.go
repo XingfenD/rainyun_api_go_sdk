@@ -1,12 +1,19 @@
 package output
 
 import (
-	"encoding/json"
 	"io"
+
+	"github.com/bytedance/sonic"
 )
 
 func printJSON(w io.Writer, data any) error {
-	enc := json.NewEncoder(w)
-	enc.SetIndent("", "  ")
-	return enc.Encode(data)
+	b, err := sonic.ConfigStd.MarshalIndent(data, "", "  ")
+	if err != nil {
+		return err
+	}
+	if _, err := w.Write(b); err != nil {
+		return err
+	}
+	_, err = w.Write([]byte("\n"))
+	return err
 }

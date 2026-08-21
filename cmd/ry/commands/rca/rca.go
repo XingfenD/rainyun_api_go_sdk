@@ -2,10 +2,11 @@
 package rca
 
 import (
-	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/bytedance/sonic"
 
 	"github.com/XingfenD/rainyun_api_go_sdk/apis/rca"
 	"github.com/XingfenD/rainyun_api_go_sdk/cmd/ry/internal/cliutil"
@@ -217,7 +218,7 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 				AppstoreReleaseID: releaseID, ProjectID: projectID,
 			}
 			if optionsJSON != "" {
-				req.Options = json.RawMessage(optionsJSON)
+				req.Options = sonic.NoCopyRawMessage(optionsJSON)
 			}
 			if _, err := (*rySDK).InstallRcaApp(req); err != nil {
 				return err

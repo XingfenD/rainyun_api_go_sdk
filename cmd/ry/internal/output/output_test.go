@@ -2,10 +2,11 @@ package output
 
 import (
 	"bytes"
-	"encoding/json"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/bytedance/sonic"
 )
 
 type testItem struct {
@@ -38,7 +39,7 @@ func TestJSONFormat(t *testing.T) {
 		t.Fatalf("Print json error: %v", err)
 	}
 	var parsed []testItem
-	if err := json.Unmarshal(buf.Bytes(), &parsed); err != nil {
+	if err := sonic.Unmarshal(buf.Bytes(), &parsed); err != nil {
 		t.Fatalf("invalid JSON output: %v", err)
 	}
 	if len(parsed) != 1 || parsed[0].ID != "1" {
