@@ -9,8 +9,8 @@ import (
 
 type RcsManagesElasticCloudDisksRequest struct {
 	Actions []struct {
-		Type   string `json:"type"`   // 操作类型: expand: 扩容, create: 创建
-		Action any    `json:"action"` // 操作参数, RcsManagesElasticCloudDisksExpand或RcsManagesElasticCloudDisksCreate
+		Type   string `json:"type"`   // 操作类型: create: 创建, delete: 删除, expand: 扩容, move_storage: 转移存储
+		Action any    `json:"action"` // 操作参数, RcsManagesElasticCloudDisksExpand/RcsManagesElasticCloudDisksCreate/RcsManagesElasticCloudDisksMoveStorage
 	} `json:"actions"`
 }
 
@@ -25,6 +25,13 @@ type RcsManagesElasticCloudDisksCreate struct {
 	DiskType string `json:"disk_type"`  // 磁盘类型(ssd/hdd)
 	Backup   bool   `json:"backup"`     // 支持备份
 	Tag      string `json:"tag"`        // 标签
+}
+
+// RcsManagesElasticCloudDisksMoveStorage 转移弹性云盘存储到目标实例
+// TODO: 结构未公开,实测后补强类型
+type RcsManagesElasticCloudDisksMoveStorage struct {
+	EdiskID      int `json:"edisk_id"`       // 弹性云盘ID
+	ToInstanceID int `json:"to_instance_id"` // 目标实例ID
 }
 
 func (s *RcsService) RcsManagesElasticCloudDisks(id int, req *RcsManagesElasticCloudDisksRequest) (*common.BasicOperationResponse, error) {

@@ -4,24 +4,25 @@ import "github.com/XingfenD/rainyun_api_go_sdk/constant"
 
 // 创建游戏云请求
 type CreateRgsRequest struct {
-	AppVars      []RgsAppVar `json:"app_vars"` // 当空数组时,进行单次任务下发(可选)
-	Config       RgsConfig   `json:"config"`
-	CPULimitMode bool        `json:"cpu_limit_mode"`
-	Duration     int         `json:"duration"`    // 创建时长(月)
-	EggTypeID    int         `json:"egg_type_id"` // 游戏类型
-	NodeUUID     string      `json:"node_uuid"`
-	OnlineMode   bool        `json:"online_mode"`
-	OsID         int         `json:"os_id"`
-	PanelUser    string      `json:"panel_user"` // 游戏云面板用户
-	PayMode      string      `json:"pay_mode"`
-	PlanID       int         `json:"plan_id"`
-	Subtype      string      `json:"subtype"` // kvm/mcsm
-	Try          bool        `json:"try"`
-	WithCouponID int         `json:"with_coupon_id"`
-	WithEipFlags string      `json:"with_eip_flags"` // 是否开启高防，us_ddosip -> 美国高防，nb_ddosip -> 宁波高防
-	WithEipNum   int         `json:"with_eip_num"`
-	WithEipType  string      `json:"with_eip_type"`
-	Zone         string      `json:"zone"`
+	AppVars          []RgsAppVar `json:"app_vars"` // 当空数组时,进行单次任务下发(可选)
+	Config           RgsConfig   `json:"config"`
+	CPULimitMode     bool        `json:"cpu_limit_mode"`
+	Duration         int         `json:"duration"`    // 创建时长(月)
+	EggTypeID        int         `json:"egg_type_id"` // 游戏类型
+	NodeUUID         string      `json:"node_uuid"`
+	OnlineMode       bool        `json:"online_mode"`
+	OsID             int         `json:"os_id"`
+	PanelUser        string      `json:"panel_user"` // 游戏云面板用户
+	PayMode          string      `json:"pay_mode"`
+	PlanID           int         `json:"plan_id"`
+	SecurityGroupIDs []int       `json:"security_group_ids"` // 创建时绑定的安全组 ID 列表（仅 KVM 子类型支持，多个时仅第一个生效）
+	Subtype          string      `json:"subtype"`            // kvm/mcsm
+	Try              bool        `json:"try"`
+	WithCouponID     int         `json:"with_coupon_id"`
+	WithEipFlags     string      `json:"with_eip_flags"` // 是否开启高防，us_ddosip -> 美国高防，nb_ddosip -> 宁波高防
+	WithEipNum       int         `json:"with_eip_num"`
+	WithEipType      string      `json:"with_eip_type"`
+	Zone             string      `json:"zone"`
 }
 
 type RgsAppVar struct {
