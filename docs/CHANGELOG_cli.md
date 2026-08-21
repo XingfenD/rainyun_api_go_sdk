@@ -5,6 +5,12 @@ SDK（`apis/`、`sdk/`）与模块级变更记录在 [`CHANGELOG.md`](./CHANGELO
 
 格式沿用 Keep a Changelog。
 
+## [0.2.1] - 2026-08-21
+
+### Changed / 变更
+
+- 内部 JSON 序列化由 `encoding/json` 迁移到 `bytedance/sonic`（`cmd/ry` 下的 `public`/`pal`/`rca` 命令、`trace` 与 `output` 包），无用户可见行为变更。
+
 ## [0.2.0] - 2026-08-14
 
 ### Added / 新增

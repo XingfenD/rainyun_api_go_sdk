@@ -8,6 +8,16 @@ The format loosely follows Keep a Changelog and can be adapted to the team's hab
 
 > `ry` 命令行工具（`cmd/ry/`）的变更记录在 [`CHANGELOG_cli.md`](./CHANGELOG_cli.md)。
 
+## [0.3.1] - 2026-08-21
+
+### Added / 新增
+
+- RCS/RGS 创建实例请求新增 `SecurityGroupIDs`（创建时绑定的安全组 ID 列表）；RCS 弹性云盘管理新增 `move_storage` 动作（新增 `RcsManagesElasticCloudDisksMoveStorage` 结构体，字段结构未公开，待实测后补强类型）。
+
+### Changed / 变更
+
+- 全量 JSON 序列化由 `encoding/json` 迁移到 `bytedance/sonic`：`apis/client.go` 核心链路（resty 的 JSON marshaler/unmarshaler）改为 `sonic.Marshal`/`sonic.Unmarshal`，CLI 内部（`public`/`pal`/`rca`/`trace`/`output`）同步迁移；原始 JSON 字段改用 `sonic.NoCopyRawMessage`（`GetDiscourse.Data`、`rca.InstallRcaAppRequest.Options`）。
+
 ## [0.3.0] - 2026-08-14
 
 ### Added / 新增
