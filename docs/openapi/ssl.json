@@ -366,11 +366,21 @@
         ],
         "parameters": [
           {
+            "description": "订单ID",
             "format": "int32",
             "in": "path",
             "name": "id",
             "required": true,
             "type": "integer"
+          },
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/sslcenter.AssignCertToListService"
+            }
           }
         ],
         "produces": [
@@ -483,6 +493,140 @@
         ]
       }
     },
+    "/product/sslcenter/order/{id}/cert/{cert_id}": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "订单ID",
+            "format": "int32",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "证书ID",
+            "format": "int32",
+            "in": "path",
+            "name": "cert_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "请求成功",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "业务状态码",
+                  "example": 200,
+                  "type": "integer"
+                },
+                "data": {
+                  "description": "返回数据"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "请求错误",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "错误码",
+                  "type": "integer"
+                },
+                "message": {
+                  "description": "错误描述",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取订单单张证书详情",
+        "tags": [
+          "ssl"
+        ]
+      }
+    },
+    "/product/sslcenter/order/{id}/certs": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "订单ID",
+            "format": "int32",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "请求成功",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "业务状态码",
+                  "example": 200,
+                  "type": "integer"
+                },
+                "data": {
+                  "description": "返回数据"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "请求错误",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "错误码",
+                  "type": "integer"
+                },
+                "message": {
+                  "description": "错误描述",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "获取订单证书历史列表",
+        "tags": [
+          "ssl"
+        ]
+      }
+    },
     "/product/sslcenter/order/{id}/description": {
       "post": {
         "consumes": [
@@ -549,6 +693,69 @@
           }
         ],
         "summary": "更新SSL订单描述",
+        "tags": [
+          "ssl"
+        ]
+      }
+    },
+    "/product/sslcenter/order/{id}/renew": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "订单ID",
+            "format": "int32",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "请求成功",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "业务状态码",
+                  "example": 200,
+                  "type": "integer"
+                },
+                "data": {
+                  "description": "返回数据"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "请求错误",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "错误码",
+                  "type": "integer"
+                },
+                "message": {
+                  "description": "错误描述",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "订单续期",
         "tags": [
           "ssl"
         ]
@@ -998,6 +1205,19 @@
       ],
       "type": "object"
     },
+    "sslcenter.AssignCertToListService": {
+      "properties": {
+        "certId": {
+          "description": "要添加的证书ID(子表ID)，不传默认添加当前证书",
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "certId"
+      ],
+      "type": "object"
+    },
     "sslcenter.CheckDomainValidationService": {
       "properties": {
         "forceRefresh": {
@@ -1091,6 +1311,11 @@
     },
     "sslcenter.RevokeCertService": {
       "properties": {
+        "certId": {
+          "description": "要吊销的证书ID(子表ID)，不传默认吊销订单当前证书",
+          "format": "int32",
+          "type": "integer"
+        },
         "letter": {
           "description": "吊销函内容(Base64编码，非DV必传）",
           "type": "string"
@@ -1101,6 +1326,7 @@
         }
       },
       "required": [
+        "certId",
         "reason"
       ],
       "type": "object"
