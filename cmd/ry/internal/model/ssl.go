@@ -33,6 +33,25 @@ type SslOrderDetail struct {
 	Remain  string `json:"remain"   table:"REMAIN"`
 }
 
+type SslOrderCert struct {
+	ID      int    `json:"id"      table:"ID"`
+	Status  string `json:"status"  table:"STATUS"`
+	Current bool   `json:"current" table:"CURRENT"`
+	Start   string `json:"start"   table:"START"`
+	Expire  string `json:"expire"  table:"EXPIRE"`
+}
+
+type SslOrderCertDetail struct {
+	ID      int    `json:"id"      table:"ID"`
+	Status  string `json:"status"  table:"STATUS"`
+	Current bool   `json:"current" table:"CURRENT"`
+	Domain  string `json:"domain"  table:"DOMAIN"`
+	Issuer  string `json:"issuer"  table:"ISSUER"`
+	Start   string `json:"start"   table:"START"`
+	Expire  string `json:"expire"  table:"EXPIRE"`
+	Remain  int    `json:"remain"  table:"REMAIN DAYS"`
+}
+
 type SslOrderPrice struct {
 	Price        float64 `json:"price"         table:"PRICE"`
 	Reward       float64 `json:"reward"        table:"REWARD"`

@@ -47,11 +47,13 @@ func (s *SslService) GetSSLOrderDetail(id int) (*GetSSLOrderDetailResponse, erro
 // 将SSL证书添加到证书列表
 //
 // id: 订单ID
-func (s *SslService) AssignSSLOrder(id int) (*SslPassthroughResponse, error) {
+//
+// certID: 要添加的证书ID(子表ID),传0默认添加当前证书
+func (s *SslService) AssignSSLOrder(id, certID int) (*SslPassthroughResponse, error) {
 	path := fmt.Sprintf("/product/sslcenter/order/%d/assign", id)
 
 	var resp SslPassthroughResponse
-	err := s.client.Do(constant.HTTPMethod_POST, path, nil, nil, &resp)
+	err := s.client.Do(constant.HTTPMethod_POST, path, nil, AssignSSLOrderRequest{CertID: certID}, &resp)
 	return &resp, err
 }
 
@@ -62,6 +64,30 @@ func (s *SslService) GetSSLOrderCert(id int) (*GetSslDetailResponse, error) {
 	path := fmt.Sprintf("/product/sslcenter/order/%d/cert", id)
 
 	var resp GetSslDetailResponse
+	err := s.client.Do(constant.HTTPMethod_GET, path, nil, nil, &resp)
+	return &resp, err
+}
+
+// 获取订单证书历史列表
+//
+// id: 订单ID
+func (s *SslService) GetSSLOrderCertList(id int) (*GetSSLOrderCertListResponse, error) {
+	path := fmt.Sprintf("/product/sslcenter/order/%d/certs", id)
+
+	var resp GetSSLOrderCertListResponse
+	err := s.client.Do(constant.HTTPMethod_GET, path, nil, nil, &resp)
+	return &resp, err
+}
+
+// 获取订单单张证书详情
+//
+// id: 订单ID
+//
+// certID: 证书ID(子表ID)
+func (s *SslService) GetSSLOrderCertDetail(id, certID int) (*GetSSLOrderCertDetailResponse, error) {
+	path := fmt.Sprintf("/product/sslcenter/order/%d/cert/%d", id, certID)
+
+	var resp GetSSLOrderCertDetailResponse
 	err := s.client.Do(constant.HTTPMethod_GET, path, nil, nil, &resp)
 	return &resp, err
 }
@@ -83,18 +109,33 @@ func (s *SslService) UpdateSSLOrderDescription(id int, newDescription string) (*
 
 // TODO: 响应结构未公开,透传;实测后补强类型
 //
+// 订单续期
+//
+// id: 订单ID
+func (s *SslService) RenewSSLOrder(id int) (*SslPassthroughResponse, error) {
+	path := fmt.Sprintf("/product/sslcenter/order/%d/renew", id)
+
+	var resp SslPassthroughResponse
+	err := s.client.Do(constant.HTTPMethod_POST, path, nil, nil, &resp)
+	return &resp, err
+}
+
+// TODO: 响应结构未公开,透传;实测后补强类型
+//
 // 申请吊销SSL证书
 //
 // id: 订单ID
 //
+// certID: 要吊销的证书ID(子表ID),传0默认吊销订单当前证书
+//
 // reason: 申请吊销原因
 //
 // letter: 吊销函内容(Base64编码,非DV必传)
-func (s *SslService) RevokeSSLOrder(id int, reason, letter string) (*SslPassthroughResponse, error) {
+func (s *SslService) RevokeSSLOrder(id, certID int, reason, letter string) (*SslPassthroughResponse, error) {
 	path := fmt.Sprintf("/product/sslcenter/order/%d/revoke", id)
 
 	var resp SslPassthroughResponse
-	err := s.client.Do(constant.HTTPMethod_POST, path, nil, RevokeSSLOrderRequest{Letter: letter, Reason: reason}, &resp)
+	err := s.client.Do(constant.HTTPMethod_POST, path, nil, RevokeSSLOrderRequest{CertID: certID, Letter: letter, Reason: reason}, &resp)
 	return &resp, err
 }
 
