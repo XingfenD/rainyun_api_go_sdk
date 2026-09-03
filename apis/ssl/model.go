@@ -138,6 +138,38 @@ type GetSSLOrderDetailResponse struct {
 	Data SslOrder `json:"data"`
 }
 
+// 订单证书记录(实测 /product/sslcenter/order/{id}/certs 响应)
+type SslOrderCert struct {
+	ID             int             `json:"id"`
+	ProviderCertID string          `json:"providerCertId"` // 签发商证书ID
+	CsrInfo        SslOrderCsrInfo `json:"csrInfo"`
+	CertIssuedAt   int64           `json:"certIssuedAt"` // 签发时间
+	CertStartAt    int64           `json:"certStartAt"`  // 证书生效时间
+	CertExpireAt   int64           `json:"certExpireAt"` // 证书到期时间
+	IsCurrent      bool            `json:"isCurrent"`    // 是否当前证书
+	Status         string          `json:"status"`       // issued/revoked 等
+	RevokeReason   any             `json:"revokeReason"` // 吊销原因 TODO: 结构未公开,实测后补强类型
+	RevokedAt      int64           `json:"revokedAt"`    // 吊销时间
+	CreatedAt      int64           `json:"createdAt"`
+	UpdatedAt      int64           `json:"updatedAt"`
+}
+
+// 订单单张证书详情(实测 /product/sslcenter/order/{id}/cert/{cert_id} 响应)
+type SslOrderCertDetail struct {
+	SslOrderCert
+	Parsed SslDetailData `json:"parsed"` // 解析后的证书内容
+}
+
+type GetSSLOrderCertListResponse struct {
+	Code int            `json:"code"`
+	Data []SslOrderCert `json:"data"`
+}
+
+type GetSSLOrderCertDetailResponse struct {
+	Code int                `json:"code"`
+	Data SslOrderCertDetail `json:"data"`
+}
+
 // 订单价格(实测 /product/sslcenter/price 响应)
 type SslOrderPrice struct {
 	Price        float64 `json:"price"`
@@ -175,9 +207,14 @@ type UpdateSSLOrderDescriptionRequest struct {
 	NewDescription string `json:"newDescription"`
 }
 
+type AssignSSLOrderRequest struct {
+	CertID int `json:"certId,omitempty"` // 要添加的证书ID(子表ID),不传默认添加当前证书
+}
+
 type RevokeSSLOrderRequest struct {
-	Letter string `json:"letter"` // 吊销函内容(Base64编码,非DV必传)
-	Reason string `json:"reason"` // 申请吊销原因
+	CertID int    `json:"certId,omitempty"` // 要吊销的证书ID(子表ID),不传默认吊销订单当前证书
+	Letter string `json:"letter"`           // 吊销函内容(Base64编码,非DV必传)
+	Reason string `json:"reason"`           // 申请吊销原因
 }
 
 type VerifySSLOrderRequest struct {

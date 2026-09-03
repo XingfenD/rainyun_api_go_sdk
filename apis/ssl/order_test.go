@@ -37,6 +37,25 @@ func stubService(t *testing.T, wantMethod, wantPath string, body string) *SslSer
 	return NewSslService(c)
 }
 
+func stubServiceWithBody(t *testing.T, wantMethod, wantPath, wantBody, body string) *SslService {
+	t.Helper()
+	c := apis.NewRyClient("test-key")
+	c.SetTransport(roundTripFunc(func(req *http.Request) (*http.Response, error) {
+		if req.Method != wantMethod {
+			t.Errorf("method = %s, want %s", req.Method, wantMethod)
+		}
+		if req.URL.Path != wantPath {
+			t.Errorf("path = %s, want %s", req.URL.Path, wantPath)
+		}
+		got, _ := io.ReadAll(req.Body)
+		if strings.TrimSpace(string(got)) != wantBody {
+			t.Errorf("body = %s, want %s", strings.TrimSpace(string(got)), wantBody)
+		}
+		return jsonResponse(200, body), nil
+	}))
+	return NewSslService(c)
+}
+
 func TestGetSSLOrderListQuery(t *testing.T) {
 	raw := `{"code":200,"data":{"totalRecords":1,"records":[{"id":5951,"uid":1175873,
 		"csrInfo":{"commonName":"yoresee.cc","dnsNames":[],"keyAlgo":"RSA","keyLen":4096,"signHash":"SHA256","country":"CN"},
@@ -112,8 +131,15 @@ func TestGetSSLOrderDetailPath(t *testing.T) {
 }
 
 func TestAssignSSLOrderPath(t *testing.T) {
-	svc := stubService(t, "POST", "/product/sslcenter/order/3/assign", `{"code":200,"data":"ok"}`)
-	if _, err := svc.AssignSSLOrder(3); err != nil {
+	svc := stubServiceWithBody(t, "POST", "/product/sslcenter/order/3/assign", `{}`, `{"code":200,"data":"ok"}`)
+	if _, err := svc.AssignSSLOrder(3, 0); err != nil {
+		t.Fatalf("AssignSSLOrder() error = %v", err)
+	}
+}
+
+func TestAssignSSLOrderCertIDBody(t *testing.T) {
+	svc := stubServiceWithBody(t, "POST", "/product/sslcenter/order/3/assign", `{"certId":7}`, `{"code":200,"data":"ok"}`)
+	if _, err := svc.AssignSSLOrder(3, 7); err != nil {
 		t.Fatalf("AssignSSLOrder() error = %v", err)
 	}
 }
@@ -139,9 +165,67 @@ func TestUpdateSSLOrderDescriptionPath(t *testing.T) {
 }
 
 func TestRevokeSSLOrderPath(t *testing.T) {
-	svc := stubService(t, "POST", "/product/sslcenter/order/3/revoke", `{"code":200,"data":"ok"}`)
-	if _, err := svc.RevokeSSLOrder(3, "不再需要", ""); err != nil {
+	svc := stubServiceWithBody(t, "POST", "/product/sslcenter/order/3/revoke",
+		`{"letter":"","reason":"不再需要"}`, `{"code":200,"data":"ok"}`)
+	if _, err := svc.RevokeSSLOrder(3, 0, "不再需要", ""); err != nil {
 		t.Fatalf("RevokeSSLOrder() error = %v", err)
+	}
+}
+
+func TestRevokeSSLOrderCertIDBody(t *testing.T) {
+	svc := stubServiceWithBody(t, "POST", "/product/sslcenter/order/3/revoke",
+		`{"certId":7,"letter":"bGV0dGVy","reason":"不再需要"}`, `{"code":200,"data":"ok"}`)
+	if _, err := svc.RevokeSSLOrder(3, 7, "不再需要", "bGV0dGVy"); err != nil {
+		t.Fatalf("RevokeSSLOrder() error = %v", err)
+	}
+}
+
+func TestGetSSLOrderCertListPath(t *testing.T) {
+	raw := `{"code":200,"data":[{"id":4307,"providerCertId":"","csrInfo":{"commonName":"yoresee.cc","dnsNames":[],
+		"keyAlgo":"RSA","keyLen":4096,"signHash":"SHA256","country":"CN"},
+		"certIssuedAt":1784088638,"certStartAt":1784084400,"certExpireAt":1791860399,"isCurrent":true,
+		"status":"issued","revokeReason":null,"revokedAt":0,"createdAt":1784088639,"updatedAt":1787310473}]}`
+	svc := stubService(t, "GET", "/product/sslcenter/order/3/certs", raw)
+	resp, err := svc.GetSSLOrderCertList(3)
+	if err != nil {
+		t.Fatalf("GetSSLOrderCertList() error = %v", err)
+	}
+	if len(resp.Data) != 1 {
+		t.Fatalf("Data = %+v", resp.Data)
+	}
+	c := resp.Data[0]
+	if c.ID != 4307 || c.Status != "issued" || !c.IsCurrent ||
+		c.CsrInfo.CommonName != "yoresee.cc" || c.CertExpireAt != 1791860399 {
+		t.Errorf("cert = %+v", c)
+	}
+}
+
+func TestGetSSLOrderCertDetailPath(t *testing.T) {
+	raw := `{"code":200,"data":{"id":4307,"providerCertId":"","csrInfo":{"commonName":"yoresee.cc","dnsNames":[],
+		"keyAlgo":"RSA","keyLen":4096,"signHash":"SHA256","country":"CN"},
+		"certIssuedAt":1784088638,"certStartAt":1784084400,"certExpireAt":1791860399,"isCurrent":true,
+		"status":"issued","revokeReason":null,"revokedAt":0,"createdAt":1784088639,"updatedAt":1787310473,
+		"parsed":{"Cert":"CERT","Key":"KEY","DomainName":"yoresee.cc, www.yoresee.cc","Issuer":"TrustAsia",
+		"StartDate":1784084400,"ExpDate":1791860399,"RemainDays":89}}}`
+	svc := stubService(t, "GET", "/product/sslcenter/order/3/cert/4307", raw)
+	resp, err := svc.GetSSLOrderCertDetail(3, 4307)
+	if err != nil {
+		t.Fatalf("GetSSLOrderCertDetail() error = %v", err)
+	}
+	d := resp.Data
+	if d.ID != 4307 || d.Status != "issued" || !d.IsCurrent {
+		t.Errorf("SslOrderCert = %+v", d.SslOrderCert)
+	}
+	if d.Parsed.Cert != "CERT" || d.Parsed.RemainDays != 89 ||
+		d.Parsed.DomainName != "yoresee.cc, www.yoresee.cc" {
+		t.Errorf("Parsed = %+v", d.Parsed)
+	}
+}
+
+func TestRenewSSLOrderPath(t *testing.T) {
+	svc := stubService(t, "POST", "/product/sslcenter/order/3/renew", `{"code":200,"data":"ok"}`)
+	if _, err := svc.RenewSSLOrder(3); err != nil {
+		t.Fatalf("RenewSSLOrder() error = %v", err)
 	}
 }
 

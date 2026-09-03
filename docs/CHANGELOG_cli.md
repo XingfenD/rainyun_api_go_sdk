@@ -5,6 +5,13 @@ SDK（`apis/`、`sdk/`）与模块级变更记录在 [`CHANGELOG.md`](./CHANGELO
 
 格式沿用 Keep a Changelog。
 
+## [0.2.2] - 2026-09-03
+
+### Added / 新增
+
+- `ry ssl order` 新增 `certs <id>`（订单证书历史列表）、`cert-detail <id> <cert-id>`（订单单张证书详情）、`renew <id>`（订单续期）命令。
+- `ry ssl order assign/revoke` 新增 `--cert-id` 可选参数，支持指定子表证书ID（默认仍作用于当前证书）。
+
 ## [0.2.1] - 2026-08-21
 
 ### Changed / 变更

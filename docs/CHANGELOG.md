@@ -8,6 +8,17 @@ The format loosely follows Keep a Changelog and can be adapted to the team's hab
 
 > `ry` 命令行工具（`cmd/ry/`）的变更记录在 [`CHANGELOG_cli.md`](./CHANGELOG_cli.md)。
 
+## [0.3.2] - 2026-09-03
+
+### Added / 新增
+
+- `ssl` 服务接入 openapi.json 新增的 3 个订单端点：`GetSSLOrderCertList`（订单证书历史列表）、`GetSSLOrderCertDetail`（订单单张证书详情）、`RenewSSLOrder`（订单续期）。
+- 依据线上实测为证书历史/详情端点补齐强类型（`SslOrderCert`/`SslOrderCertDetail`，详情内嵌 `parsed` 复用 `SslDetailData`）；`RenewSSLOrder` 为写操作无法安全探测，响应保持 `SslPassthroughResponse` 透传。
+
+### Changed / 变更
+
+- **破坏性**：`AssignSSLOrder`/`RevokeSSLOrder` 新增 `certID` 参数（对应上游新增的 `certId` 请求字段，子表证书ID）；传 0 时省略该字段，行为与旧版一致（默认当前证书）。
+
 ## [0.3.1] - 2026-08-21
 
 ### Added / 新增

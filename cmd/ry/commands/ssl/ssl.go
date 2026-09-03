@@ -251,7 +251,8 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 			if err != nil {
 				return err
 			}
-			if _, err := (*rySDK).AssignSSLOrder(id); err != nil {
+			certID, _ := cmd.Flags().GetInt("cert-id")
+			if _, err := (*rySDK).AssignSSLOrder(id, certID); err != nil {
 				return err
 			}
 			fmt.Printf("Order %s certificate assigned\n", args[0])
@@ -273,6 +274,65 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 				return err
 			}
 			return (*out).Print(toSslCertDetail(resp.Data))
+		},
+	}
+
+	orderCertsCmd := &cobra.Command{
+		Use:   "certs <id>",
+		Short: "List certificate history of an order",
+		Args:  cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			id, err := cliutil.ParseID(args[0])
+			if err != nil {
+				return err
+			}
+			resp, err := (*rySDK).GetSSLOrderCertList(id)
+			if err != nil {
+				return err
+			}
+			items := make([]model.SslOrderCert, len(resp.Data))
+			for i, c := range resp.Data {
+				items[i] = toSslOrderCert(c)
+			}
+			return (*out).Print(items)
+		},
+	}
+
+	orderCertDetailCmd := &cobra.Command{
+		Use:   "cert-detail <id> <cert-id>",
+		Short: "Get a single certificate detail of an order",
+		Args:  cobra.ExactArgs(2),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			id, err := cliutil.ParseID(args[0])
+			if err != nil {
+				return err
+			}
+			certID, err := cliutil.ParseID(args[1])
+			if err != nil {
+				return err
+			}
+			resp, err := (*rySDK).GetSSLOrderCertDetail(id, certID)
+			if err != nil {
+				return err
+			}
+			return (*out).Print(toSslOrderCertDetail(resp.Data))
+		},
+	}
+
+	orderRenewCmd := &cobra.Command{
+		Use:   "renew <id>",
+		Short: "Renew an SSL certificate order",
+		Args:  cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			id, err := cliutil.ParseID(args[0])
+			if err != nil {
+				return err
+			}
+			if _, err := (*rySDK).RenewSSLOrder(id); err != nil {
+				return err
+			}
+			fmt.Printf("Order %s renewing\n", args[0])
+			return nil
 		},
 	}
 
@@ -304,10 +364,11 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 			}
 			reason, _ := cmd.Flags().GetString("reason")
 			letter, _ := cmd.Flags().GetString("letter")
+			certID, _ := cmd.Flags().GetInt("cert-id")
 			if reason == "" {
 				return fmt.Errorf("--reason flag is required")
 			}
-			if _, err := (*rySDK).RevokeSSLOrder(id, reason, letter); err != nil {
+			if _, err := (*rySDK).RevokeSSLOrder(id, certID, reason, letter); err != nil {
 				return err
 			}
 			fmt.Printf("Order %s revoking\n", args[0])
@@ -355,10 +416,12 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 	addOrderFlags(orderPriceCmd)
 	orderRevokeCmd.Flags().String("reason", "", "Revoke reason (required)")
 	orderRevokeCmd.Flags().String("letter", "", "Revoke letter content (Base64, required for non-DV)")
+	orderRevokeCmd.Flags().Int("cert-id", 0, "Certificate ID to revoke (default: current certificate)")
+	orderAssignCmd.Flags().Int("cert-id", 0, "Certificate ID to assign (default: current certificate)")
 	orderVerifyCmd.Flags().Bool("force-refresh", false, "Force refresh the certificate")
 
 	applyCmd.AddCommand(applyListCmd, applyCreateCmd, applyVerifyCmd)
-	orderCmd.AddCommand(orderListCmd, orderCreateCmd, orderPriceCmd, orderGetCmd, orderAssignCmd, orderCertCmd, orderDescriptionCmd, orderRevokeCmd, orderVerifyCmd)
+	orderCmd.AddCommand(orderListCmd, orderCreateCmd, orderPriceCmd, orderGetCmd, orderAssignCmd, orderCertCmd, orderCertsCmd, orderCertDetailCmd, orderRenewCmd, orderDescriptionCmd, orderRevokeCmd, orderVerifyCmd)
 	sslCmd.AddCommand(listCmd, getCmd, uploadCmd, replaceCmd, deleteCmd, applyCmd, orderCmd, productsCmd)
 
 	return sslCmd
@@ -381,6 +444,29 @@ func toSslCertDetail(d apisssl.SslDetailData) model.SslCertDetail {
 		Start:  formatDate(d.StartDate),
 		Expire: formatDate(d.ExpDate),
 		Remain: d.RemainDays,
+	}
+}
+
+func toSslOrderCert(c apisssl.SslOrderCert) model.SslOrderCert {
+	return model.SslOrderCert{
+		ID:      c.ID,
+		Status:  c.Status,
+		Current: c.IsCurrent,
+		Start:   formatDate64(c.CertStartAt),
+		Expire:  formatDate64(c.CertExpireAt),
+	}
+}
+
+func toSslOrderCertDetail(d apisssl.SslOrderCertDetail) model.SslOrderCertDetail {
+	return model.SslOrderCertDetail{
+		ID:      d.ID,
+		Status:  d.Status,
+		Current: d.IsCurrent,
+		Domain:  d.Parsed.DomainName,
+		Issuer:  d.Parsed.Issuer,
+		Start:   formatDate(d.Parsed.StartDate),
+		Expire:  formatDate(d.Parsed.ExpDate),
+		Remain:  d.Parsed.RemainDays,
 	}
 }
 

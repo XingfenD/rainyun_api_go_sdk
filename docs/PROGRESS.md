@@ -18,8 +18,8 @@ SDK 代码在 `apis/`，CLI 代码在 `cmd/ry/commands/`。
 | rgs | 75 | 75 | 75 |
 | ros | 36 | 19 | 3 |
 | rvh | 25 | 25 | 11 |
-| ssl | 21 | 18 | 18 |
-| **合计** | **354** | **272** | **178** |
+| ssl | 21 | 21 | 21 |
+| **合计** | **354** | **275** | **181** |
 
 ## domain
 
@@ -427,10 +427,10 @@ CLI 命令：`backup`, `bind <id> <domain>`, `create`, `create <id> <label>`, `d
 | GET | `/product/sslcenter/order/{id}` | 获取SSL证书订单信息 | `ssl.GetSSLOrderDetail` | typed | ✓ |
 | POST | `/product/sslcenter/order/{id}/assign` | 将SSL证书添加到证书列表 | `ssl.AssignSSLOrder` | typed | ✓ |
 | GET | `/product/sslcenter/order/{id}/cert` | 获取SSL证书 | `ssl.GetSSLOrderCert` | typed | ✓ |
-| GET | `/product/sslcenter/order/{id}/cert/{cert_id}` | 获取订单单张证书详情 | — |  | — |
-| GET | `/product/sslcenter/order/{id}/certs` | 获取订单证书历史列表 | — |  | — |
+| GET | `/product/sslcenter/order/{id}/cert/{cert_id}` | 获取订单单张证书详情 | `ssl.GetSSLOrderCertDetail` | typed | ✓ |
+| GET | `/product/sslcenter/order/{id}/certs` | 获取订单证书历史列表 | `ssl.GetSSLOrderCertList` | typed | ✓ |
 | POST | `/product/sslcenter/order/{id}/description` | 更新SSL订单描述 | `ssl.UpdateSSLOrderDescription` | typed | ✓ |
-| POST | `/product/sslcenter/order/{id}/renew` | 订单续期 | — |  | — |
+| POST | `/product/sslcenter/order/{id}/renew` | 订单续期 | `ssl.RenewSSLOrder` | typed | ✓ |
 | POST | `/product/sslcenter/order/{id}/revoke` | 申请吊销SSL证书 | `ssl.RevokeSSLOrder` | typed | ✓ |
 | POST | `/product/sslcenter/order/{id}/verify` | 验证SSL证书订单 | `ssl.VerifySSLOrder` | typed | ✓ |
 | POST | `/product/sslcenter/price` | 获取SSL证书订单价格 | `ssl.GetSSLOrderPrice` | typed | ✓ |
