@@ -257,6 +257,7 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 	addNetworkCommands(gameCmd, rySDK, out)
 	addMpCommands(gameCmd, rySDK, out)
 	addBillingCommands(gameCmd, rySDK, out)
+	addMaintenanceCommand(gameCmd, rySDK, out)
 
 	return gameCmd
 }

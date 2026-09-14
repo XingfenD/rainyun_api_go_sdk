@@ -21,7 +21,7 @@ func TestCmdRegistersAllCommands(t *testing.T) {
 		"renew-price": true, "renew": true, "auto-renew": true,
 		"upgrade": true, "edisk": true, "monitor": true,
 		"backup": true, "eip": true, "nat": true, "traffic": true,
-		"firewall": true, "pve-address": true,
+		"firewall": true, "pve-address": true, "maintenance": true,
 	}
 
 	got := map[string]bool{}

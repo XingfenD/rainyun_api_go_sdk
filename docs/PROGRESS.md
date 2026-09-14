@@ -11,15 +11,15 @@ SDK 代码在 `apis/`，CLI 代码在 `cmd/ry/commands/`。
 |---|---|---|---|
 | domain | 38 | 24 | 4 |
 | public | 6 | 4 | 4 |
-| rbm | 24 | 9 | 0 |
+| rbm | 24 | 10 | 0 |
 | rca | 56 | 42 | 20 |
 | rcdn | 22 | 21 | 9 |
-| rcs | 53 | 35 | 34 |
-| rgs | 76 | 75 | 75 |
+| rcs | 53 | 36 | 35 |
+| rgs | 76 | 76 | 76 |
 | ros | 36 | 19 | 3 |
 | rvh | 25 | 25 | 11 |
 | ssl | 21 | 21 | 21 |
-| **合计** | **357** | **275** | **181** |
+| **合计** | **357** | **278** | **183** |
 
 ## domain
 
@@ -95,7 +95,7 @@ CLI 命令：`add <domain-id>`, `delete <domain-id> <record-id>`, `dns`, `domain
 | POST | `/product/rbm/{id}/free` | 释放 | — |  | — |
 | POST | `/product/rbm/{id}/kvm-proxy` | RBM实例启动KVM代理 | `rbm.StartKVMAgent` | typed | — |
 | POST | `/product/rbm/{id}/kvm-reboot` | RBM重新启动KVM | `rbm.RestartKVM` | typed | — |
-| GET | `/product/rbm/{id}/maintenance` | 裸金属维护状态查询服务 | — |  | — |
+| GET | `/product/rbm/{id}/maintenance` | 裸金属维护状态查询服务 | `rbm.GetRbmMaintenance` | typed | — |
 | GET | `/product/rbm/{id}/monitor` | 获取监控数据 | — |  | — |
 | POST | `/product/rbm/{id}/poweroff` | RBM实例关机 | `rbm.ShutdownRBM` | typed | — |
 | POST | `/product/rbm/{id}/poweron` | RBM实例开机 | `rbm.StartRBM` | typed | — |
@@ -232,7 +232,7 @@ CLI 命令：`add <id>`, `auto <id>`, `auto-renew <id>`, `backup`, `cancel <id> 
 | PUT | `/product/rcs/{id}/firewall/rule/{ruleId}/pos` | 移动防火墙规则优先级 | `rcs.MobileRcsFirewallRulePriority` | typed | ✓ |
 | GET | `/product/rcs/{id}/firewall/sync_time` | 获取防火墙同步开始时间 | — |  | — |
 | POST | `/product/rcs/{id}/free` | 释放 | `rcs.FreeRcs` | typed | ✓ |
-| GET | `/product/rcs/{id}/maintenance` | 云服务器维护状态查询服务 | — |  | — |
+| GET | `/product/rcs/{id}/maintenance` | 云服务器维护状态查询服务 | `rcs.GetRcsMaintenance` | typed | ✓ |
 | GET | `/product/rcs/{id}/monitor` | 获取监控数据 | `rcs.GetRcsMonitorData` | typed | ✓ |
 | DELETE | `/product/rcs/{id}/nat` | 删除NAT端口映射 | `rcs.DeleteRcsNatPortMapping` | typed | ✓ |
 | GET | `/product/rcs/{id}/nat` | 添加NAT端口映射 | `rcs.AddRcsNatPortMapping` | typed | ✓ |
@@ -323,7 +323,7 @@ CLI 命令：`add <id>`, `auto-renew <id>`, `backup`, `cancel <id> <backup-id>`,
 | PATCH | `/product/rgs/{id}/k8s-panel/database` | K8S面板修改数据库设置 | `rgs.SetK8SPanelDatabase` | typed | ✓ |
 | POST | `/product/rgs/{id}/k8s-panel/set-start-command` | 游戏云设置启动命令（仅支持雨云面板） | `rgs.SetK8SPanelStartCommand` | typed | ✓ |
 | PATCH | `/product/rgs/{id}/k8s-panel/sftp` | K8S面板修改SFTP设置 | `rgs.SetK8SPanelSFTP` | typed | ✓ |
-| GET | `/product/rgs/{id}/maintenance` | 游戏云维护状态查询服务 | — |  | — |
+| GET | `/product/rgs/{id}/maintenance` | 游戏云维护状态查询服务 | `rgs.GetRgsMaintenance` | typed | ✓ |
 | POST | `/product/rgs/{id}/monitor` | 获取监控数据 | `rgs.GetRgsMonitorData` | typed | ✓ |
 | DELETE | `/product/rgs/{id}/nat` | 删除NAT端口映射 | `rgs.DeleteRgsNatPortMapping` | typed | ✓ |
 | POST | `/product/rgs/{id}/nat` | 添加NAT端口映射 | `rgs.AddRgsNatPortMapping` | typed | ✓ |

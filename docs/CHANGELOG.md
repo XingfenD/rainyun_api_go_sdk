@@ -8,6 +8,12 @@ The format loosely follows Keep a Changelog and can be adapted to the team's hab
 
 > `ry` 命令行工具（`cmd/ry/`）的变更记录在 [`CHANGELOG_cli.md`](./CHANGELOG_cli.md)。
 
+## [0.3.3] - 2026-09-14
+
+### Added / 新增
+
+- 接入维护状态查询端点：`rcs.GetRcsMaintenance`（云服务器）、`rgs.GetRgsMaintenance`（游戏云）、`rbm.GetRbmMaintenance`（裸金属）。响应 `data` 字段结构未公开，暂用 `any` 透传。
+
 ## [0.3.2] - 2026-09-03
 
 ### Added / 新增

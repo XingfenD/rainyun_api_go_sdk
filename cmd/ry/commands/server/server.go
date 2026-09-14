@@ -193,6 +193,7 @@ func Cmd(rySDK **sdk.RainyunSDK, out **output.Printer) *cobra.Command {
 	addTrafficCommands(serverCmd, rySDK, out)
 	addFirewallCommands(serverCmd, rySDK, out)
 	addPveAddressCommand(serverCmd, rySDK, out)
+	addMaintenanceCommand(serverCmd, rySDK, out)
 
 	return serverCmd
 }

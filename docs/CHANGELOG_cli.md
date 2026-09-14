@@ -5,6 +5,13 @@ SDK（`apis/`、`sdk/`）与模块级变更记录在 [`CHANGELOG.md`](./CHANGELO
 
 格式沿用 Keep a Changelog。
 
+## [0.2.3] - 2026-09-14
+
+### Added / 新增
+
+- `ry server maintenance <id>`：查询云服务器维护状态。
+- `ry game maintenance <id>`：查询游戏云维护状态。
+
 ## [0.2.2] - 2026-09-03
 
 ### Added / 新增
