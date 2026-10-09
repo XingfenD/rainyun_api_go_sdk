@@ -1274,6 +1274,14 @@
         "domain": {
           "type": "string"
         },
+        "ip": {
+          "description": "飞讯过白使用的客户 IP",
+          "type": "string"
+        },
+        "purpose": {
+          "description": "飞讯过白使用的用途",
+          "type": "string"
+        },
         "region": {
           "description": "过白区域",
           "type": "string"

@@ -1283,6 +1283,292 @@
         ]
       }
     },
+    "/product/rcs/{id}/snapshot/": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "云服务器 ID",
+            "format": "int32",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.CreateSnapshotService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "请求成功",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "业务状态码",
+                  "example": 200,
+                  "type": "integer"
+                },
+                "data": {
+                  "description": "返回数据"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "请求错误",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "错误码",
+                  "type": "integer"
+                },
+                "message": {
+                  "description": "错误描述",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "创建本地快照",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/snapshot/setting": {
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "云服务器 ID",
+            "format": "int32",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "参数",
+            "in": "body",
+            "name": "param",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/rcs.SetSnapshotService"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "请求成功",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "业务状态码",
+                  "example": 200,
+                  "type": "integer"
+                },
+                "data": {
+                  "description": "返回数据"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "请求错误",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "错误码",
+                  "type": "integer"
+                },
+                "message": {
+                  "description": "错误描述",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "设置每日自动快照",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/snapshot/{sid}/": {
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "云服务器 ID",
+            "format": "int32",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "快照 ID",
+            "format": "int32",
+            "in": "path",
+            "name": "sid",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "请求成功",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "业务状态码",
+                  "example": 200,
+                  "type": "integer"
+                },
+                "data": {
+                  "description": "返回数据"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "请求错误",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "错误码",
+                  "type": "integer"
+                },
+                "message": {
+                  "description": "错误描述",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "删除本地快照",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
+    "/product/rcs/{id}/snapshot/{sid}/rollback": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "云服务器 ID",
+            "format": "int32",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "description": "快照 ID",
+            "format": "int32",
+            "in": "path",
+            "name": "sid",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "请求成功",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "业务状态码",
+                  "example": 200,
+                  "type": "integer"
+                },
+                "data": {
+                  "description": "返回数据"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "请求错误",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "错误码",
+                  "type": "integer"
+                },
+                "message": {
+                  "description": "错误描述",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "回滚到本地快照",
+        "tags": [
+          "rcs"
+        ]
+      }
+    },
     "/product/rcs/{id}/start": {
       "post": {
         "consumes": [
@@ -2095,6 +2381,10 @@
           },
           "type": "array"
         },
+        "daily_snapshot": {
+          "description": "是否开启每日快照。支持备份的 NVME 本地盘忽略此项，固定开启每日备份",
+          "type": "boolean"
+        },
         "disk_type": {
           "description": "硬盘类型(部分区域可空)",
           "type": "string"
@@ -2163,6 +2453,25 @@
       "required": [
         "duration",
         "os_id"
+      ],
+      "type": "object"
+    },
+    "rcs.CreateSnapshotService": {
+      "properties": {
+        "include_ram": {
+          "description": "是否连同内存一起保存，仅运行中可用",
+          "type": "boolean"
+        },
+        "label": {
+          "description": "快照名称",
+          "maxLength": 32,
+          "minLength": 2,
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "include_ram"
       ],
       "type": "object"
     },
@@ -2254,6 +2563,40 @@
           "type": "integer"
         }
       },
+      "type": "object"
+    },
+    "rcs.SetSnapshotService": {
+      "properties": {
+        "auto_snapshot_hour": {
+          "description": "每日自动快照的小时，-1 表示关闭",
+          "format": "int32",
+          "maximum": 23,
+          "minimum": -1,
+          "type": "integer"
+        },
+        "auto_snapshot_minute": {
+          "description": "每日自动快照的分钟，-1 表示关闭",
+          "format": "int32",
+          "maximum": 59,
+          "minimum": -1,
+          "type": "integer"
+        },
+        "keep_last": {
+          "description": "自动快照保留份数",
+          "enum": [
+            "1",
+            "2",
+            "3"
+          ],
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "auto_snapshot_hour",
+        "auto_snapshot_minute",
+        "keep_last"
+      ],
       "type": "object"
     },
     "rcs.UpgradeService": {
