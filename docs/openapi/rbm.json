@@ -945,6 +945,14 @@
           "description": "指定节点(管理员可用)(暂时无用)",
           "type": "string"
         },
+        "os_disk_type": {
+          "description": "系统盘类型（local/iscsi），未传入则随机分配",
+          "enum": [
+            "local",
+            "iscsi"
+          ],
+          "type": "string"
+        },
         "os_id": {
           "type": "integer"
         },
