@@ -2019,7 +2019,7 @@
           "type": "string"
         },
         "name": {
-          "description": "存储桶名称，不可变更",
+          "description": "存储桶名称，不可变更；与 Region 联合唯一",
           "type": "string"
         },
         "ready_delete": {

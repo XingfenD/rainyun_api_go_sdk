@@ -490,6 +490,59 @@
         ]
       }
     },
+    "/product/domain/template/preview": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "请求成功",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "业务状态码",
+                  "example": 200,
+                  "type": "integer"
+                },
+                "data": {
+                  "description": "返回数据"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "请求错误",
+            "schema": {
+              "properties": {
+                "code": {
+                  "description": "错误码",
+                  "type": "integer"
+                },
+                "message": {
+                  "description": "错误描述",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKey": []
+          }
+        ],
+        "summary": "域名模板预览服务",
+        "tags": [
+          "domain"
+        ]
+      }
+    },
     "/product/domain/whitelist": {
       "get": {
         "consumes": [
@@ -1274,6 +1327,14 @@
         "domain": {
           "type": "string"
         },
+        "ip": {
+          "description": "飞讯过白使用的客户 IP",
+          "type": "string"
+        },
+        "purpose": {
+          "description": "飞讯过白使用的用途",
+          "type": "string"
+        },
         "region": {
           "description": "过白区域",
           "type": "string"
@@ -1532,6 +1593,55 @@
       ],
       "type": "object"
     },
+    "domain.TemplateGeneratedInfo": {
+      "properties": {
+        "address_en": {
+          "description": "英文通讯地址",
+          "type": "string"
+        },
+        "city_en": {
+          "description": "英文城市",
+          "type": "string"
+        },
+        "company_en_name": {
+          "description": "企业英文名称，个人模板为空",
+          "type": "string"
+        },
+        "country_code": {
+          "description": "国家代码，由原国家字段确定",
+          "type": "string"
+        },
+        "first_name": {
+          "description": "中文名，与中文姓拼接后必须等于原姓名",
+          "type": "string"
+        },
+        "first_name_en": {
+          "description": "英文名",
+          "type": "string"
+        },
+        "last_name": {
+          "description": "中文姓，允许用户修正复姓拆分",
+          "type": "string"
+        },
+        "last_name_en": {
+          "description": "英文姓",
+          "type": "string"
+        },
+        "phone_code": {
+          "description": "国际电话区号，由原国家字段确定",
+          "type": "string"
+        },
+        "province_en": {
+          "description": "英文省份",
+          "type": "string"
+        },
+        "source_hash": {
+          "description": "转换源指纹，用于识别过期预览",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "domain.TemplateService": {
       "properties": {
         "address": {
@@ -1557,6 +1667,14 @@
         "email": {
           "description": "邮箱",
           "type": "string"
+        },
+        "generated_info": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/domain.TemplateGeneratedInfo"
+            }
+          ],
+          "description": "新建模板时用户确认的预览结果，仅用于本次上游提交"
         },
         "id_img": {
           "description": "base64编码的证件照片",

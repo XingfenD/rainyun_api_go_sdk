@@ -9,17 +9,17 @@ SDK 代码在 `apis/`，CLI 代码在 `cmd/ry/commands/`。
 
 | 分类 | openapi 端点 | SDK 已实现 | CLI 已接入 |
 |---|---|---|---|
-| domain | 38 | 24 | 4 |
+| domain | 39 | 24 | 4 |
 | public | 6 | 4 | 4 |
 | rbm | 24 | 9 | 0 |
 | rca | 56 | 42 | 20 |
 | rcdn | 22 | 21 | 9 |
-| rcs | 53 | 35 | 34 |
-| rgs | 76 | 75 | 75 |
+| rcs | 57 | 35 | 34 |
+| rgs | 77 | 68 | 68 |
 | ros | 36 | 19 | 3 |
 | rvh | 25 | 25 | 11 |
 | ssl | 21 | 21 | 21 |
-| **合计** | **357** | **275** | **181** |
+| **合计** | **363** | **268** | **174** |
 
 ## domain
 
@@ -43,6 +43,7 @@ CLI 命令：`add <domain-id>`, `delete <domain-id> <record-id>`, `dns`, `domain
 | DELETE | `/product/domain/template/` | 删除域名信息模板 | `domain.DeleteDomainTemplate` | typed | — |
 | GET | `/product/domain/template/` | 查询域名模板列表 | `domain.GetDomainTemplateList` | typed | — |
 | GET | `/product/domain/template/detail/` | 获取域名模板详情 | `domain.GetDomainTemplateDetail` | typed | — |
+| POST | `/product/domain/template/preview` | 域名模板预览服务 | — |  | — |
 | GET | `/product/domain/whitelist` | 获取域名白名单列表 | `domain.GetDomainWhiteList` | typed | — |
 | POST | `/product/domain/whitelist` | 添加域名白名单 | — |  | — |
 | GET | `/product/domain/whois` | 获取域名whois信息 | `domain.GetDomainWhoisInfo` | typed | — |
@@ -241,6 +242,10 @@ CLI 命令：`add <id>`, `auto <id>`, `auto-renew <id>`, `backup`, `cancel <id> 
 | POST | `/product/rcs/{id}/renew/` | 续费 | `rcs.RenewRcs` | typed | ✓ |
 | POST | `/product/rcs/{id}/renew/option` | 自动续费选项 | `rcs.EnableRcsAutoRenew` | typed | ✓ |
 | POST | `/product/rcs/{id}/reset-password` | 云服务器重置密码操作 | `rcs.ResetRcsPassword` | typed | ✓ |
+| POST | `/product/rcs/{id}/snapshot/` | 创建本地快照 | — |  | — |
+| PATCH | `/product/rcs/{id}/snapshot/setting` | 设置每日自动快照 | — |  | — |
+| DELETE | `/product/rcs/{id}/snapshot/{sid}/` | 删除本地快照 | — |  | — |
+| POST | `/product/rcs/{id}/snapshot/{sid}/rollback` | 回滚到本地快照 | — |  | — |
 | POST | `/product/rcs/{id}/start` | 云服务器开机操作 | `rcs.StartRcs` | typed | ✓ |
 | POST | `/product/rcs/{id}/stop` | 云服务器关机操作 | `rcs.StopRcs` | typed | ✓ |
 | PATCH | `/product/rcs/{id}/tag` | 设置云服务器标签 | `rcs.SetRcsTag` | typed | ✓ |
@@ -264,9 +269,7 @@ CLI 命令：`add <id>`, `auto-renew <id>`, `backup`, `cancel <id> <backup-id>`,
 
 | 方法 | 路径 | 说明 | SDK | 响应类型 | CLI |
 |---|---|---|---|---|---|
-| GET | `/product/rgs-mp/` | 获取列表 | `rgs.ListRgsMp` | passthrough | ✓ |
-| POST | `/product/rgs-mp/` | 创建游戏云MP | `rgs.CreateRgsMp` | passthrough | ✓ |
-| POST | `/product/rgs-mp/{id}/renew/` | 续费游戏云MP | `rgs.RenewRgsMp` | passthrough | ✓ |
+| POST | `/api/fast-install-app/update_egg` | 外部更新/新建游戏蛋 | — |  | — |
 | GET | `/product/rgs/` | 获取列表 | `rgs.GetRgsList` | typed | ✓ |
 | POST | `/product/rgs/` | 创建游戏云 | `rgs.CreateRgs` | typed | ✓ |
 | POST | `/product/rgs/change-egg` | RGS切换egg(游戏类型) | `rgs.ChangeRgsEgg` | typed | ✓ |
@@ -291,10 +294,6 @@ CLI 命令：`add <id>`, `auto-renew <id>`, `backup`, `cancel <id> <backup-id>`,
 | GET | `/product/rgs/os-templates` | 系统列表 | `public.GetRgsOSList` | typed | ✓ |
 | GET | `/product/rgs/plans` | 获取套餐列表 | `rgs.GetRgsPlanList` | typed | ✓ |
 | GET | `/product/rgs/price` | 获取游戏云价格 | `rgs.GetRgsUpgradePrice` | typed | ✓ |
-| GET | `/product/rgs/ptero/panel_user/` | 翼龙面板用户列表 | `rgs.GetPteroUserList` | typed | ✓ |
-| PATCH | `/product/rgs/ptero/panel_user/` | 编辑面板用户 | `rgs.EditPteroUser` | typed | ✓ |
-| POST | `/product/rgs/ptero/panel_user/` | 创建翼龙面板用户 | `rgs.CreatePteroUser` | typed | ✓ |
-| DELETE | `/product/rgs/ptero/panel_user/{name}` | 删除面板用户 | `rgs.DeletePteroUser` | typed | ✓ |
 | POST | `/product/rgs/switch-user` | RGS切换面板用户 | `rgs.SwitchRgsPanelUser` | typed | ✓ |
 | GET | `/product/rgs/usage` | 获取使用情况列表 | `rgs.GetRgsUsageList` | typed | ✓ |
 | GET | `/product/rgs/{id}/` | 获取RGS详情 | `rgs.GetRgsDetail` | typed | ✓ |
@@ -320,7 +319,9 @@ CLI 命令：`add <id>`, `auto-renew <id>`, `backup`, `cancel <id> <backup-id>`,
 | PUT | `/product/rgs/{id}/firewall/rule/{ruleId}/pos` | 移动防火墙规则优先级 | `rgs.MobileRgsFirewallRulePriority` | typed | ✓ |
 | GET | `/product/rgs/{id}/firewall/sync_time` | 获取防火墙同步开始时间 | `rgs.GetRgsFirewallSyncTime` | passthrough | ✓ |
 | POST | `/product/rgs/{id}/free` | 释放游戏云 | `rgs.FreeRgs` | typed | ✓ |
+| GET | `/product/rgs/{id}/game/status` | 用状态查询口探测游戏。mcsm 没有 helper，由控制端直连对外地址 | — |  | — |
 | PATCH | `/product/rgs/{id}/k8s-panel/database` | K8S面板修改数据库设置 | `rgs.SetK8SPanelDatabase` | typed | ✓ |
+| POST | `/product/rgs/{id}/k8s-panel/egg-vars` | 保存游戏变量,下次启动再注入 | — |  | — |
 | POST | `/product/rgs/{id}/k8s-panel/set-start-command` | 游戏云设置启动命令（仅支持雨云面板） | `rgs.SetK8SPanelStartCommand` | typed | ✓ |
 | PATCH | `/product/rgs/{id}/k8s-panel/sftp` | K8S面板修改SFTP设置 | `rgs.SetK8SPanelSFTP` | typed | ✓ |
 | GET | `/product/rgs/{id}/maintenance` | 游戏云维护状态查询服务 | — |  | — |
@@ -332,10 +333,15 @@ CLI 命令：`add <id>`, `auto-renew <id>`, `backup`, `cancel <id> <backup-id>`,
 | POST | `/product/rgs/{id}/renew/option` | 自动续费选项 | `rgs.EnableRgsAutoRenew` | typed | ✓ |
 | POST | `/product/rgs/{id}/reset-password` | 游戏云重置密码操作 | `rgs.ResetRgsPassword` | typed | ✓ |
 | POST | `/product/rgs/{id}/scale` | 升级 | `rgs.ScaleRgs` | passthrough | ✓ |
+| POST | `/product/rgs/{id}/snapshot/` | 创建本地快照 | — |  | — |
+| PATCH | `/product/rgs/{id}/snapshot/setting` | 设置每日自动快照 | — |  | — |
+| DELETE | `/product/rgs/{id}/snapshot/{sid}/` | 删除本地快照 | — |  | — |
+| POST | `/product/rgs/{id}/snapshot/{sid}/rollback` | 回滚到本地快照 | — |  | — |
 | POST | `/product/rgs/{id}/start` | 游戏云开机操作 | `rgs.StartRgs` | typed | ✓ |
 | POST | `/product/rgs/{id}/stop` | 游戏云关机操作 | `rgs.StopRgs` | typed | ✓ |
 | PATCH | `/product/rgs/{id}/tag` | 设置游戏云标签 | `rgs.SetRgsTag` | typed | ✓ |
 | POST | `/product/rgs/{id}/to-bridge` | 转成桥接 | `rgs.RgsToBridge` | typed | ✓ |
+| POST | `/product/rgs/{id}/update-game` | 用蛋的更新脚本更新游戏。k8s 必须先关机 | — |  | — |
 | GET | `/product/rgs/{id}/usage` | 获取使用情况 | `rgs.GetRgsUsage` | passthrough | ✓ |
 | GET | `/product/rgs/{id}/vnc` | 连接VNC | `rgs.GetRgsVnc` | typed | ✓ |
 | PATCH | `/product/rgs/{id}/vnet` | 子网改名 | `rgs.RenameRgsVnet` | typed | ✓ |
