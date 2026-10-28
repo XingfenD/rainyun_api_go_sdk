@@ -1,5 +1,95 @@
 {
     "definitions": {
+        "api.RGSEggUpdateService": {
+            "properties": {
+                "adjacent_ports": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "config_files": {},
+                "default_env": {},
+                "desc": {
+                    "type": "string"
+                },
+                "egg_group": {
+                    "type": "string"
+                },
+                "icon_url": {
+                    "type": "string"
+                },
+                "install_image": {
+                    "type": "string"
+                },
+                "install_template": {
+                    "type": "string"
+                },
+                "is_hidden": {
+                    "type": "boolean"
+                },
+                "join_hint": {
+                    "type": "string"
+                },
+                "mcsm_reinstall_cmd": {
+                    "type": "string"
+                },
+                "mcsm_start_cmd": {
+                    "type": "string"
+                },
+                "mcsm_stop_cmd": {
+                    "type": "string"
+                },
+                "mcsm_type": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "order": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "recommend": {
+                    "$ref": "#/definitions/rgsM.RecommendConfig",
+                    "description": "Recommend 推荐配置 {\"cpu\":4,\"memory\":8,\"disk\":15}，只写 2 核 4G 10G 不够的那几项"
+                },
+                "run_image": {
+                    "type": "string"
+                },
+                "save_dirs": {},
+                "title": {
+                    "type": "string"
+                },
+                "update_cmd": {
+                    "type": "string"
+                },
+                "variables": {}
+            },
+            "required": [
+                "name",
+                "egg_group",
+                "title",
+                "desc",
+                "icon_url",
+                "default_env",
+                "mcsm_reinstall_cmd",
+                "mcsm_start_cmd",
+                "mcsm_stop_cmd",
+                "mcsm_type",
+                "run_image",
+                "install_image",
+                "install_template",
+                "update_cmd",
+                "variables",
+                "config_files",
+                "order",
+                "is_hidden",
+                "adjacent_ports",
+                "join_hint",
+                "save_dirs",
+                "recommend"
+            ],
+            "type": "object"
+        },
         "domain.AddCertifyService": {
             "properties": {
                 "domain": {
@@ -75,6 +165,14 @@
         "domain.AddWhitelistService": {
             "properties": {
                 "domain": {
+                    "type": "string"
+                },
+                "ip": {
+                    "description": "飞讯过白使用的客户 IP",
+                    "type": "string"
+                },
+                "purpose": {
+                    "description": "飞讯过白使用的用途",
                     "type": "string"
                 },
                 "region": {
@@ -335,6 +433,55 @@
             ],
             "type": "object"
         },
+        "domain.TemplateGeneratedInfo": {
+            "properties": {
+                "address_en": {
+                    "description": "英文通讯地址",
+                    "type": "string"
+                },
+                "city_en": {
+                    "description": "英文城市",
+                    "type": "string"
+                },
+                "company_en_name": {
+                    "description": "企业英文名称，个人模板为空",
+                    "type": "string"
+                },
+                "country_code": {
+                    "description": "国家代码，由原国家字段确定",
+                    "type": "string"
+                },
+                "first_name": {
+                    "description": "中文名，与中文姓拼接后必须等于原姓名",
+                    "type": "string"
+                },
+                "first_name_en": {
+                    "description": "英文名",
+                    "type": "string"
+                },
+                "last_name": {
+                    "description": "中文姓，允许用户修正复姓拆分",
+                    "type": "string"
+                },
+                "last_name_en": {
+                    "description": "英文姓",
+                    "type": "string"
+                },
+                "phone_code": {
+                    "description": "国际电话区号，由原国家字段确定",
+                    "type": "string"
+                },
+                "province_en": {
+                    "description": "英文省份",
+                    "type": "string"
+                },
+                "source_hash": {
+                    "description": "转换源指纹，用于识别过期预览",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
         "domain.TemplateService": {
             "properties": {
                 "address": {
@@ -360,6 +507,14 @@
                 "email": {
                     "description": "邮箱",
                     "type": "string"
+                },
+                "generated_info": {
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/domain.TemplateGeneratedInfo"
+                        }
+                    ],
+                    "description": "新建模板时用户确认的预览结果，仅用于本次上游提交"
                 },
                 "id_img": {
                     "description": "base64编码的证件照片",
@@ -762,6 +917,14 @@
                     "description": "指定节点(管理员可用)(暂时无用)",
                     "type": "string"
                 },
+                "os_disk_type": {
+                    "description": "系统盘类型（local/iscsi），未传入则随机分配",
+                    "enum": [
+                        "local",
+                        "iscsi"
+                    ],
+                    "type": "string"
+                },
                 "os_id": {
                     "type": "integer"
                 },
@@ -991,6 +1154,10 @@
                     },
                     "type": "array"
                 },
+                "daily_snapshot": {
+                    "description": "是否开启每日快照。支持备份的 NVME 本地盘忽略此项，固定开启每日备份",
+                    "type": "boolean"
+                },
                 "disk_type": {
                     "description": "硬盘类型(部分区域可空)",
                     "type": "string"
@@ -1139,15 +1306,6 @@
                 "auto_renew_option": {
                     "description": "0：关闭 / 1：开启",
                     "type": "boolean"
-                }
-            },
-            "type": "object"
-        },
-        "rcs.SetAutoTrafficService": {
-            "properties": {
-                "auto_charge_gb": {
-                    "format": "int32",
-                    "type": "integer"
                 }
             },
             "type": "object"
@@ -1331,25 +1489,6 @@
             ],
             "type": "object"
         },
-        "rgs.CreatePteroUserService": {
-            "properties": {
-                "name": {
-                    "maxLength": 12,
-                    "minLength": 3,
-                    "type": "string"
-                },
-                "password": {
-                    "maxLength": 16,
-                    "minLength": 6,
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name",
-                "password"
-            ],
-            "type": "object"
-        },
         "rgs.CreateService": {
             "properties": {
                 "app_vars": {
@@ -1378,6 +1517,13 @@
                 "egg_type_id": {
                     "description": "游戏类型",
                     "type": "integer"
+                },
+                "egg_vars": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "购买时填写的蛋变量",
+                    "type": "object"
                 },
                 "key_pair_ids": {
                     "description": "创建时绑定的 Key Pair ID 列表",
@@ -1420,7 +1566,6 @@
                 "subtype": {
                     "enum": [
                         "kvm",
-                        "ptero",
                         "mcsm",
                         "k8s_panel"
                     ],
@@ -1602,171 +1747,25 @@
             ],
             "type": "object"
         },
-        "rgs.UpdatePteroUserService": {
+        "rgsM.RecommendConfig": {
             "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "password": {
-                    "maxLength": 16,
-                    "minLength": 6,
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name",
-                "password"
-            ],
-            "type": "object"
-        },
-        "rgs_mp.CreateService": {
-            "properties": {
-                "dst_info": {
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/rgs_mp.DstInfo"
-                        }
-                    ],
-                    "description": "Try          bool   `json:\"try\"`"
-                },
-                "duration": {
-                    "enum": [
-                        1,
-                        3,
-                        6,
-                        12
-                    ],
-                    "type": "integer"
-                },
-                "egg_type_id": {
-                    "type": "integer"
-                },
-                "plan_id": {
-                    "type": "integer"
-                },
-                "with_coupon_id": {
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "duration",
-                "egg_type_id"
-            ],
-            "type": "object"
-        },
-        "rgs_mp.DstInfo": {
-            "properties": {
-                "cluster_name": {
-                    "maxLength": 12,
-                    "type": "string"
-                },
-                "cluster_pass": {
-                    "maxLength": 16,
-                    "type": "string"
-                },
-                "token": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "cluster_name"
-            ],
-            "type": "object"
-        },
-        "rgs_mp.ListRgsMpService": {
-            "properties": {
-                "options": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "options"
-            ],
-            "type": "object"
-        },
-        "rgs_mp.RenewService": {
-            "properties": {
-                "duration": {
-                    "enum": [
-                        1,
-                        3,
-                        6,
-                        12
-                    ],
-                    "type": "integer"
-                },
-                "with_coupon_id": {
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "duration"
-            ],
-            "type": "object"
-        },
-        "ros.ChangeSettingService": {
-            "properties": {
-                "domain_list": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "gzip_settings": {
-                    "$ref": "#/definitions/apisix.GZIPOptions"
-                },
-                "ip_restrict_settings": {
-                    "$ref": "#/definitions/apisix.IPRestrictOptions"
-                },
-                "mirror_settings": {
-                    "$ref": "#/definitions/ros.MirrorSettings"
-                },
-                "referer_restrict_settings": {
-                    "$ref": "#/definitions/apisix.RefererRestrictOptions"
-                },
-                "setting": {
-                    "enum": [
-                        "domain",
-                        "ssl",
-                        "waf",
-                        "gzip",
-                        "ip_restrict",
-                        "referer_restrict",
-                        "ua_restrict",
-                        "mirror"
-                    ],
-                    "type": "string"
-                },
-                "ssl_settings": {
-                    "$ref": "#/definitions/apisix.SSLOptions"
-                },
-                "ua_restrict_settings": {
-                    "$ref": "#/definitions/apisix.UARestrictOptions"
-                },
-                "waf_settings": {
-                    "$ref": "#/definitions/apisix.WAFOptions"
-                }
-            },
-            "required": [
-                "setting"
-            ],
-            "type": "object"
-        },
-        "ros.CreateBucketLifecycleService": {
-            "properties": {
-                "days": {
-                    "description": "1–1800",
+                "cpu": {
                     "format": "int32",
                     "type": "integer"
                 },
-                "prefix": {
-                    "description": "空=整桶；非空为目录/前缀，不允许通配符",
-                    "type": "string"
+                "disk": {
+                    "format": "int32",
+                    "type": "integer"
+                },
+                "memory": {
+                    "format": "int32",
+                    "type": "integer"
                 }
             },
             "required": [
-                "prefix",
-                "days"
+                "cpu",
+                "memory",
+                "disk"
             ],
             "type": "object"
         },
@@ -1785,53 +1784,6 @@
             },
             "required": [
                 "bucket_name"
-            ],
-            "type": "object"
-        },
-        "ros.CreateBucketSyncService": {
-            "properties": {
-                "force": {
-                    "description": "true 时即使 Size+ETag 匹配也覆盖",
-                    "type": "boolean"
-                },
-                "remove_orphans": {
-                    "description": "true 时删除目标侧源前缀下源端已不存在的对象（mc mirror --remove）",
-                    "type": "boolean"
-                },
-                "source_access_key": {
-                    "description": "源端 AccessKey（不落库）",
-                    "type": "string"
-                },
-                "source_bucket": {
-                    "description": "远端源桶名",
-                    "type": "string"
-                },
-                "source_endpoint": {
-                    "description": "远端 S3 兼容 Endpoint URL",
-                    "type": "string"
-                },
-                "source_prefix": {
-                    "description": "可选 object key 前缀（无尾斜杠、无通配符）",
-                    "type": "string"
-                },
-                "source_region": {
-                    "description": "远端签名区域，默认 us-east-1",
-                    "type": "string"
-                },
-                "source_secret_key": {
-                    "description": "源端 SecretKey（不落库）",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "source_endpoint",
-                "source_bucket",
-                "source_prefix",
-                "source_region",
-                "source_access_key",
-                "source_secret_key",
-                "force",
-                "remove_orphans"
             ],
             "type": "object"
         },
@@ -1856,31 +1808,6 @@
             },
             "required": [
                 "duration"
-            ],
-            "type": "object"
-        },
-        "ros.CreateOfflineDownloadService": {
-            "properties": {
-                "dest_prefix": {
-                    "description": "目标 object key 前缀（无首尾斜杠、无通配符）",
-                    "type": "string"
-                },
-                "force": {
-                    "description": "true 时即使目标对象大小已匹配 Content-Length 也覆盖",
-                    "type": "boolean"
-                },
-                "urls": {
-                    "description": "http(s) 文件 URL，最多 20 个",
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                }
-            },
-            "required": [
-                "urls",
-                "dest_prefix",
-                "force"
             ],
             "type": "object"
         },
@@ -1930,24 +1857,6 @@
             },
             "required": [
                 "options"
-            ],
-            "type": "object"
-        },
-        "ros.MirrorSettings": {
-            "properties": {
-                "is_enable": {
-                    "type": "boolean"
-                },
-                "mirror_url": {
-                    "type": "string"
-                },
-                "prefix": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "is_enable",
-                "prefix"
             ],
             "type": "object"
         },
@@ -2038,7 +1947,7 @@
                     "type": "string"
                 },
                 "name": {
-                    "description": "存储桶名称，不可变更",
+                    "description": "存储桶名称，不可变更；与 Region 联合唯一",
                     "type": "string"
                 },
                 "ready_delete": {
@@ -2359,142 +2268,6 @@
                 "domains",
                 "verify_method"
             ],
-            "type": "object"
-        },
-        "sslcenter.AssignCertToListService": {
-            "properties": {
-                "certId": {
-                    "description": "要添加的证书ID(子表ID)，不传默认添加当前证书",
-                    "format": "int32",
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "certId"
-            ],
-            "type": "object"
-        },
-        "sslcenter.CheckDomainValidationService": {
-            "properties": {
-                "forceRefresh": {
-                    "description": "强制刷新证书",
-                    "type": "boolean"
-                }
-            },
-            "required": [
-                "forceRefresh"
-            ],
-            "type": "object"
-        },
-        "sslcenter.CreateOrderService": {
-            "properties": {
-                "domains": {
-                    "description": "域名",
-                    "type": "string"
-                },
-                "duration": {
-                    "description": "购买时长(单位:月)",
-                    "format": "int32",
-                    "minimum": 1,
-                    "type": "integer"
-                },
-                "price": {
-                    "description": "价格，仅用于核验，与后端计算价格不一致时拒绝",
-                    "format": "double",
-                    "type": "number"
-                },
-                "productId": {
-                    "description": "欲购买产品ID",
-                    "format": "int32",
-                    "type": "integer"
-                },
-                "withCouponId": {
-                    "description": "优惠券ID",
-                    "format": "numeric",
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "productId",
-                "domains",
-                "duration",
-                "price"
-            ],
-            "type": "object"
-        },
-        "sslcenter.GetPriceService": {
-            "properties": {
-                "domains": {
-                    "type": "string"
-                },
-                "duration": {
-                    "format": "int32",
-                    "minimum": 1,
-                    "type": "integer"
-                },
-                "price": {
-                    "format": "double",
-                    "type": "number"
-                },
-                "productId": {
-                    "format": "int32",
-                    "type": "integer"
-                },
-                "withCouponId": {
-                    "format": "numeric",
-                    "type": "integer"
-                }
-            },
-            "required": [
-                "productId",
-                "domains",
-                "duration",
-                "price"
-            ],
-            "type": "object"
-        },
-        "sslcenter.ListOrdersService": {
-            "properties": {
-                "options": {
-                    "description": "选项",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "options"
-            ],
-            "type": "object"
-        },
-        "sslcenter.RevokeCertService": {
-            "properties": {
-                "certId": {
-                    "description": "要吊销的证书ID(子表ID)，不传默认吊销订单当前证书",
-                    "format": "int32",
-                    "type": "integer"
-                },
-                "letter": {
-                    "description": "吊销函内容(Base64编码，非DV必传）",
-                    "type": "string"
-                },
-                "reason": {
-                    "description": "申请吊销原因",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "certId",
-                "reason"
-            ],
-            "type": "object"
-        },
-        "sslcenter.UpdateOrderDescriptionService": {
-            "properties": {
-                "newDescription": {
-                    "maxLength": 100,
-                    "minLength": 0,
-                    "type": "string"
-                }
-            },
             "type": "object"
         },
         "sslcenter.UploadSSLCertService": {
@@ -4713,6 +4486,70 @@
         "version": "2.4"
     },
     "paths": {
+        "/api/fast-install-app/update_egg": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "description": "参数",
+                        "in": "body",
+                        "name": "param",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.RGSEggUpdateService"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "请求成功",
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "description": "业务状态码",
+                                    "example": 200,
+                                    "type": "integer"
+                                },
+                                "data": {
+                                    "description": "返回数据"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "400": {
+                        "description": "请求错误",
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "description": "错误码",
+                                    "type": "integer"
+                                },
+                                "message": {
+                                    "description": "错误描述",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKey": []
+                    }
+                ],
+                "summary": "外部更新/新建游戏蛋",
+                "tags": [
+                    "rgs"
+                ]
+            }
+        },
         "/app_config": {
             "get": {
                 "consumes": [
@@ -6415,68 +6252,6 @@
                 ]
             }
         },
-        "/product/rbm/{id}/maintenance": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "裸金属维护状态查询服务",
-                "tags": [
-                    "rbm"
-                ]
-            }
-        },
         "/product/rbm/{id}/monitor": {
             "get": {
                 "consumes": [
@@ -7724,68 +7499,6 @@
                 ]
             }
         },
-        "/product/rcs/{id}/maintenance": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "云服务器维护状态查询服务",
-                "tags": [
-                    "rcs"
-                ]
-            }
-        },
         "/product/rcs/{id}/monitor": {
             "get": {
                 "consumes": [
@@ -8235,77 +7948,6 @@
                 ]
             }
         },
-        "/product/rcs/{id}/traffic/auto": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/rcs.SetAutoTrafficService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "RCS设置自动充流量",
-                "tags": [
-                    "rcs"
-                ]
-            }
-        },
         "/product/rcs/{id}/traffic/charge": {
             "post": {
                 "consumes": [
@@ -8591,103 +8233,6 @@
                 "summary": "RCS充流量",
                 "tags": [
                     "rcs"
-                ]
-            }
-        },
-        "/product/rgs-mp/": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/rgs_mp.ListRgsMpService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {},
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "获取列表",
-                "tags": [
-                    "rgs"
-                ]
-            },
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/rgs_mp.CreateService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {},
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "创建游戏云MP",
-                "tags": [
-                    "rgs"
-                ]
-            }
-        },
-        "/product/rgs-mp/{id}/renew/": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/rgs_mp.RenewService"
-                        }
-                    },
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {},
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "续费游戏云MP",
-                "tags": [
-                    "rgs"
                 ]
             }
         },
@@ -9182,112 +8727,6 @@
                 "responses": {},
                 "security": [],
                 "summary": "获取游戏云价格",
-                "tags": [
-                    "rgs"
-                ]
-            }
-        },
-        "/product/rgs/ptero/panel_user/": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {},
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "翼龙面板用户列表",
-                "tags": [
-                    "rgs"
-                ]
-            },
-            "patch": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/rgs.UpdatePteroUserService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {},
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "编辑面板用户",
-                "tags": [
-                    "rgs"
-                ]
-            },
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/rgs.CreatePteroUserService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {},
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "创建翼龙面板用户",
-                "tags": [
-                    "rgs"
-                ]
-            }
-        },
-        "/product/rgs/ptero/panel_user/{name}": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "name",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {},
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "删除面板用户",
                 "tags": [
                     "rgs"
                 ]
@@ -10257,68 +9696,6 @@
                 ]
             }
         },
-        "/product/rgs/{id}/maintenance": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "游戏云维护状态查询服务",
-                "tags": [
-                    "rgs"
-                ]
-            }
-        },
         "/product/rgs/{id}/monitor": {
             "post": {
                 "consumes": [
@@ -10967,205 +10344,6 @@
                 ]
             }
         },
-        "/product/ros/bucket/{id}/lifecycle": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "查询生命周期规则列表",
-                "tags": [
-                    "ros"
-                ]
-            },
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ros.CreateBucketLifecycleService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "创建生命周期规则",
-                "tags": [
-                    "ros"
-                ]
-            }
-        },
-        "/product/ros/bucket/{id}/lifecycle/{rule_id}": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "in": "path",
-                        "name": "rule_id",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "删除生命周期规则",
-                "tags": [
-                    "ros"
-                ]
-            }
-        },
         "/product/ros/bucket/{id}/monitor": {
             "get": {
                 "consumes": [
@@ -11190,342 +10368,6 @@
                     }
                 ],
                 "summary": "实例监控",
-                "tags": [
-                    "ros"
-                ]
-            }
-        },
-        "/product/ros/bucket/{id}/offline-download": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "列出离线下载任务",
-                "tags": [
-                    "ros"
-                ]
-            },
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ros.CreateOfflineDownloadService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "创建离线下载任务",
-                "tags": [
-                    "ros"
-                ]
-            }
-        },
-        "/product/ros/bucket/{id}/offline-download/{task_id}": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "in": "path",
-                        "name": "task_id",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "取消离线下载任务",
-                "tags": [
-                    "ros"
-                ]
-            },
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "in": "path",
-                        "name": "task_id",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "查询离线下载任务详情",
-                "tags": [
-                    "ros"
-                ]
-            }
-        },
-        "/product/ros/bucket/{id}/proxy": {
-            "patch": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ros.ChangeSettingService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "修改存储桶Proxy设置",
                 "tags": [
                     "ros"
                 ]
@@ -11561,73 +10403,6 @@
             }
         },
         "/product/ros/bucket/{id}/request-log": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "description": "存储桶ID",
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "in": "query",
-                        "name": "options",
-                        "required": false,
-                        "type": "string"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "获取请求日志生成任务列表",
-                "tags": [
-                    "ros"
-                ]
-            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -11809,197 +10584,6 @@
                     }
                 ],
                 "summary": "获取存储桶热点数据",
-                "tags": [
-                    "ros"
-                ]
-            }
-        },
-        "/product/ros/bucket/{id}/sync": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "取消主动同步",
-                "tags": [
-                    "ros"
-                ]
-            },
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "查询主动同步状态",
-                "tags": [
-                    "ros"
-                ]
-            },
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ros.CreateBucketSyncService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "创建或重新运行主动同步",
                 "tags": [
                     "ros"
                 ]
@@ -12581,977 +11165,7 @@
                 ]
             }
         },
-        "/product/sslcenter/order": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/sslcenter.ListOrdersService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "获取SSL证书订单列表",
-                "tags": [
-                    "ssl"
-                ]
-            },
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/sslcenter.CreateOrderService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "创建SSL证书订单",
-                "tags": [
-                    "ssl"
-                ]
-            }
-        },
-        "/product/sslcenter/order/{id}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "获取SSL证书订单信息",
-                "tags": [
-                    "ssl"
-                ]
-            }
-        },
-        "/product/sslcenter/order/{id}/assign": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "description": "订单ID",
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/sslcenter.AssignCertToListService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "将SSL证书添加到证书列表",
-                "tags": [
-                    "ssl"
-                ]
-            }
-        },
-        "/product/sslcenter/order/{id}/cert": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "获取SSL证书",
-                "tags": [
-                    "ssl"
-                ]
-            }
-        },
-        "/product/sslcenter/order/{id}/cert/{cert_id}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "description": "订单ID",
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "description": "证书ID",
-                        "format": "int32",
-                        "in": "path",
-                        "name": "cert_id",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "获取订单单张证书详情",
-                "tags": [
-                    "ssl"
-                ]
-            }
-        },
-        "/product/sslcenter/order/{id}/certs": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "description": "订单ID",
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "获取订单证书历史列表",
-                "tags": [
-                    "ssl"
-                ]
-            }
-        },
-        "/product/sslcenter/order/{id}/description": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/sslcenter.UpdateOrderDescriptionService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "更新SSL订单描述",
-                "tags": [
-                    "ssl"
-                ]
-            }
-        },
-        "/product/sslcenter/order/{id}/renew": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "description": "订单ID",
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "订单续期",
-                "tags": [
-                    "ssl"
-                ]
-            }
-        },
-        "/product/sslcenter/order/{id}/revoke": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/sslcenter.RevokeCertService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "申请吊销SSL证书",
-                "tags": [
-                    "ssl"
-                ]
-            }
-        },
-        "/product/sslcenter/order/{id}/verify": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "description": "订单ID",
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/sslcenter.CheckDomainValidationService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "验证SSL证书订单",
-                "tags": [
-                    "ssl"
-                ]
-            }
-        },
-        "/product/sslcenter/price": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "description": "参数",
-                        "in": "body",
-                        "name": "param",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/sslcenter.GetPriceService"
-                        }
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "获取SSL证书订单价格",
-                "tags": [
-                    "ssl"
-                ]
-            }
-        },
-        "/product/sslcenter/product": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "获取SSL证书产品列表",
-                "tags": [
-                    "ssl"
-                ]
-            }
-        },
         "/product/sslcenter/{id}": {
-            "delete": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "SSL证书删除操作",
-                "tags": [
-                    "ssl"
-                ]
-            },
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "format": "int32",
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "请求成功",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "业务状态码",
-                                    "example": 200,
-                                    "type": "integer"
-                                },
-                                "data": {
-                                    "description": "返回数据"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    },
-                    "400": {
-                        "description": "请求错误",
-                        "schema": {
-                            "properties": {
-                                "code": {
-                                    "description": "错误码",
-                                    "type": "integer"
-                                },
-                                "message": {
-                                    "description": "错误描述",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "ApiKey": []
-                    }
-                ],
-                "summary": "SSL证书查看操作",
-                "tags": [
-                    "ssl"
-                ]
-            },
             "put": {
                 "consumes": [
                     "application/json"
