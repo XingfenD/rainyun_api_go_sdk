@@ -11,15 +11,15 @@ SDK 代码在 `apis/`，CLI 代码在 `cmd/ry/commands/`。
 |---|---|---|---|
 | domain | 38 | 24 | 4 |
 | public | 6 | 4 | 4 |
-| rbm | 24 | 9 | 0 |
+| rbm | 23 | 9 | 0 |
 | rca | 56 | 42 | 20 |
 | rcdn | 22 | 21 | 9 |
-| rcs | 53 | 35 | 34 |
-| rgs | 76 | 75 | 75 |
-| ros | 36 | 19 | 3 |
+| rcs | 51 | 35 | 34 |
+| rgs | 69 | 68 | 68 |
+| ros | 24 | 18 | 3 |
 | rvh | 25 | 25 | 11 |
-| ssl | 21 | 21 | 21 |
-| **合计** | **357** | **275** | **181** |
+| ssl | 6 | 6 | 6 |
+| **合计** | **320** | **252** | **159** |
 
 ## domain
 
@@ -95,7 +95,6 @@ CLI 命令：`add <domain-id>`, `delete <domain-id> <record-id>`, `dns`, `domain
 | POST | `/product/rbm/{id}/free` | 释放 | — |  | — |
 | POST | `/product/rbm/{id}/kvm-proxy` | RBM实例启动KVM代理 | `rbm.StartKVMAgent` | typed | — |
 | POST | `/product/rbm/{id}/kvm-reboot` | RBM重新启动KVM | `rbm.RestartKVM` | typed | — |
-| GET | `/product/rbm/{id}/maintenance` | 裸金属维护状态查询服务 | — |  | — |
 | GET | `/product/rbm/{id}/monitor` | 获取监控数据 | — |  | — |
 | POST | `/product/rbm/{id}/poweroff` | RBM实例关机 | `rbm.ShutdownRBM` | typed | — |
 | POST | `/product/rbm/{id}/poweron` | RBM实例开机 | `rbm.StartRBM` | typed | — |
@@ -232,7 +231,6 @@ CLI 命令：`add <id>`, `auto <id>`, `auto-renew <id>`, `backup`, `cancel <id> 
 | PUT | `/product/rcs/{id}/firewall/rule/{ruleId}/pos` | 移动防火墙规则优先级 | `rcs.MobileRcsFirewallRulePriority` | typed | ✓ |
 | GET | `/product/rcs/{id}/firewall/sync_time` | 获取防火墙同步开始时间 | — |  | — |
 | POST | `/product/rcs/{id}/free` | 释放 | `rcs.FreeRcs` | typed | ✓ |
-| GET | `/product/rcs/{id}/maintenance` | 云服务器维护状态查询服务 | — |  | — |
 | GET | `/product/rcs/{id}/monitor` | 获取监控数据 | `rcs.GetRcsMonitorData` | typed | ✓ |
 | DELETE | `/product/rcs/{id}/nat` | 删除NAT端口映射 | `rcs.DeleteRcsNatPortMapping` | typed | ✓ |
 | GET | `/product/rcs/{id}/nat` | 添加NAT端口映射 | `rcs.AddRcsNatPortMapping` | typed | ✓ |
@@ -247,7 +245,6 @@ CLI 命令：`add <id>`, `auto <id>`, `auto-renew <id>`, `backup`, `cancel <id> 
 | POST | `/product/rcs/{id}/to-bridge` | 转成桥接 | — |  | — |
 | POST | `/product/rcs/{id}/toggle_dgpu` | RCS充流量 | — |  | — |
 | POST | `/product/rcs/{id}/toggle_primary_gpu` | RCS充流量 | — |  | — |
-| POST | `/product/rcs/{id}/traffic/auto` | RCS设置自动充流量 | — |  | — |
 | POST | `/product/rcs/{id}/traffic/charge` | RCS充流量 | `rcs.ChargeRcsTrafic` | typed | ✓ |
 | POST | `/product/rcs/{id}/traffic/limit` | RCS限流 | `rcs.LimitRcsTrafic` | typed | ✓ |
 | POST | `/product/rcs/{id}/upgrade` | 升级 | `rcs.UpgradeRcs` | typed | ✓ |
@@ -264,9 +261,7 @@ CLI 命令：`add <id>`, `auto-renew <id>`, `backup`, `cancel <id> <backup-id>`,
 
 | 方法 | 路径 | 说明 | SDK | 响应类型 | CLI |
 |---|---|---|---|---|---|
-| GET | `/product/rgs-mp/` | 获取列表 | `rgs.ListRgsMp` | passthrough | ✓ |
-| POST | `/product/rgs-mp/` | 创建游戏云MP | `rgs.CreateRgsMp` | passthrough | ✓ |
-| POST | `/product/rgs-mp/{id}/renew/` | 续费游戏云MP | `rgs.RenewRgsMp` | passthrough | ✓ |
+| POST | `/api/fast-install-app/update_egg` | 外部更新/新建游戏蛋 | — |  | — |
 | GET | `/product/rgs/` | 获取列表 | `rgs.GetRgsList` | typed | ✓ |
 | POST | `/product/rgs/` | 创建游戏云 | `rgs.CreateRgs` | typed | ✓ |
 | POST | `/product/rgs/change-egg` | RGS切换egg(游戏类型) | `rgs.ChangeRgsEgg` | typed | ✓ |
@@ -291,10 +286,6 @@ CLI 命令：`add <id>`, `auto-renew <id>`, `backup`, `cancel <id> <backup-id>`,
 | GET | `/product/rgs/os-templates` | 系统列表 | `public.GetRgsOSList` | typed | ✓ |
 | GET | `/product/rgs/plans` | 获取套餐列表 | `rgs.GetRgsPlanList` | typed | ✓ |
 | GET | `/product/rgs/price` | 获取游戏云价格 | `rgs.GetRgsUpgradePrice` | typed | ✓ |
-| GET | `/product/rgs/ptero/panel_user/` | 翼龙面板用户列表 | `rgs.GetPteroUserList` | typed | ✓ |
-| PATCH | `/product/rgs/ptero/panel_user/` | 编辑面板用户 | `rgs.EditPteroUser` | typed | ✓ |
-| POST | `/product/rgs/ptero/panel_user/` | 创建翼龙面板用户 | `rgs.CreatePteroUser` | typed | ✓ |
-| DELETE | `/product/rgs/ptero/panel_user/{name}` | 删除面板用户 | `rgs.DeletePteroUser` | typed | ✓ |
 | POST | `/product/rgs/switch-user` | RGS切换面板用户 | `rgs.SwitchRgsPanelUser` | typed | ✓ |
 | GET | `/product/rgs/usage` | 获取使用情况列表 | `rgs.GetRgsUsageList` | typed | ✓ |
 | GET | `/product/rgs/{id}/` | 获取RGS详情 | `rgs.GetRgsDetail` | typed | ✓ |
@@ -323,7 +314,6 @@ CLI 命令：`add <id>`, `auto-renew <id>`, `backup`, `cancel <id> <backup-id>`,
 | PATCH | `/product/rgs/{id}/k8s-panel/database` | K8S面板修改数据库设置 | `rgs.SetK8SPanelDatabase` | typed | ✓ |
 | POST | `/product/rgs/{id}/k8s-panel/set-start-command` | 游戏云设置启动命令（仅支持雨云面板） | `rgs.SetK8SPanelStartCommand` | typed | ✓ |
 | PATCH | `/product/rgs/{id}/k8s-panel/sftp` | K8S面板修改SFTP设置 | `rgs.SetK8SPanelSFTP` | typed | ✓ |
-| GET | `/product/rgs/{id}/maintenance` | 游戏云维护状态查询服务 | — |  | — |
 | POST | `/product/rgs/{id}/monitor` | 获取监控数据 | `rgs.GetRgsMonitorData` | typed | ✓ |
 | DELETE | `/product/rgs/{id}/nat` | 删除NAT端口映射 | `rgs.DeleteRgsNatPortMapping` | typed | ✓ |
 | POST | `/product/rgs/{id}/nat` | 添加NAT端口映射 | `rgs.AddRgsNatPortMapping` | typed | ✓ |
@@ -351,24 +341,12 @@ CLI 命令：`bucket`, `create <instance-id> <name>`, `list`, `list <instance-id
 | POST | `/product/ros/bucket` | 创建对象存储桶 | `ros.CreateRosBucket` | typed | ✓ |
 | DELETE | `/product/ros/bucket/{id}` | 删除对象存储桶 | `ros.DeleteRosBucket` | typed | — |
 | GET | `/product/ros/bucket/{id}` | 获取对象存储桶详情 | `ros.GetRosBucketListByInstance` | typed | ✓ |
-| GET | `/product/ros/bucket/{id}/lifecycle` | 查询生命周期规则列表 | — |  | — |
-| POST | `/product/ros/bucket/{id}/lifecycle` | 创建生命周期规则 | — |  | — |
-| DELETE | `/product/ros/bucket/{id}/lifecycle/{rule_id}` | 删除生命周期规则 | — |  | — |
 | GET | `/product/ros/bucket/{id}/monitor` | 实例监控 | `ros.GetRosBucketMonitorData` | typed | — |
-| GET | `/product/ros/bucket/{id}/offline-download` | 列出离线下载任务 | — |  | — |
-| POST | `/product/ros/bucket/{id}/offline-download` | 创建离线下载任务 | — |  | — |
-| DELETE | `/product/ros/bucket/{id}/offline-download/{task_id}` | 取消离线下载任务 | — |  | — |
-| GET | `/product/ros/bucket/{id}/offline-download/{task_id}` | 查询离线下载任务详情 | — |  | — |
-| PATCH | `/product/ros/bucket/{id}/proxy` | 修改存储桶Proxy设置 | `ros.ModifyRosBucketProxySettings` | typed | — |
 | POST | `/product/ros/bucket/{id}/regenerate-keys` | 对象存储桶重新生成密钥 | `ros.ReGenerateRosBucketKeys` | typed | — |
-| GET | `/product/ros/bucket/{id}/request-log` | 获取请求日志生成任务列表 | — |  | — |
 | POST | `/product/ros/bucket/{id}/request-log` | 生成请求日志 | — |  | — |
 | GET | `/product/ros/bucket/{id}/request-log/{task_id}/link` | 获取请求日志下载链接 | — |  | — |
 | POST | `/product/ros/bucket/{id}/request-log/{task_id}/retrigger` | 重新触发请求日志生成任务 | — |  | — |
 | GET | `/product/ros/bucket/{id}/statistics` | 获取存储桶热点数据 | — |  | — |
-| DELETE | `/product/ros/bucket/{id}/sync` | 取消主动同步 | — |  | — |
-| GET | `/product/ros/bucket/{id}/sync` | 查询主动同步状态 | — |  | — |
-| POST | `/product/ros/bucket/{id}/sync` | 创建或重新运行主动同步 | — |  | — |
 | POST | `/product/ros/bucket/{id}/toggle-public-access` | 开关对象存储桶匿名访问 | `ros.SetRosBucketPublicAccess` | typed | — |
 | GET | `/product/ros/discount-percent` | 获取对象存储实例折扣比率 | — |  | — |
 | GET | `/product/ros/instance` | 获取对象存储实例列表 | `ros.GetRosInstanceList` | typed | ✓ |
@@ -425,19 +403,4 @@ CLI 命令：`backup`, `bind <id> <domain>`, `create`, `create <id> <label>`, `d
 | POST | `/product/sslcenter/cert/order` | 创建SSL证书申请 | `ssl.ApplyFreeSSLCertificate` | typed | ✓ |
 | POST | `/product/sslcenter/cert/order_verify` | 验证SSL证书申请 | `ssl.VerifyFreeSSLCertificate` | typed | ✓ |
 | GET | `/product/sslcenter/cert/orders` | 获取SSL证书申请列表 | `ssl.GetSSLCertApplyList` | typed | ✓ |
-| GET | `/product/sslcenter/order` | 获取SSL证书订单列表 | `ssl.GetSSLOrderList` | typed | ✓ |
-| POST | `/product/sslcenter/order` | 创建SSL证书订单 | `ssl.CreateSSLOrder` | typed | ✓ |
-| GET | `/product/sslcenter/order/{id}` | 获取SSL证书订单信息 | `ssl.GetSSLOrderDetail` | typed | ✓ |
-| POST | `/product/sslcenter/order/{id}/assign` | 将SSL证书添加到证书列表 | `ssl.AssignSSLOrder` | typed | ✓ |
-| GET | `/product/sslcenter/order/{id}/cert` | 获取SSL证书 | `ssl.GetSSLOrderCert` | typed | ✓ |
-| GET | `/product/sslcenter/order/{id}/cert/{cert_id}` | 获取订单单张证书详情 | `ssl.GetSSLOrderCertDetail` | typed | ✓ |
-| GET | `/product/sslcenter/order/{id}/certs` | 获取订单证书历史列表 | `ssl.GetSSLOrderCertList` | typed | ✓ |
-| POST | `/product/sslcenter/order/{id}/description` | 更新SSL订单描述 | `ssl.UpdateSSLOrderDescription` | typed | ✓ |
-| POST | `/product/sslcenter/order/{id}/renew` | 订单续期 | `ssl.RenewSSLOrder` | typed | ✓ |
-| POST | `/product/sslcenter/order/{id}/revoke` | 申请吊销SSL证书 | `ssl.RevokeSSLOrder` | typed | ✓ |
-| POST | `/product/sslcenter/order/{id}/verify` | 验证SSL证书订单 | `ssl.VerifySSLOrder` | typed | ✓ |
-| POST | `/product/sslcenter/price` | 获取SSL证书订单价格 | `ssl.GetSSLOrderPrice` | typed | ✓ |
-| GET | `/product/sslcenter/product` | 获取SSL证书产品列表 | `ssl.GetSSLProductList` | typed | ✓ |
-| DELETE | `/product/sslcenter/{id}` | SSL证书删除操作 | `ssl.DeleteSsl` | typed | ✓ |
-| GET | `/product/sslcenter/{id}` | SSL证书查看操作 | `ssl.GetSslDetail` | typed | ✓ |
 | PUT | `/product/sslcenter/{id}` | SSL证书替换操作 | `ssl.ReplaceSsl` | typed | ✓ |
